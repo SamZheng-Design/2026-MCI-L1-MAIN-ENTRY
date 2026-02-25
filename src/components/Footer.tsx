@@ -1,0 +1,78 @@
+import type { FC } from 'hono/jsx'
+
+export const Footer: FC = () => {
+  return (
+    <footer id="about" class="bg-gray-900 text-gray-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center">
+                <i class="fas fa-droplet text-white text-lg"></i>
+              </div>
+              <div>
+                <div class="text-lg font-bold text-white">滴灌通</div>
+                <div class="text-xs text-gray-500 tracking-wider">MICRO CONNECT GROUP</div>
+              </div>
+            </div>
+            <p class="text-sm text-gray-400 leading-relaxed max-w-md">
+              滴灌通是全球领先的收入分成融资(RBF)平台，通过AI超级Agent矩阵，为中小企业提供高效、透明、灵活的融资解决方案。
+            </p>
+            <div class="flex gap-3 mt-4">
+              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-primary flex items-center justify-center transition-colors no-underline">
+                <i class="fab fa-linkedin-in text-sm text-gray-400 hover:text-white"></i>
+              </a>
+              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-primary flex items-center justify-center transition-colors no-underline">
+                <i class="fab fa-twitter text-sm text-gray-400 hover:text-white"></i>
+              </a>
+              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-primary flex items-center justify-center transition-colors no-underline">
+                <i class="fab fa-weixin text-sm text-gray-400 hover:text-white"></i>
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 class="text-sm font-semibold text-white mb-4">快速链接</h4>
+            <ul class="space-y-2 list-none p-0">
+              <li><a href="/design" class="text-sm text-gray-400 hover:text-primary transition-colors no-underline">设计思路</a></li>
+              <li><a href="/portal" class="text-sm text-gray-400 hover:text-primary transition-colors no-underline">产品入口</a></li>
+              <li><a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors no-underline">帮助文档</a></li>
+              <li><a href="#" class="text-sm text-gray-400 hover:text-primary transition-colors no-underline">API文档</a></li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 class="text-sm font-semibold text-white mb-4">联系我们</h4>
+            <ul class="space-y-2 list-none p-0">
+              <li class="flex items-center gap-2 text-sm text-gray-400">
+                <i class="fas fa-envelope text-xs text-gray-500"></i>
+                contact@microconnect.com
+              </li>
+              <li class="flex items-center gap-2 text-sm text-gray-400">
+                <i class="fas fa-phone text-xs text-gray-500"></i>
+                +852 1234 5678
+              </li>
+              <li class="flex items-center gap-2 text-sm text-gray-400">
+                <i class="fas fa-map-marker-alt text-xs text-gray-500"></i>
+                Hong Kong, China
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-xs text-gray-500">Micro Connect Group &copy; 2026. All rights reserved.</p>
+          <div class="flex gap-4">
+            <a href="#" class="text-xs text-gray-500 hover:text-primary transition-colors no-underline">隐私政策</a>
+            <a href="#" class="text-xs text-gray-500 hover:text-primary transition-colors no-underline">服务条款</a>
+            <a href="#" class="text-xs text-gray-500 hover:text-primary transition-colors no-underline">Cookie设置</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
