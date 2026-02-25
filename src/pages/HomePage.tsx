@@ -229,7 +229,7 @@ export const HomePage: FC = () => {
         {/* 装饰层 */}
         <div class="absolute inset-0" style="z-index: 3;">
           {/* 细腻网格 */}
-          <div class="absolute inset-0 opacity-[0.025]" style="background-image: linear-gradient(rgba(93,196,179,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.4) 1px, transparent 1px); background-size: 80px 80px;"></div>
+          <div class="absolute inset-0 opacity-[0.012]" style="background-image: linear-gradient(rgba(93,196,179,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.15) 1px, transparent 1px); background-size: 100px 100px;"></div>
           
           {/* 轨道环 */}
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] orbit-ring opacity-[0.03]">
@@ -245,14 +245,14 @@ export const HomePage: FC = () => {
             </svg>
           </div>
 
-          {/* 浮动粒子 */}
-          <div class="floating-element top-[12%] left-[7%] w-3 h-3 rounded-full opacity-[0.15]" style="background: #5DC4B3; animation-delay: 0s;"></div>
-          <div class="floating-element top-[22%] right-[9%] w-2.5 h-2.5 rounded-full opacity-[0.10]" style="background: #6366F1; animation-delay: 1.5s;"></div>
-          <div class="floating-element bottom-[22%] left-[11%] w-2 h-2 rounded-full opacity-[0.12]" style="background: #F59E0B; animation-delay: 3s;"></div>
-          <div class="floating-element bottom-[32%] right-[7%] w-2.5 h-2.5 rounded-full opacity-[0.08]" style="background: #10B981; animation-delay: 4.5s;"></div>
-          <div class="floating-element top-[55%] left-[4%] w-2 h-2 rounded-full opacity-[0.06]" style="background: #8B5CF6; animation-delay: 2s;"></div>
-          <div class="floating-element top-[35%] right-[20%] w-1.5 h-1.5 rounded-full opacity-[0.12]" style="background: #5DC4B3; animation-delay: 5s;"></div>
-          <div class="floating-element bottom-[15%] right-[25%] w-2 h-2 rounded-full opacity-[0.07]" style="background: #32ade6; animation-delay: 6s;"></div>
+          {/* 浮动粒子 — subtle, premium */}
+          <div class="floating-element top-[12%] left-[7%] w-2 h-2 rounded-full opacity-[0.06]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+          <div class="floating-element top-[22%] right-[9%] w-1.5 h-1.5 rounded-full opacity-[0.04]" style="background: #6366F1; animation-delay: 1.5s;"></div>
+          <div class="floating-element bottom-[22%] left-[11%] w-1.5 h-1.5 rounded-full opacity-[0.05]" style="background: #F59E0B; animation-delay: 3s;"></div>
+          <div class="floating-element bottom-[32%] right-[7%] w-2 h-2 rounded-full opacity-[0.04]" style="background: #10B981; animation-delay: 4.5s;"></div>
+          <div class="floating-element top-[55%] left-[4%] w-1.5 h-1.5 rounded-full opacity-[0.03]" style="background: #8B5CF6; animation-delay: 2s;"></div>
+          <div class="floating-element top-[35%] right-[20%] w-1 h-1 rounded-full opacity-[0.05]" style="background: #5DC4B3; animation-delay: 5s;"></div>
+          <div class="floating-element bottom-[15%] right-[25%] w-1.5 h-1.5 rounded-full opacity-[0.03]" style="background: #32ade6; animation-delay: 6s;"></div>
         </div>
 
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full" style="z-index: 10;">
@@ -629,11 +629,11 @@ export const HomePage: FC = () => {
       ═══════════════════════════════════════════ */}
       <section class="aurora-bg aurora-cta noise-overlay relative py-28 lg:py-36">
         <div class="absolute inset-0" style="z-index: 3;">
-          <div class="absolute inset-0 opacity-[0.02]" style="background-image: linear-gradient(rgba(93,196,179,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.4) 1px, transparent 1px); background-size: 80px 80px;"></div>
-          <div class="floating-element top-[10%] left-[10%] w-2 h-2 rounded-full opacity-[0.12]" style="background: #5DC4B3; animation-delay: 0.5s;"></div>
-          <div class="floating-element top-[20%] right-[15%] w-1.5 h-1.5 rounded-full opacity-[0.08]" style="background: #6366F1; animation-delay: 2s;"></div>
-          <div class="floating-element bottom-[15%] left-[20%] w-2.5 h-2.5 rounded-full opacity-[0.10]" style="background: #10B981; animation-delay: 3.5s;"></div>
-          <div class="floating-element bottom-[25%] right-[10%] w-1.5 h-1.5 rounded-full opacity-[0.14]" style="background: #F59E0B; animation-delay: 1s;"></div>
+          <div class="absolute inset-0 opacity-[0.012]" style="background-image: linear-gradient(rgba(93,196,179,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.15) 1px, transparent 1px); background-size: 100px 100px;"></div>
+          <div class="floating-element top-[10%] left-[10%] w-1.5 h-1.5 rounded-full opacity-[0.05]" style="background: #5DC4B3; animation-delay: 0.5s;"></div>
+          <div class="floating-element top-[20%] right-[15%] w-1 h-1 rounded-full opacity-[0.04]" style="background: #6366F1; animation-delay: 2s;"></div>
+          <div class="floating-element bottom-[15%] left-[20%] w-2 h-2 rounded-full opacity-[0.05]" style="background: #10B981; animation-delay: 3.5s;"></div>
+          <div class="floating-element bottom-[25%] right-[10%] w-1 h-1 rounded-full opacity-[0.06]" style="background: #F59E0B; animation-delay: 1s;"></div>
         </div>
         <div class="max-w-3xl mx-auto px-4 text-center relative" style="z-index: 10;">
           <div class="reveal">

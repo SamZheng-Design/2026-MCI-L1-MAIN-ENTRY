@@ -40,7 +40,7 @@
   --gradient-danger: linear-gradient(135deg, #d62040 0%, #ff375f 100%);
   --gradient-info: linear-gradient(135deg, #0a84ff 0%, #32ade6 100%);
   --gradient-cyber: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);
-  --gradient-aurora: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 25%, #0c3530 50%, #164e47 75%, #1a6b5f 100%);
+  --gradient-aurora: radial-gradient(ellipse 120% 80% at 50% 45%, #13524a 0%, #0f3d36 30%, #0b312c 55%, #082420 80%, #061b18 100%);
   --gradient-neon: linear-gradient(135deg, #32ade6 0%, #5DC4B3 40%, #49A89A 70%, #3D8F83 100%);
   --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
   --gradient-surface: linear-gradient(180deg, #ffffff 0%, #f8f9fe 100%);
@@ -174,73 +174,55 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(255,255,255,0.92);
 }
 
-/* ── 5. Aurora Background System — Contract Connect 5-stop spec ── */
+/* ── 5. Aurora Background System — Contract Connect premium spec ── */
+/* Inspired by Image 1: smooth dark radial gradient, subtle glow, NO noise/grain */
 .aurora-bg {
-  background: linear-gradient(135deg,
-    #0a2e2a 0%,
-    #0f3d36 25%,
-    #0c3530 50%,
-    #164e47 75%,
-    #1a6b5f 100%
-  );
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% 45%, #13524a 0%, #0f3d36 30%, #0b312c 55%, #082420 80%, #061b18 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* Light halo overlay — Contract Connect spec */
+/* Soft central glow — premium fintech halo (single gentle layer) */
 .aurora-bg::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(93,196,179,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(73,168,154,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(50,173,230,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(46,196,182,0.12) 0%, rgba(46,196,182,0.04) 35%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 25% 60%, rgba(93,196,179,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 35% 45% at 78% 35%, rgba(73,168,154,0.05) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
-  animation: meshDrift 20s ease-in-out infinite alternate;
+  animation: auroraBreath 12s var(--ease-smooth) infinite alternate;
 }
 
-@keyframes meshDrift {
-  0% { opacity: 1; transform: scale(1) translate(0, 0); }
-  50% { opacity: 0.85; transform: scale(1.05) translate(1%, -1%); }
-  100% { opacity: 1; transform: scale(1) translate(-1%, 1%); }
+@keyframes auroraBreath {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.85; transform: scale(1.02); }
 }
 
-/* Particle star layer — Contract Connect spec */
+/* Very subtle vignette edge darkening — no particles, no dots */
 .aurora-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(93,196,179,0.5) 0, transparent 2px),
-    radial-gradient(circle at 40% 70%, rgba(73,168,154,0.4) 0, transparent 2px),
-    radial-gradient(circle at 60% 20%, rgba(50,173,230,0.35) 0, transparent 2px),
-    radial-gradient(circle at 80% 60%, rgba(52,199,89,0.3) 0, transparent 2px),
-    radial-gradient(circle at 10% 80%, rgba(255,55,95,0.25) 0, transparent 2px),
-    radial-gradient(circle at 90% 40%, rgba(93,196,179,0.35) 0, transparent 2px),
-    radial-gradient(circle at 55% 45%, rgba(73,168,154,0.2) 0, transparent 3px),
-    radial-gradient(circle at 75% 35%, rgba(50,173,230,0.25) 0, transparent 2px);
-  animation: particleFloat 30s linear infinite;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(6,24,21,0.4) 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-@keyframes particleFloat {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-16px); opacity: 0.85; }
-}
-
-/* Hero/Loading — stronger glow per Contract Connect spec */
+/* Hero/Loading — slightly stronger central glow for hero context */
 .aurora-hero::before {
   background:
-    radial-gradient(ellipse at 30% 40%, rgba(46,196,182,0.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 60%, rgba(40,166,150,0.2) 0%, transparent 50%);
+    radial-gradient(ellipse 75% 60% at 50% 40%, rgba(46,196,182,0.16) 0%, rgba(46,196,182,0.05) 40%, transparent 68%),
+    radial-gradient(ellipse 50% 55% at 28% 55%, rgba(93,196,179,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 75% 30%, rgba(73,168,154,0.06) 0%, transparent 50%);
 }
 
-/* Footer aurora — aligned to Contract Connect base */
+/* Footer aurora — smooth deep dark gradient */
 .aurora-footer {
-  background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 40%, #0c3530 100%);
+  background: radial-gradient(ellipse 130% 90% at 50% 20%, #0f3d36 0%, #0b312c 40%, #082420 70%, #061b18 100%);
   position: relative;
   overflow: hidden;
 }
@@ -249,17 +231,17 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 15% 50%, rgba(93,196,179,0.07) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 30%, rgba(73,168,154,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 50% at 15% 50%, rgba(93,196,179,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 85% 30%, rgba(73,168,154,0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 
-/* CTA aurora — aligned to Contract Connect light halo */
+/* CTA aurora — soft premium glow */
 .aurora-cta::before {
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(93,196,179,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(73,168,154,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(50,173,230,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 65% 55% at 50% 45%, rgba(46,196,182,0.14) 0%, rgba(46,196,182,0.04) 40%, transparent 65%),
+    radial-gradient(ellipse 40% 45% at 25% 60%, rgba(93,196,179,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 35% 40% at 80% 25%, rgba(73,168,154,0.04) 0%, transparent 50%);
 }
 
 /* ── 6. Card System — Contract Connect glass spec ── */
@@ -861,15 +843,11 @@ nav[class*="flex items-center gap-2"] a { text-decoration: none; }
 }
 .marquee-track:hover { animation-play-state: paused; }
 
-/* ── 25. Noise texture overlay — adds premium feel ── */
+/* ── 25. Noise texture overlay — DISABLED for clean premium look ── */
+/* Image 1 reference: smooth gradient with NO grain/noise texture */
 .noise-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 2;
+  /* Noise completely removed — background should be clean & smooth */
+  display: none;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -890,35 +868,24 @@ nav[class*="flex items-center gap-2"] a { text-decoration: none; }
   transition: opacity 0.6s var(--ease-apple), visibility 0.6s;
 }
 
-/* Glow layer for loading */
+/* Soft central glow for loading — clean premium style */
 .loading-screen::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(93,196,179,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(73,168,154,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(50,173,230,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(46,196,182,0.15) 0%, rgba(46,196,182,0.04) 40%, transparent 65%);
   pointer-events: none;
   z-index: 1;
-  animation: meshDrift 20s ease-in-out infinite alternate;
+  animation: auroraBreath 12s var(--ease-smooth) infinite alternate;
 }
 
-/* Particle star layer for loading */
+/* Vignette for loading — no particles */
 .loading-screen::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(93,196,179,0.5) 0, transparent 2px),
-    radial-gradient(circle at 40% 70%, rgba(73,168,154,0.4) 0, transparent 2px),
-    radial-gradient(circle at 60% 20%, rgba(50,173,230,0.35) 0, transparent 2px),
-    radial-gradient(circle at 80% 60%, rgba(52,199,89,0.3) 0, transparent 2px),
-    radial-gradient(circle at 10% 80%, rgba(255,55,95,0.25) 0, transparent 2px),
-    radial-gradient(circle at 90% 40%, rgba(93,196,179,0.35) 0, transparent 2px),
-    radial-gradient(circle at 55% 45%, rgba(73,168,154,0.2) 0, transparent 3px),
-    radial-gradient(circle at 75% 35%, rgba(50,173,230,0.25) 0, transparent 2px);
-  animation: particleFloat 30s ease-in-out infinite;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(6,24,21,0.35) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1010,33 +977,24 @@ nav[class*="flex items-center gap-2"] a { text-decoration: none; }
   overflow: hidden;
 }
 
-/* Glow layers */
+/* Soft central glow — same clean style as Image 1 */
 .login-bg::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(93,196,179,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(73,168,154,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(50,173,230,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(46,196,182,0.14) 0%, rgba(46,196,182,0.04) 40%, transparent 65%);
   pointer-events: none;
   z-index: 1;
-  animation: meshDrift 20s ease-in-out infinite alternate;
+  animation: auroraBreath 12s var(--ease-smooth) infinite alternate;
 }
 
-/* Particle layer */
+/* Vignette for login — no particles */
 .login-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(93,196,179,0.5) 0, transparent 2px),
-    radial-gradient(circle at 40% 70%, rgba(73,168,154,0.4) 0, transparent 2px),
-    radial-gradient(circle at 60% 20%, rgba(50,173,230,0.35) 0, transparent 2px),
-    radial-gradient(circle at 80% 60%, rgba(52,199,89,0.3) 0, transparent 2px),
-    radial-gradient(circle at 10% 80%, rgba(255,55,95,0.25) 0, transparent 2px),
-    radial-gradient(circle at 90% 40%, rgba(93,196,179,0.35) 0, transparent 2px);
-  animation: particleFloat 30s ease-in-out infinite;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(6,24,21,0.35) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1373,7 +1331,7 @@ body, p, h1, h2, h3, h4, h5, h6, span, div, li, td, th, label {
    ══════════════════════════════════════════════════════ */
 
 .hero-dark {
-  background: var(--gradient-aurora);
+  background: radial-gradient(ellipse 120% 80% at 50% 45%, #13524a 0%, #0f3d36 30%, #0b312c 55%, #082420 80%, #061b18 100%);
   position: relative;
   overflow: hidden;
 }
@@ -1383,39 +1341,32 @@ body, p, h1, h2, h3, h4, h5, h6, span, div, li, td, th, label {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(93,196,179,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(73,168,154,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(50,173,230,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(46,196,182,0.12) 0%, rgba(46,196,182,0.04) 35%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 25% 60%, rgba(93,196,179,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 35% 45% at 78% 35%, rgba(73,168,154,0.05) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
-  animation: meshDrift 20s ease-in-out infinite alternate;
+  animation: auroraBreath 12s var(--ease-smooth) infinite alternate;
 }
 
 .hero-dark::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(93,196,179,0.5) 0, transparent 2px),
-    radial-gradient(circle at 40% 70%, rgba(73,168,154,0.4) 0, transparent 2px),
-    radial-gradient(circle at 60% 20%, rgba(50,173,230,0.35) 0, transparent 2px),
-    radial-gradient(circle at 80% 60%, rgba(52,199,89,0.3) 0, transparent 2px),
-    radial-gradient(circle at 10% 80%, rgba(255,55,95,0.25) 0, transparent 2px),
-    radial-gradient(circle at 90% 40%, rgba(93,196,179,0.35) 0, transparent 2px);
-  animation: particleFloat 30s ease-in-out infinite;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(6,24,21,0.4) 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Grid overlay pattern for dark hero sections */
+/* Grid overlay pattern for dark hero sections — reduced to near-invisible */
 .hero-grid-overlay {
   position: absolute;
   inset: 0;
-  opacity: 0.03;
+  opacity: 0.015;
   background-image: 
-    linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), 
-    linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(93,196,179,0.2) 1px, transparent 1px), 
+    linear-gradient(90deg, rgba(93,196,179,0.2) 1px, transparent 1px);
+  background-size: 80px 80px;
   pointer-events: none;
   z-index: 2;
 }
