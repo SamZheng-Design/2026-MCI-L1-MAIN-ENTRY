@@ -322,7 +322,7 @@ export const HomePage: FC = () => {
             {/* CTA — Apple-style 大按钮组 */}
             <div class="hero-text-reveal hero-text-reveal-5 flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
               {(() => { const idP = products.find(p => p.id === 'identity')!; return (
-              <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="group relative inline-flex items-center px-9 py-4.5 text-white font-bold text-[15px] rounded-2xl transition-all no-underline overflow-hidden" style="background: linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%); box-shadow: 0 0 40px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.20);">
+              <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="group relative inline-flex items-center px-9 py-[18px] text-white font-bold text-[15px] rounded-2xl transition-all no-underline overflow-hidden" style="background: linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%); box-shadow: 0 0 40px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.20);">
                 <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                 <i class="fas fa-fingerprint mr-2.5 text-base group-hover:scale-110 transition-transform"></i>
                 <span class="relative">立即注册身份通</span>
@@ -708,7 +708,7 @@ export const HomePage: FC = () => {
 
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" data-reveal>
             {(() => { const idP = products.find(p => p.id === 'identity')!; return (
-            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center px-9 py-4.5 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-[15px] rounded-2xl shadow-[0_0_40px_rgba(93,196,179,0.3)] transition-all no-underline">
+            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center px-9 py-[18px] bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-[15px] rounded-2xl shadow-[0_0_40px_rgba(93,196,179,0.3)] transition-all no-underline">
               <i class="fas fa-fingerprint mr-2.5"></i>立即注册身份通
             </a>
             ) })()}
