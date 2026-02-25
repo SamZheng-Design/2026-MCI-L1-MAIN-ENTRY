@@ -10,9 +10,9 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
     return (
       <div class="min-h-screen flex items-center justify-center bg-gray-50">
         <div class="text-center">
-          <h1 class="text-4xl font-bold text-gray-300 mb-4">404</h1>
+          <h1 class="text-4xl font-extrabold text-gray-300 mb-4">404</h1>
           <p class="text-gray-500 mb-6">产品模块未找到</p>
-          <a href="/portal" class="text-[#4ECDC4] hover:underline">返回产品入口</a>
+          <a href="/portal" class="text-[#4ECDC4] hover:underline font-semibold">返回产品入口</a>
         </div>
       </div>
     )
@@ -23,27 +23,23 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
       <Navbar active="" />
 
       {/* Hero */}
-      <section class="relative overflow-hidden pt-16 pb-12" style={`background: linear-gradient(135deg, ${product.color}40, white, ${product.color}20)`}>
+      <section class="relative overflow-hidden pt-16 pb-12 bg-gradient-to-br from-white via-gray-50 to-[#4ECDC4]/5">
         <div class="absolute inset-0 dot-pattern opacity-20"></div>
         <div class="max-w-4xl mx-auto px-4 relative text-center">
-          {/* Logo */}
           <div class="mb-6 flex justify-center">
-            <ProductLogo name={product.name} englishShort={product.englishShort} category={product.category} size={96} />
+            <ProductLogo name={product.name} englishShort={product.englishShort} size={96} />
           </div>
 
-          {/* Status */}
           <span class={`inline-flex items-center text-xs px-3 py-1 rounded-full border font-medium mb-4 ${statusLabels[product.status].class}`}>
             {statusLabels[product.status].text}
           </span>
 
-          {/* Title */}
-          <h1 class="text-3xl font-bold text-gray-900 mb-1">{product.name}</h1>
+          <h1 class="text-3xl font-extrabold text-black mb-1">{product.name}</h1>
           <p class="text-sm text-gray-400 mb-4">{product.englishName}</p>
           <p class="text-base text-gray-500 max-w-lg mx-auto leading-relaxed">{product.description}</p>
 
-          {/* Category badge */}
           <div class="mt-4">
-            <span class="inline-flex items-center text-xs px-3 py-1 rounded-lg font-medium" style={`background: ${product.color}; color: ${product.colorDark}`}>
+            <span class="inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold bg-[#4ECDC4]/10 text-[#4ECDC4] border border-[#4ECDC4]/20">
               <i class="fas fa-layer-group mr-1.5"></i>{product.category}
             </span>
           </div>
@@ -53,12 +49,12 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
       {/* Features */}
       <section class="py-12 bg-white">
         <div class="max-w-4xl mx-auto px-4">
-          <h2 class="text-xl font-bold text-gray-900 mb-6 text-center">核心功能</h2>
+          <h2 class="text-xl font-extrabold text-black mb-6 text-center">核心功能</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {product.features.map((feature, idx) => (
               <div class="card-hover flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={`background: ${product.color}`}>
-                  <span class="text-sm font-bold" style={`color: ${product.colorDark}`}>{String(idx + 1).padStart(2, '0')}</span>
+                <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <span class="text-sm font-bold text-[#4ECDC4]">{String(idx + 1).padStart(2, '0')}</span>
                 </div>
                 <span class="text-sm font-medium text-gray-700">{feature}</span>
               </div>
@@ -67,19 +63,19 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
         </div>
       </section>
 
-      {/* Coming Soon Notice */}
+      {/* Coming Soon */}
       <section class="py-16 bg-gray-50">
         <div class="max-w-md mx-auto px-4 text-center">
-          <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-[#4ECDC4]/10 flex items-center justify-center">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
             <i class="fas fa-tools text-3xl text-[#4ECDC4]"></i>
           </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">功能开发中</h3>
+          <h3 class="text-lg font-extrabold text-black mb-2">功能开发中</h3>
           <p class="text-sm text-gray-500 mb-8 leading-relaxed">
             {product.name}（{product.englishName}）正在紧锣密鼓地开发中，敬请期待完整功能上线。
           </p>
           <a
             href="/portal"
-            class="inline-flex items-center px-6 py-3 bg-[#4ECDC4] hover:bg-[#3DBDB5] text-white font-medium rounded-xl shadow-lg shadow-[#4ECDC4]/25 transition-all no-underline"
+            class="inline-flex items-center px-6 py-3 bg-[#4ECDC4] hover:bg-[#3DBDB5] text-white font-bold rounded-xl shadow-lg shadow-[#4ECDC4]/25 transition-all no-underline"
           >
             <i class="fas fa-arrow-left mr-2"></i>返回产品入口
           </a>

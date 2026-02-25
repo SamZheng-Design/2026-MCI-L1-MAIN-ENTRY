@@ -1,5 +1,7 @@
 import type { FC } from 'hono/jsx'
 
+const TEAL = '#4ECDC4'
+
 export const Footer: FC = () => {
   return (
     <footer id="about" class="bg-gray-900 text-gray-300">
@@ -8,24 +10,26 @@ export const Footer: FC = () => {
           {/* Brand */}
           <div class="md:col-span-2">
             <div class="flex items-center gap-3 mb-4">
-              <svg viewBox="0 0 160 50" width="120" height="36" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="18" font-family="Inter,'Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" letter-spacing="-0.3">MICRO</text>
-                <circle cx="75" cy="10" r="4.5" fill="#4ECDC4" />
-                <text x="0" y="38" font-family="Inter,'Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" letter-spacing="-0.3">CONNECT</text>
-                <text x="105" y="38" font-family="'Noto Sans SC','PingFang SC',sans-serif" font-size="14" font-weight="500" fill="#9CA3AF">滴灌通</text>
+              <svg viewBox="0 0 220 78" height="36" xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect 滴灌通">
+                <text x="0" y="27" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">MICR</text>
+                <circle cx="103" cy="18" r="10" fill={TEAL} />
+                <text x="0" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">C</text>
+                <circle cx="33" cy="46" r="10" fill={TEAL} />
+                <text x="46" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">NNECT</text>
+                <text x="0" y="74" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#9CA3AF">滴灌通</text>
               </svg>
             </div>
             <p class="text-sm text-gray-400 leading-relaxed max-w-md">
               滴灌通是全球领先的收入分成融资(RBF)平台，通过AI超级Agent矩阵，为中小企业提供高效、透明、灵活的融资解决方案。
             </p>
             <div class="flex gap-3 mt-4">
-              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#4ECDC4] flex items-center justify-center transition-colors no-underline">
+              <a href="#" class={`w-9 h-9 rounded-lg bg-gray-800 hover:bg-[${TEAL}] flex items-center justify-center transition-colors no-underline`}>
                 <i class="fab fa-linkedin-in text-sm text-gray-400 hover:text-white"></i>
               </a>
-              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#4ECDC4] flex items-center justify-center transition-colors no-underline">
+              <a href="#" class={`w-9 h-9 rounded-lg bg-gray-800 hover:bg-[${TEAL}] flex items-center justify-center transition-colors no-underline`}>
                 <i class="fab fa-twitter text-sm text-gray-400 hover:text-white"></i>
               </a>
-              <a href="#" class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#4ECDC4] flex items-center justify-center transition-colors no-underline">
+              <a href="#" class={`w-9 h-9 rounded-lg bg-gray-800 hover:bg-[${TEAL}] flex items-center justify-center transition-colors no-underline`}>
                 <i class="fab fa-weixin text-sm text-gray-400 hover:text-white"></i>
               </a>
             </div>
@@ -62,7 +66,6 @@ export const Footer: FC = () => {
           </div>
         </div>
 
-        {/* Bottom */}
         <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p class="text-xs text-gray-500">Micro Connect Group &copy; 2026. All rights reserved.</p>
           <div class="flex gap-4">

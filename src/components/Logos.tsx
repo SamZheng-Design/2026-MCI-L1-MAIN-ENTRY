@@ -1,161 +1,186 @@
 import type { FC } from 'hono/jsx'
 
-// Color mapping per group - following Micro Connect brand teal (#4ECDC4)
-const groupColors: Record<string, string> = {
-  '融资前端': '#4ECDC4',    // Teal - brand color
-  '项目评估': '#6366F1',    // Indigo
-  '投资决策': '#8B5CF6',    // Purple
-  '投后管理': '#10B981',    // Emerald
+/*
+ * 滴灌通 Micro Connect — 品牌设计规范
+ * 
+ * 核心品牌元素（严格从主Logo提取）：
+ * 1. Teal 圆点 #4ECDC4 — 纯色填充，无渐变，无阴影，无描边
+ * 2. 圆点替代字母 "O" — 这是品牌的标志性设计
+ * 3. 纯黑色文字 #000000 — 粗体几何无衬线体 (Extra Bold / 800)
+ * 4. 中文: 黑体，与英文同等视觉重量
+ * 5. 左对齐堆叠排版
+ * 
+ * 所有子品牌Logo必须继承此设计语言：
+ * - 英文名中的 "O" 统一用 teal 圆点替代
+ * - "Connect" 中的 "O" 用 teal 圆点替代
+ * - 纯黑 + Teal 双色配色方案
+ */
+
+const TEAL = '#4ECDC4'
+const BLACK = '#000000'
+
+// ============================================
+// 主品牌 Logo: MICRO CONNECT 滴灌通
+// ============================================
+export const BrandLogo: FC<{ height?: number }> = ({ height = 44 }) => {
+  return (
+    <svg viewBox="0 0 220 78" height={height} xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect 滴灌通">
+      {/* MICR + teal circle replacing O */}
+      <text x="0" y="27" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">MICR</text>
+      <circle cx="103" cy="18" r="10" fill={TEAL} />
+      {/* C + teal circle replacing O + NNECT */}
+      <text x="0" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">C</text>
+      <circle cx="33" cy="46" r="10" fill={TEAL} />
+      <text x="46" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">NNECT</text>
+      {/* 滴灌通 */}
+      <text x="0" y="74" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill={BLACK}>滴灌通</text>
+    </svg>
+  )
 }
 
-// Product Logo Component - Micro Connect design language
-// Bold type + signature colored circle accent
+// ============================================
+// 9个"通"产品Logo — 严格遵循品牌设计语言
+// 
+// 设计逻辑：
+// - 第一行：英文名（粗体），O用teal圆点替代
+// - 第二行：C●NNECT（统一后缀，O用teal圆点）
+// - 第三行：中文名（粗体黑体）
+// - 纯黑 + Teal 双色，无其他颜色
+// ============================================
+
+// 英文名中O的位置映射（精确计算每个单词中O的替换位置）
+interface OPosition {
+  // 在完整英文名中，O之前的文字
+  beforeO: string
+  // O之后的文字
+  afterO: string
+  // O之前文字的像素宽度（近似值，用于圆点定位）
+  xBeforeO: number
+  // 是否有O字母需要替换（有些词如Risk没有O）
+  hasO: boolean
+}
+
+function getOPosition(word: string): OPosition {
+  const idx = word.toUpperCase().indexOf('O')
+  if (idx === -1) {
+    return { beforeO: word.toUpperCase(), afterO: '', xBeforeO: 0, hasO: false }
+  }
+  return {
+    beforeO: word.toUpperCase().substring(0, idx),
+    afterO: word.toUpperCase().substring(idx + 1),
+    xBeforeO: idx * 13.5, // 近似每字符宽度
+    hasO: true
+  }
+}
+
+// 产品Logo - 大尺寸 (用于Portal页面卡片和Placeholder页面)
 export const ProductLogo: FC<{
-  name: string
-  englishShort: string
-  category: string
+  name: string       // 中文名：身份通
+  englishShort: string  // 英文短名：Identity
   size?: number
   className?: string
-}> = ({ name, englishShort, category, size = 80, className = '' }) => {
-  const accent = groupColors[category] || '#4ECDC4'
+}> = ({ name, englishShort, size = 80, className = '' }) => {
+  const o = getOPosition(englishShort)
+  const enUpper = englishShort.toUpperCase()
+  // 计算viewBox宽度适配
+  const vw = Math.max(200, enUpper.length * 18 + 20)
   
   return (
     <div
-      class={`inline-flex items-center justify-center rounded-2xl bg-white border border-gray-100 overflow-hidden flex-shrink-0 ${className}`}
+      class={`inline-flex items-center justify-center flex-shrink-0 ${className}`}
       style={`width:${size}px;height:${size}px;`}
     >
-      <svg viewBox="0 0 200 200" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
-        {/* Background */}
-        <rect width="200" height="200" rx="24" fill="#FFFFFF" />
-        {/* Signature Circle - Micro Connect brand element */}
-        <circle cx="155" cy="40" r="24" fill={accent} opacity="0.85" />
-        {/* Small decorative dot */}
-        <circle cx="50" cy="165" r="9" fill={accent} opacity="0.25" />
-        {/* Chinese Name */}
-        <text
-          x="100" y="100"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei','Hiragino Sans GB',sans-serif"
-          font-size="46"
-          font-weight="700"
-          fill="#1A1A1A"
-        >{name}</text>
-        {/* English subtitle */}
-        <text
-          x="100" y="140"
-          text-anchor="middle"
-          font-family="Inter,'Helvetica Neue',Arial,sans-serif"
-          font-size="16"
-          font-weight="500"
-          fill="#999999"
-          letter-spacing="1.5"
-        >{englishShort.toUpperCase()}</text>
-        {/* Accent underline */}
-        <rect x="60" y="155" width="80" height="3" rx="1.5" fill={accent} opacity="0.5" />
+      <svg viewBox={`0 0 ${vw} 200`} width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+        {/* 白色背景 + 细边框 */}
+        <rect width={vw} height="200" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5" />
+        
+        {/* 英文名 - 第一行 */}
+        {o.hasO ? (
+          <>
+            {/* O之前的文字 */}
+            {o.beforeO && (
+              <text x={vw/2 - (enUpper.length * 6.5)/2} y="68" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="800" fill={BLACK} letter-spacing="0.5">{o.beforeO}</text>
+            )}
+            {/* Teal圆点替代O */}
+            <circle 
+              cx={vw/2 - (enUpper.length * 6.5)/2 + o.xBeforeO + 7} 
+              cy="60" 
+              r="8" 
+              fill={TEAL} 
+            />
+            {/* O之后的文字 */}
+            {o.afterO && (
+              <text x={vw/2 - (enUpper.length * 6.5)/2 + o.xBeforeO + 19} y="68" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="800" fill={BLACK} letter-spacing="0.5">{o.afterO}</text>
+            )}
+          </>
+        ) : (
+          <>
+            {/* 没有O的词：直接显示 + 在末尾加一个teal圆点装饰 */}
+            <text x={vw/2} y="68" text-anchor="middle" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="800" fill={BLACK} letter-spacing="0.5">{enUpper}</text>
+            <circle cx={vw/2 + enUpper.length * 6.5 + 4} cy="58" r="6" fill={TEAL} />
+          </>
+        )}
+        
+        {/* C●NNECT - 第二行：统一后缀 */}
+        <text x={vw/2 - 48} y="102" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="15" font-weight="800" fill={BLACK} letter-spacing="0.3">C</text>
+        <circle cx={vw/2 - 30} cy="96" r="5" fill={TEAL} />
+        <text x={vw/2 - 22} y="102" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="15" font-weight="800" fill={BLACK} letter-spacing="0.3">NNECT</text>
+        
+        {/* 中文名 - 第三行 */}
+        <text x={vw/2} y="150" text-anchor="middle" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="36" font-weight="700" fill={BLACK}>{name}</text>
+        
+        {/* 底部teal细线 */}
+        <rect x={vw/2 - 30} y="165" width="60" height="2.5" rx="1.25" fill={TEAL} />
       </svg>
     </div>
   )
 }
 
-// Small version for architecture cards
+// 产品Logo - 小尺寸 (用于架构总览卡片)
 export const ProductLogoSmall: FC<{
   name: string
   englishShort: string
-  category: string
   size?: number
-}> = ({ name, englishShort, category, size = 48 }) => {
-  const accent = groupColors[category] || '#4ECDC4'
-  const char = name.charAt(0) // First Chinese char
+}> = ({ name, englishShort, size = 48 }) => {
+  const firstChar = name.charAt(0)
   
   return (
     <div
-      class="inline-flex items-center justify-center rounded-xl overflow-hidden flex-shrink-0"
-      style={`width:${size}px;height:${size}px;background:linear-gradient(135deg, ${accent}15, ${accent}30);border:1.5px solid ${accent}40;`}
+      class="inline-flex items-center justify-center flex-shrink-0"
+      style={`width:${size}px;height:${size}px;`}
     >
       <svg viewBox="0 0 100 100" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
-        {/* Circle accent */}
-        <circle cx="78" cy="20" r="12" fill={accent} opacity="0.7" />
-        {/* Chinese char */}
-        <text
-          x="44" y="58"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif"
-          font-size="30"
-          font-weight="700"
-          fill="#1A1A1A"
-        >{char}</text>
-        {/* Dot */}
-        <circle cx="22" cy="82" r="5" fill={accent} opacity="0.3" />
+        <rect width="100" height="100" rx="14" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5" />
+        {/* 标志性 teal 圆点 */}
+        <circle cx="76" cy="22" r="10" fill={TEAL} />
+        {/* 中文首字 */}
+        <text x="42" y="62" text-anchor="middle" dominant-baseline="middle" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="700" fill={BLACK}>{firstChar}</text>
+        {/* 底部小圆点 */}
+        <circle cx="24" cy="82" r="4" fill={TEAL} opacity="0.4" />
       </svg>
     </div>
   )
 }
 
-// Flow diagram logo - medium size for Y-shape flow
+// 产品Logo - 流程图尺寸 (用于Y型流程图)
 export const ProductLogoFlow: FC<{
   name: string
   englishShort: string
-  category: string
   size?: number
-}> = ({ name, englishShort, category, size = 40 }) => {
-  const accent = groupColors[category] || '#4ECDC4'
+}> = ({ name, englishShort, size = 40 }) => {
+  const firstChar = name.charAt(0)
   
   return (
     <div
-      class="inline-flex items-center justify-center rounded-lg overflow-hidden flex-shrink-0"
-      style={`width:${size}px;height:${size}px;background:linear-gradient(135deg, ${accent}20, ${accent}35);border:1px solid ${accent}50;`}
+      class="inline-flex items-center justify-center flex-shrink-0"
+      style={`width:${size}px;height:${size}px;`}
     >
       <svg viewBox="0 0 80 80" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="62" cy="16" r="9" fill={accent} opacity="0.75" />
-        <text
-          x="36" y="48"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif"
-          font-size="26"
-          font-weight="700"
-          fill="#1A1A1A"
-        >{name.charAt(0)}</text>
-      </svg>
-    </div>
-  )
-}
-
-// Micro Connect main brand logo
-export const BrandLogo: FC<{ height?: number }> = ({ height = 40 }) => {
-  return (
-    <div class="flex items-center gap-3">
-      <svg viewBox="0 0 280 90" height={height} xmlns="http://www.w3.org/2000/svg">
-        {/* MICRO */}
-        <text
-          x="0" y="32"
-          font-family="Inter,'Helvetica Neue',Arial,sans-serif"
-          font-size="28"
-          font-weight="800"
-          fill="#1A1A1A"
-          letter-spacing="-0.3"
-        >MICRO</text>
-        {/* Teal circle on the O */}
-        <circle cx="131" cy="18" r="8" fill="#4ECDC4" />
-        {/* CONNECT */}
-        <text
-          x="0" y="62"
-          font-family="Inter,'Helvetica Neue',Arial,sans-serif"
-          font-size="28"
-          font-weight="800"
-          fill="#1A1A1A"
-          letter-spacing="-0.3"
-        >CONNECT</text>
-        {/* 滴灌通 */}
-        <text
-          x="0" y="85"
-          font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif"
-          font-size="15"
-          font-weight="500"
-          fill="#333333"
-        >滴灌通</text>
+        <rect width="80" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5" />
+        {/* teal 圆点 */}
+        <circle cx="62" cy="18" r="8" fill={TEAL} />
+        {/* 中文首字 */}
+        <text x="36" y="50" text-anchor="middle" dominant-baseline="middle" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="28" font-weight="700" fill={BLACK}>{firstChar}</text>
       </svg>
     </div>
   )
