@@ -3,7 +3,7 @@ import { products, foundations, statusLabels } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 
-const TEAL = '#4ECDC4'
+const TEAL = '#5DC4B3'
 
 // ======================================================
 // 简化版产品入口 — Menu式设计
@@ -90,7 +90,7 @@ const roleBadge: Record<string, { text: string, class: string }> = {
   shared: { text: '共用', class: 'bg-blue-100 text-blue-600' },
   borrower: { text: '融资者', class: 'bg-amber-100 text-amber-700' },
   investor: { text: '投资者', class: 'bg-indigo-100 text-indigo-600' },
-  collaborative: { text: '协同', class: 'bg-[#4ECDC4]/15 text-[#0d9488]' }
+  collaborative: { text: '协同', class: 'bg-[#5DC4B3]/15 text-[#0d9488]' }
 }
 
 // 简洁菜单项
@@ -102,7 +102,7 @@ const MenuItem: FC<{ product: typeof products[0], phaseColor: string }> = ({ pro
 
   return (
     <a href={`/${p.id}`} class="block no-underline group">
-      <div class="menu-item flex items-center gap-4 px-5 py-4 bg-white rounded-xl border border-gray-150 hover:border-[#4ECDC4] transition-all cursor-pointer">
+      <div class="menu-item flex items-center gap-4 px-5 py-4 bg-white rounded-xl border border-gray-150 hover:border-[#5DC4B3] transition-all cursor-pointer">
         {/* Icon */}
         <div
           class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
@@ -114,7 +114,7 @@ const MenuItem: FC<{ product: typeof products[0], phaseColor: string }> = ({ pro
         {/* Name + Description */}
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
-            <span class="text-[15px] font-bold text-gray-900 group-hover:text-[#4ECDC4] transition-colors">{p.name}</span>
+            <span class="text-[15px] font-bold text-gray-900 group-hover:text-[#5DC4B3] transition-colors">{p.name}</span>
             <span class="text-[10px] text-gray-300 font-medium hidden sm:inline">{p.englishName}</span>
           </div>
           <p class="text-xs text-gray-400 mt-0.5 truncate">{desc}</p>
@@ -136,7 +136,7 @@ const MenuItem: FC<{ product: typeof products[0], phaseColor: string }> = ({ pro
         </div>
 
         {/* Arrow */}
-        <i class="fas fa-chevron-right text-[10px] text-gray-200 group-hover:text-[#4ECDC4] transition-colors flex-shrink-0"></i>
+        <i class="fas fa-chevron-right text-[10px] text-gray-200 group-hover:text-[#5DC4B3] transition-colors flex-shrink-0"></i>
       </div>
     </a>
   )
@@ -150,12 +150,12 @@ export const PortalPage: FC = () => {
       {/* Compact Hero */}
       <section class="bg-white border-b border-gray-100 pt-10 pb-8">
         <div class="max-w-2xl mx-auto px-4 text-center fade-in">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#4ECDC4]/10 text-[#4ECDC4] text-[11px] font-semibold rounded-full mb-3 border border-[#4ECDC4]/20">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-3 border border-[#5DC4B3]/20">
             <i class="fas fa-th-large text-[10px]"></i>
             选择你需要的产品
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-black mb-2 tracking-tight">
-            9个<span class="text-[#4ECDC4]">「通」</span>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-2 tracking-tight">
+            9个<span class="text-[#5DC4B3]">「通」</span>
           </h1>
           <p class="text-sm text-gray-400">
             点击进入对应产品 · 覆盖RBF投资全生命周期
@@ -223,7 +223,7 @@ export const PortalPage: FC = () => {
             {foundations.map((f) => (
               <div class="text-center p-4 rounded-xl bg-gray-50 border border-gray-100">
                 <div class="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center mx-auto mb-2">
-                  <i class={`fas ${f.icon} text-[#4ECDC4]`}></i>
+                  <i class={`fas ${f.icon} text-[#5DC4B3]`}></i>
                 </div>
                 <div class="text-[11px] font-bold text-gray-700">{f.name.split(' ')[0]}</div>
                 <div class="text-[10px] text-gray-400 mt-0.5">{f.name.split(' ').slice(1).join(' ')}</div>

@@ -4,7 +4,7 @@ import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { ProductLogoSmall, ProductLogoFlow, ProductLogo } from '../components/Logos'
 
-const TEAL = '#4ECDC4'
+const TEAL = '#5DC4B3'
 const AMBER = '#F59E0B'
 const INDIGO = '#6366F1'
 const EMERALD = '#10B981'
@@ -16,19 +16,19 @@ export const DesignPage: FC = () => {
       <Navbar active="design" />
 
       {/* Hero Section */}
-      <section class="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-[#4ECDC4]/5 pt-16 pb-20">
+      <section class="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-[#5DC4B3]/5 pt-16 pb-20">
         <div class="absolute inset-0 dot-pattern opacity-30"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div class="text-center fade-in">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#4ECDC4]/10 text-[#4ECDC4] text-xs font-semibold rounded-full mb-6 border border-[#4ECDC4]/20">
-              <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="5" fill="#4ECDC4"/></svg>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full mb-6 border border-[#5DC4B3]/20">
+              <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="5" fill="#5DC4B3"/></svg>
               Super Agent Architecture
             </div>
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black mb-4 leading-tight tracking-tight">
-              9个通如何串联成<span class="text-[#4ECDC4]">Super Agent</span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1d1d1f] mb-4 leading-tight tracking-tight">
+              9个通如何串联成<span class="text-[#5DC4B3]">Super Agent</span>
             </h1>
             <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-              身份通统一入口 · Y型双角色分流 · <strong class="text-black">数据穿越AI筛子</strong> · 协同汇合
+              身份通统一入口 · Y型双角色分流 · <strong class="text-[#1d1d1f]">数据穿越AI筛子</strong> · 协同汇合
             </p>
           </div>
         </div>
@@ -41,7 +41,7 @@ export const DesignPage: FC = () => {
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full mb-3">
               Y型业务流程
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-black mb-3">完整Y型业务流程</h2>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-3">完整Y型业务流程</h2>
             <p class="text-sm text-gray-500 max-w-2xl mx-auto">身份通统一入口分流两个角色：融资者通过申请通上传数据，数据直接进入投资者搭建的评估通→风控通筛选管道，通过标准的项目进入机会通展现</p>
             {/* Legend */}
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mt-6">
@@ -58,7 +58,7 @@ export const DesignPage: FC = () => {
                 <span class="text-xs text-gray-500">数据穿越管道</span>
               </div>
               <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-[#4ECDC4]/20 border-2 border-[#4ECDC4]"></div>
+                <div class="w-4 h-4 rounded bg-[#5DC4B3]/20 border-2 border-[#5DC4B3]"></div>
                 <span class="text-xs text-gray-500">投融资双方协同</span>
               </div>
             </div>
@@ -69,18 +69,18 @@ export const DesignPage: FC = () => {
             <div class="flex items-center gap-3 mb-4">
               <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">1</div>
               <div>
-                <span class="text-sm font-bold text-black">统一入口</span>
+                <span class="text-sm font-bold text-[#1d1d1f]">统一入口</span>
                 <span class="text-[10px] text-gray-400 ml-2">Unified Entry</span>
               </div>
               <div class="flex-1 h-px bg-gray-200"></div>
             </div>
             <a href={`/${entryProduct.id}`} class="block no-underline group">
-              <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+              <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
                 <div class="flex items-start gap-4">
                   <ProductLogo name={entryProduct.name} englishShort={entryProduct.englishShort} size={60} />
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{entryProduct.name}</h3>
+                      <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{entryProduct.name}</h3>
                       <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[entryProduct.status].class}`}>
                         {statusLabels[entryProduct.status].text}
                       </span>
@@ -95,7 +95,7 @@ export const DesignPage: FC = () => {
                       <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                     ))}
                   </div>
-                  <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                  <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                 </div>
               </div>
             </a>
@@ -104,10 +104,10 @@ export const DesignPage: FC = () => {
           {/* ===== Y-FORK VISUAL ===== */}
           <div class="flex justify-center mb-6">
             <div class="flex flex-col items-center">
-              <div class="w-10 h-10 rounded-full bg-[#4ECDC4] flex items-center justify-center shadow-lg shadow-[#4ECDC4]/30">
+              <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30">
                 <i class="fas fa-code-branch text-white text-sm"></i>
               </div>
-              <span class="text-[10px] text-[#4ECDC4] font-bold mt-1">Y型分流</span>
+              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">Y型分流</span>
             </div>
           </div>
 
@@ -125,12 +125,12 @@ export const DesignPage: FC = () => {
               <div class="border-l-4 border-amber-300 pl-4">
                 {borrowerProducts.map((p) => (
                   <a href={`/${p.id}`} class="block no-underline group">
-                    <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                    <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
                       <div class="flex items-start gap-4">
                         <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
                         <div class="flex-1 min-w-0">
                           <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                            <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
                             <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
                               {statusLabels[p.status].text}
                             </span>
@@ -145,7 +145,7 @@ export const DesignPage: FC = () => {
                             <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                           ))}
                         </div>
-                        <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                        <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                       </div>
                     </div>
                   </a>
@@ -228,7 +228,7 @@ export const DesignPage: FC = () => {
                       <ProductLogo name={investorFilterProducts[0].name} englishShort={investorFilterProducts[0].englishShort} size={60} />
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorFilterProducts[0].name}</h3>
+                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorFilterProducts[0].name}</h3>
                           <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[0].status].class}`}>
                             {statusLabels[investorFilterProducts[0].status].text}
                           </span>
@@ -246,7 +246,7 @@ export const DesignPage: FC = () => {
                           <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                         ))}
                       </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                     </div>
                   </div>
                 </a>
@@ -280,7 +280,7 @@ export const DesignPage: FC = () => {
                       <ProductLogo name={investorFilterProducts[1].name} englishShort={investorFilterProducts[1].englishShort} size={60} />
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorFilterProducts[1].name}</h3>
+                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorFilterProducts[1].name}</h3>
                           <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[1].status].class}`}>
                             {statusLabels[investorFilterProducts[1].status].text}
                           </span>
@@ -298,7 +298,7 @@ export const DesignPage: FC = () => {
                           <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                         ))}
                       </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                     </div>
                   </div>
                 </a>
@@ -328,12 +328,12 @@ export const DesignPage: FC = () => {
                   </span>
                 </div>
                 <a href={`/${investorViewProduct.id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
                     <div class="flex items-start gap-4">
                       <ProductLogo name={investorViewProduct.name} englishShort={investorViewProduct.englishShort} size={60} />
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorViewProduct.name}</h3>
+                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorViewProduct.name}</h3>
                           <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorViewProduct.status].class}`}>
                             {statusLabels[investorViewProduct.status].text}
                           </span>
@@ -348,7 +348,7 @@ export const DesignPage: FC = () => {
                           <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                         ))}
                       </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                     </div>
                   </div>
                 </a>
@@ -361,12 +361,12 @@ export const DesignPage: FC = () => {
             <div class="flex flex-col items-center">
               <div class="flex items-center gap-3">
                 <div class="h-px w-16 bg-amber-300"></div>
-                <div class="w-10 h-10 rounded-full bg-[#4ECDC4] flex items-center justify-center shadow-lg shadow-[#4ECDC4]/30">
+                <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30">
                   <i class="fas fa-handshake text-white text-sm"></i>
                 </div>
                 <div class="h-px w-16 bg-indigo-300"></div>
               </div>
-              <span class="text-[10px] text-[#4ECDC4] font-bold mt-1">Y型汇合 · 投融资双方协同</span>
+              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">Y型汇合 · 投融资双方协同</span>
             </div>
           </div>
 
@@ -379,7 +379,7 @@ export const DesignPage: FC = () => {
                 <span class="text-[10px] text-gray-400 ml-2">Deal Making</span>
               </div>
               <div class="flex-1 h-px bg-gray-200"></div>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#4ECDC4] text-white font-bold">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold">
                 <i class="fas fa-handshake mr-0.5"></i>投融资双方协同
               </span>
             </div>
@@ -388,19 +388,19 @@ export const DesignPage: FC = () => {
                 <a href={`/${p.id}`} class="block no-underline group">
                   <div class={`portal-card bg-white rounded-2xl p-5 transition-all border ${
                     p.isCollaborative 
-                      ? 'border-[#4ECDC4]/50 shadow-md shadow-[#4ECDC4]/10 hover:shadow-lg' 
-                      : 'border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md'
+                      ? 'border-[#5DC4B3]/50 shadow-md shadow-[#5DC4B3]/10 hover:shadow-lg' 
+                      : 'border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md'
                   }`}>
                     <div class="flex items-start gap-4">
                       <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
                           <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
                             {statusLabels[p.status].text}
                           </span>
                           {p.isCollaborative && (
-                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#4ECDC4] text-white font-bold">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold">
                               <i class="fas fa-handshake mr-0.5"></i>协同
                             </span>
                           )}
@@ -415,7 +415,7 @@ export const DesignPage: FC = () => {
                           <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                         ))}
                       </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                     </div>
                   </div>
                 </a>
@@ -426,8 +426,8 @@ export const DesignPage: FC = () => {
           {/* Arrow */}
           <div class="flex justify-center mb-6">
             <svg width="16" height="24" viewBox="0 0 16 24">
-              <line x1="8" y1="0" x2="8" y2="18" stroke="#4ECDC4" stroke-width="1.5" opacity="0.3" />
-              <polygon points="4,18 8,24 12,18" fill="#4ECDC4" opacity="0.3" />
+              <line x1="8" y1="0" x2="8" y2="18" stroke="#5DC4B3" stroke-width="1.5" opacity="0.3" />
+              <polygon points="4,18 8,24 12,18" fill="#5DC4B3" opacity="0.3" />
             </svg>
           </div>
 
@@ -444,12 +444,12 @@ export const DesignPage: FC = () => {
             <div class="space-y-3">
               {postInvestmentProducts.map((p) => (
                 <a href={`/${p.id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
                     <div class="flex items-start gap-4">
                       <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
                           <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
                             {statusLabels[p.status].text}
                           </span>
@@ -464,7 +464,7 @@ export const DesignPage: FC = () => {
                           <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
                         ))}
                       </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                     </div>
                   </div>
                 </a>
@@ -479,7 +479,7 @@ export const DesignPage: FC = () => {
       <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <h2 class="text-2xl font-extrabold text-black mb-2">架构总览</h2>
+            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">架构总览</h2>
             <p class="text-sm text-gray-500">按Y型分流阶段分组的9个核心Agent</p>
           </div>
 
@@ -489,7 +489,7 @@ export const DesignPage: FC = () => {
                 <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-100 shadow-sm">
                   <i class={`fas ${group.icon} text-xs`} style={`color: ${group.color}`}></i>
                   <div class="flex-1 min-w-0">
-                    <span class="text-xs font-bold text-black block truncate">{group.title}</span>
+                    <span class="text-xs font-bold text-[#1d1d1f] block truncate">{group.title}</span>
                     <span class="text-[9px] text-gray-400">{group.titleEn}</span>
                   </div>
                 </div>
@@ -501,7 +501,7 @@ export const DesignPage: FC = () => {
                       <div class="flex items-start gap-2">
                         <ProductLogoSmall name={p.name} englishShort={p.englishShort} size={40} />
                         <div class="flex-1 min-w-0">
-                          <h3 class="text-xs font-bold text-black mb-0.5">{p.name}</h3>
+                          <h3 class="text-xs font-bold text-[#1d1d1f] mb-0.5">{p.name}</h3>
                           <p class="text-[10px] text-gray-400">{p.englishShort}</p>
                         </div>
                       </div>
@@ -515,7 +515,7 @@ export const DesignPage: FC = () => {
                           </span>
                         )}
                         {p.isCollaborative && (
-                          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-[#4ECDC4]/10 text-[#4ECDC4] border border-[#4ECDC4]/20 font-semibold">
+                          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-[#5DC4B3]/10 text-[#5DC4B3] border border-[#5DC4B3]/20 font-semibold">
                             协同
                           </span>
                         )}
@@ -536,7 +536,7 @@ export const DesignPage: FC = () => {
             <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
             <div class="flex items-center gap-3">
               <svg viewBox="0 0 20 20" width="12" height="12"><circle cx="10" cy="10" r="6" fill={TEAL} opacity="0.5"/></svg>
-              <span class="text-sm font-semibold text-black tracking-wider">事件驱动 · AI筛子编排 · 双向赋能</span>
+              <span class="text-sm font-semibold text-[#1d1d1f] tracking-wider">事件驱动 · AI筛子编排 · 双向赋能</span>
               <svg viewBox="0 0 20 20" width="12" height="12"><circle cx="10" cy="10" r="6" fill={TEAL} opacity="0.5"/></svg>
             </div>
             <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
@@ -547,15 +547,15 @@ export const DesignPage: FC = () => {
       {/* Foundation Layer */}
       <section class="py-16 bg-gray-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="relative border-t-4 border-[#4ECDC4] rounded-xl bg-white shadow-lg overflow-hidden">
+          <div class="relative border-t-4 border-[#5DC4B3] rounded-xl bg-white shadow-lg overflow-hidden">
             <div class="absolute inset-0 dot-pattern opacity-10"></div>
             <div class="relative p-8">
               <div class="flex items-center justify-between mb-8">
                 <div>
-                  <h2 class="text-xl font-extrabold text-black">统一底座（基础设施层）</h2>
+                  <h2 class="text-xl font-extrabold text-[#1d1d1f]">统一底座（基础设施层）</h2>
                   <p class="text-xs text-gray-400 mt-1">Unified Foundation Layer</p>
                 </div>
-                <span class="px-3 py-1 bg-[#4ECDC4]/10 text-[#4ECDC4] text-xs font-semibold rounded-full border border-[#4ECDC4]/20">
+                <span class="px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full border border-[#5DC4B3]/20">
                   <i class="fas fa-check-circle mr-1"></i>所有Agent共用
                 </span>
               </div>
@@ -564,9 +564,9 @@ export const DesignPage: FC = () => {
                 {foundations.map((f) => (
                   <div class="card-hover bg-gray-50 rounded-xl p-6 text-center border border-gray-100">
                     <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                      <i class={`fas ${f.icon} text-2xl text-[#4ECDC4]`}></i>
+                      <i class={`fas ${f.icon} text-2xl text-[#5DC4B3]`}></i>
                     </div>
-                    <h3 class="text-base font-bold text-black mb-2">{f.name}</h3>
+                    <h3 class="text-base font-bold text-[#1d1d1f] mb-2">{f.name}</h3>
                     <p class="text-sm text-gray-500">{f.description}</p>
                   </div>
                 ))}
@@ -580,7 +580,7 @@ export const DesignPage: FC = () => {
       <section class="py-16 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <h2 class="text-2xl font-extrabold text-black mb-2">核心设计思路</h2>
+            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">核心设计思路</h2>
             <p class="text-sm text-gray-500">从理念到架构的完整思考过程</p>
           </div>
 
@@ -597,18 +597,18 @@ export const DesignPage: FC = () => {
                   `}
                 >
                   <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <i class={`fas ${section.icon} text-[#4ECDC4]`}></i>
+                    <i class={`fas ${section.icon} text-[#5DC4B3]`}></i>
                   </div>
                   <div class="flex-1">
-                    <h3 class="text-base font-bold text-black">{section.title}</h3>
+                    <h3 class="text-base font-bold text-[#1d1d1f]">{section.title}</h3>
                   </div>
                   <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-300 accordion-icon"></i>
                 </button>
                 <div class={`accordion-content ${idx === 1 ? 'open' : ''}`}>
                   <div class="px-5 pb-5 space-y-4 border-t border-gray-100 pt-4">
                     {section.content.map((item) => (
-                      <div class="pl-4 border-l-2 border-[#4ECDC4]/40">
-                        <h4 class="text-sm font-bold text-black mb-1">{item.subtitle}</h4>
+                      <div class="pl-4 border-l-2 border-[#5DC4B3]/40">
+                        <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">{item.subtitle}</h4>
                         <p class="text-sm text-gray-500 leading-relaxed whitespace-pre-line">{item.text}</p>
                       </div>
                     ))}
@@ -621,15 +621,15 @@ export const DesignPage: FC = () => {
       </section>
 
       {/* CTA */}
-      <section class="py-16 bg-gradient-to-br from-[#4ECDC4]/5 via-white to-[#4ECDC4]/8">
+      <section class="py-16 bg-gradient-to-br from-[#5DC4B3]/5 via-white to-[#5DC4B3]/8">
         <div class="max-w-4xl mx-auto px-4 text-center">
-          <h2 class="text-2xl font-extrabold text-black mb-4">准备好探索超级Agent产品矩阵了吗？</h2>
+          <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-4">准备好探索超级Agent产品矩阵了吗？</h2>
           <p class="text-gray-500 mb-8">点击进入产品统一入口，体验9个"通"的完整功能</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/portal" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#4ECDC4] hover:bg-[#3DBDB5] text-white font-bold rounded-xl shadow-lg shadow-[#4ECDC4]/25 transition-all no-underline">
+            <a href="/portal" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#5DC4B3] hover:bg-[#3DBDB5] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
               <i class="fas fa-rocket mr-2"></i>进入产品入口
             </a>
-            <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-black font-bold rounded-xl border-2 border-gray-200 hover:border-[#4ECDC4] transition-all no-underline">
+            <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#1d1d1f] font-bold rounded-xl border-2 border-gray-200 hover:border-[#5DC4B3] transition-all no-underline">
               <i class="fas fa-download mr-2"></i>下载产品白皮书
             </a>
           </div>

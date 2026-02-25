@@ -16,8 +16,8 @@ import type { FC } from 'hono/jsx'
  * - 纯黑 + Teal 双色配色方案
  */
 
-const TEAL = '#4ECDC4'
-const BLACK = '#000000'
+const TEAL = '#5DC4B3'
+const BLACK = '#1d1d1f'
 
 // ============================================
 // 主品牌 Logo: MICRO CONNECT 滴灌通
