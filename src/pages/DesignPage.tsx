@@ -2,7 +2,7 @@ import type { FC } from 'hono/jsx'
 import { products, foundations, architectureGroups, designSections, statusLabels, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
-import { ProductLogoSmall, ProductLogoFlow } from '../components/Logos'
+import { ProductLogoSmall, ProductLogoFlow, ProductLogo } from '../components/Logos'
 
 const TEAL = '#4ECDC4'
 const AMBER = '#F59E0B'
@@ -34,10 +34,10 @@ export const DesignPage: FC = () => {
         </div>
       </section>
 
-      {/* ========== Y-Shape Flow Diagram (CORE) ========== */}
-      <section class="py-16 bg-white" id="y-flow">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-12">
+      {/* ========== Y-Shape Flow Diagram (CORE) — 排布对齐 PortalPage ========== */}
+      <section class="py-12 bg-white" id="y-flow">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full mb-3">
               Y型业务流程
             </div>
@@ -64,405 +64,414 @@ export const DesignPage: FC = () => {
             </div>
           </div>
 
-          {/* ===== Y-Shape Flow - Vertical layout ===== */}
-          <div class="max-w-4xl mx-auto">
-
-            {/* === PHASE 1: 入口 - Identity === */}
-            <div class="flex flex-col items-center mb-2">
-              <div class="text-center mb-4">
-                <span class="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-200">
-                  <i class="fas fa-sign-in-alt mr-1"></i>统一入口 · 角色分流
-                </span>
+          {/* ===== PHASE 1: 统一入口 ===== */}
+          <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">1</div>
+              <div>
+                <span class="text-sm font-bold text-black">统一入口</span>
+                <span class="text-[10px] text-gray-400 ml-2">Unified Entry</span>
               </div>
-              <div 
-                class="bg-white rounded-xl px-8 py-5 text-center cursor-pointer card-hover shadow-md border-2 border-blue-300 w-64"
-                onclick="window.location.href='/identity'"
-              >
-                <div class="flex items-center justify-center gap-2 mb-2">
-                  <ProductLogoFlow name="身份通" englishShort="Identity" size={32} />
-                  <div>
-                    <div class="text-sm font-bold text-black">Identity</div>
-                    <div class="text-[10px] text-gray-400">身份通</div>
-                  </div>
-                </div>
-                <div class="text-[10px] text-gray-500 mt-1">所有用户统一认证入口</div>
-                <div class="flex justify-center gap-2 mt-3">
-                  <span class="text-[9px] px-2 py-0.5 bg-amber-50 text-amber-600 rounded-full border border-amber-200">融资者</span>
-                  <span class="text-[9px] px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-200">投资者</span>
-                </div>
-              </div>
+              <div class="flex-1 h-px bg-gray-200"></div>
             </div>
-
-            {/* ====== Y-FORK: The Y-shape split from Identity ====== */}
-            <div class="relative py-3">
-              <div class="flex justify-center">
-                <svg width="440" height="70" viewBox="0 0 440 70" class="overflow-visible">
-                  <line x1="220" y1="0" x2="220" y2="18" stroke="#CBD5E1" stroke-width="2" />
-                  <circle cx="220" cy="18" r="5" fill={TEAL} />
-                  <text x="220" y="14" text-anchor="middle" font-size="7" fill={TEAL} font-weight="700" font-family="sans-serif">分流</text>
-                  <path d="M220,18 C220,40 120,40 120,62" fill="none" stroke={AMBER} stroke-width="2.5" />
-                  <polygon points="116,58 120,68 124,58" fill={AMBER} />
-                  <text x="152" y="38" font-size="9" fill={AMBER} font-weight="700" font-family="sans-serif">融资者</text>
-                  <path d="M220,18 C220,40 320,40 320,62" fill="none" stroke={INDIGO} stroke-width="2.5" />
-                  <polygon points="316,58 320,68 324,58" fill={INDIGO} />
-                  <text x="278" y="38" font-size="9" fill={INDIGO} font-weight="700" font-family="sans-serif">投资者</text>
-                </svg>
-              </div>
-            </div>
-
-            {/* ====== TWO PARALLEL PATHS (top half) ====== */}
-            <div class="flex justify-center gap-6 sm:gap-12">
-              {/* LEFT: Borrower - 申请通 */}
-              <div class="flex flex-col items-center" style="width: 200px;">
-                <div class="text-center mb-2">
-                  <span class="inline-flex items-center px-2.5 py-0.5 bg-amber-50 text-amber-600 text-[9px] font-bold rounded-full border border-amber-200">
-                    <i class="fas fa-upload mr-1"></i>融资者路径
-                  </span>
-                </div>
-                <div 
-                  class="bg-white rounded-xl px-4 py-4 text-center cursor-pointer card-hover shadow-sm border-2 border-amber-300 w-full"
-                  onclick="window.location.href='/application'"
-                >
-                  <div class="flex items-center justify-center gap-2 mb-2">
-                    <ProductLogoFlow name="申请通" englishShort="Application" size={28} />
-                    <div>
-                      <div class="text-sm font-bold text-black">Application</div>
-                      <div class="text-[9px] text-gray-400">申请通</div>
-                    </div>
-                  </div>
-                  <div class="text-[10px] text-gray-500 leading-relaxed">
-                    整理 · 上传经营信息/数据<br/>
-                    <span class="text-amber-500 font-semibold">生成标准化项目资料</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT: Investor setup - 搭建筛子 */}
-              <div class="flex flex-col items-center" style="width: 200px;">
-                <div class="text-center mb-2">
-                  <span class="inline-flex items-center px-2.5 py-0.5 bg-indigo-50 text-indigo-600 text-[9px] font-bold rounded-full border border-indigo-200">
-                    <i class="fas fa-cog mr-1"></i>投资者搭建筛子
-                  </span>
-                </div>
-                <div class="border-2 border-dashed border-indigo-300 rounded-xl px-3 py-3 bg-indigo-50/30 w-full text-center">
-                  <div class="text-[9px] font-bold text-indigo-500 mb-2">
-                    <i class="fas fa-robot mr-0.5"></i> 配置个性化AI筛选标准
-                  </div>
-                  <div class="text-[9px] text-indigo-400 leading-relaxed">
-                    自定义投资偏好<br/>评估模型 + 风控规则<br/>
-                    <span class="font-semibold">不设筛子 = 看全部项目</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* ====== THE KEY: Data Pipeline — 申请通 → 评估通 → 风控通 → 机会通 ====== */}
-            {/* This is the core visual: data from Application flows INTO Assess → Risk pipeline */}
-            <div class="mt-6 mb-2">
-              {/* Section label */}
-              <div class="text-center mb-4">
-                <span class="inline-flex items-center px-4 py-1.5 bg-gradient-to-r from-amber-50 via-indigo-50 to-emerald-50 text-gray-600 text-[10px] font-bold rounded-full border border-gray-200">
-                  <i class="fas fa-long-arrow-alt-right mr-1.5 text-amber-500"></i>
-                  数据筛选管道：申请通数据 → 经过评估通 → 经过风控通 → 进入机会通
-                  <i class="fas fa-long-arrow-alt-right ml-1.5 text-emerald-500"></i>
-                </span>
-              </div>
-
-              {/* Pipeline visual — horizontal flow */}
-              <div class="bg-gradient-to-r from-amber-50/50 via-indigo-50/50 to-emerald-50/50 rounded-2xl border border-gray-200 p-4 sm:p-6 overflow-hidden">
-                
-                {/* Pipeline stages in a connected horizontal/responsive flow */}
-                <div class="flex flex-col sm:flex-row items-stretch gap-0">
-
-                  {/* Stage 1: 申请通数据输入 */}
-                  <div class="flex-1 flex flex-col items-center sm:items-end justify-center px-2 py-3 sm:py-0">
-                    <div class="text-center sm:text-right mb-2">
-                      <span class="text-[9px] font-bold text-amber-500">
-                        <i class="fas fa-database mr-0.5"></i>申请通数据
+            <a href={`/${entryProduct.id}`} class="block no-underline group">
+              <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                <div class="flex items-start gap-4">
+                  <ProductLogo name={entryProduct.name} englishShort={entryProduct.englishShort} size={60} />
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap mb-1">
+                      <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{entryProduct.name}</h3>
+                      <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[entryProduct.status].class}`}>
+                        {statusLabels[entryProduct.status].text}
                       </span>
                     </div>
-                    <div class="bg-amber-50 border border-amber-300 rounded-lg px-3 py-2 text-center w-full max-w-[140px]">
-                      <div class="text-[10px] font-bold text-amber-700 mb-0.5">融资项目数据</div>
-                      <div class="text-[8px] text-amber-500">财务流水 · 经营信息<br/>门店资料 · Pitch Deck</div>
-                    </div>
+                    <p class="text-xs text-gray-400 mb-1.5">{entryProduct.englishName}</p>
+                    <p class="text-sm text-gray-500 leading-relaxed">{entryProduct.description}</p>
                   </div>
-
-                  {/* Arrow: data enters Assess */}
-                  <div class="flex items-center justify-center px-1 py-2 sm:py-0">
-                    <div class="sm:hidden w-px h-6 bg-amber-300"></div>
-                    <svg class="hidden sm:block" width="36" height="24" viewBox="0 0 36 24">
-                      <line x1="0" y1="12" x2="26" y2="12" stroke={AMBER} stroke-width="2" stroke-dasharray="4,3" />
-                      <polygon points="24,7 34,12 24,17" fill={AMBER} />
-                    </svg>
-                    <svg class="sm:hidden" width="24" height="28" viewBox="0 0 24 28">
-                      <line x1="12" y1="0" x2="12" y2="20" stroke={AMBER} stroke-width="2" stroke-dasharray="4,3" />
-                      <polygon points="7,18 12,28 17,18" fill={AMBER} />
-                    </svg>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1.5">
+                    {entryProduct.features.slice(0, 3).map((f) => (
+                      <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                    ))}
                   </div>
+                  <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                </div>
+              </div>
+            </a>
+          </div>
 
-                  {/* Stage 2: 评估通（筛子1） */}
-                  <div class="flex-1 flex flex-col items-center justify-center px-1 py-2 sm:py-0">
-                    <div 
-                      class="bg-white rounded-xl px-3 py-3 text-center cursor-pointer card-hover shadow-sm border-2 border-indigo-300 w-full max-w-[160px] relative"
-                      onclick="window.location.href='/assess'"
-                    >
-                      {/* Filter icon top-right */}
-                      <div class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center shadow-sm">
-                        <i class="fas fa-filter text-white text-[8px]"></i>
-                      </div>
-                      <div class="flex items-center justify-center gap-1.5 mb-1">
-                        <ProductLogoFlow name="评估通" englishShort="Assess" size={24} />
-                        <div>
-                          <div class="text-xs font-bold text-black">Assess</div>
-                          <div class="text-[8px] text-gray-400">评估通</div>
+          {/* ===== Y-FORK VISUAL ===== */}
+          <div class="flex justify-center mb-6">
+            <div class="flex flex-col items-center">
+              <div class="w-10 h-10 rounded-full bg-[#4ECDC4] flex items-center justify-center shadow-lg shadow-[#4ECDC4]/30">
+                <i class="fas fa-code-branch text-white text-sm"></i>
+              </div>
+              <span class="text-[10px] text-[#4ECDC4] font-bold mt-1">Y型分流</span>
+            </div>
+          </div>
+
+          {/* ===== PHASE 2: 双角色分流（并排） ===== */}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* LEFT: 融资者路径 */}
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">2a</div>
+                <div>
+                  <span class="text-sm font-bold text-amber-600">融资者路径</span>
+                  <span class="text-[10px] text-gray-400 ml-2">Borrower</span>
+                </div>
+              </div>
+              <div class="border-l-4 border-amber-300 pl-4">
+                {borrowerProducts.map((p) => (
+                  <a href={`/${p.id}`} class="block no-underline group">
+                    <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                      <div class="flex items-start gap-4">
+                        <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-2 flex-wrap mb-1">
+                            <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                            <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
+                              {statusLabels[p.status].text}
+                            </span>
+                          </div>
+                          <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
+                          <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
                         </div>
                       </div>
-                      <div class="text-[9px] text-indigo-500 font-semibold">筛子① 投资标准筛选</div>
-                      <div class="text-[8px] text-gray-400 mt-0.5">量化评分 · 尽调分析</div>
-                    </div>
-                  </div>
-
-                  {/* Arrow: Assess → Risk */}
-                  <div class="flex items-center justify-center px-1 py-2 sm:py-0">
-                    <svg class="hidden sm:block" width="30" height="24" viewBox="0 0 30 24">
-                      <line x1="0" y1="12" x2="20" y2="12" stroke={INDIGO} stroke-width="2" opacity="0.5" />
-                      <polygon points="18,7 28,12 18,17" fill={INDIGO} opacity="0.6" />
-                    </svg>
-                    <svg class="sm:hidden" width="24" height="28" viewBox="0 0 24 28">
-                      <line x1="12" y1="0" x2="12" y2="20" stroke={INDIGO} stroke-width="2" opacity="0.5" />
-                      <polygon points="7,18 12,28 17,18" fill={INDIGO} opacity="0.6" />
-                    </svg>
-                  </div>
-
-                  {/* Stage 3: 风控通（筛子2） */}
-                  <div class="flex-1 flex flex-col items-center justify-center px-1 py-2 sm:py-0">
-                    <div 
-                      class="bg-white rounded-xl px-3 py-3 text-center cursor-pointer card-hover shadow-sm border-2 border-indigo-300 w-full max-w-[160px] relative"
-                      onclick="window.location.href='/risk'"
-                    >
-                      <div class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center shadow-sm">
-                        <i class="fas fa-shield-alt text-white text-[8px]"></i>
-                      </div>
-                      <div class="flex items-center justify-center gap-1.5 mb-1">
-                        <ProductLogoFlow name="风控通" englishShort="Risk" size={24} />
-                        <div>
-                          <div class="text-xs font-bold text-black">Risk</div>
-                          <div class="text-[8px] text-gray-400">风控通</div>
+                      <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                        <div class="flex flex-wrap gap-1.5">
+                          {p.features.slice(0, 3).map((f) => (
+                            <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                          ))}
                         </div>
+                        <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
                       </div>
-                      <div class="text-[9px] text-indigo-500 font-semibold">筛子② 风控标准筛选</div>
-                      <div class="text-[8px] text-gray-400 mt-0.5">材料验真 · 合规审查</div>
                     </div>
-                    {/* Reject branch hint */}
-                    <div class="mt-1.5 flex items-center gap-1">
-                      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8,0 L16,6 L8,12" fill="none" stroke="#EF4444" stroke-width="1" opacity="0.4"/></svg>
-                      <span class="text-[8px] text-red-400">不通过 → 淘汰/补材料</span>
-                    </div>
-                  </div>
-
-                  {/* Arrow: Risk → Opportunity (pass) */}
-                  <div class="flex items-center justify-center px-1 py-2 sm:py-0">
-                    <svg class="hidden sm:block" width="36" height="24" viewBox="0 0 36 24">
-                      <line x1="0" y1="12" x2="26" y2="12" stroke={EMERALD} stroke-width="2.5" />
-                      <polygon points="24,6 36,12 24,18" fill={EMERALD} />
-                    </svg>
-                    <div class="sm:hidden flex flex-col items-center">
-                      <span class="text-[8px] text-emerald-500 font-bold mb-0.5">通过 ✓</span>
-                      <svg width="24" height="28" viewBox="0 0 24 28">
-                        <line x1="12" y1="0" x2="12" y2="20" stroke={EMERALD} stroke-width="2.5" />
-                        <polygon points="6,18 12,28 18,18" fill={EMERALD} />
-                      </svg>
-                    </div>
-                    <span class="hidden sm:block text-[8px] text-emerald-500 font-bold ml-[-32px] mt-[-20px] absolute">通过 ✓</span>
-                  </div>
-
-                  {/* Stage 4: 机会通（筛后结果） */}
-                  <div class="flex-1 flex flex-col items-center sm:items-start justify-center px-2 py-3 sm:py-0">
-                    <div 
-                      class="bg-white rounded-xl px-3 py-3 text-center cursor-pointer card-hover shadow-md border-2 border-emerald-400 w-full max-w-[150px] relative"
-                      onclick="window.location.href='/opportunity'"
-                    >
-                      <div class="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shadow-sm">
-                        <i class="fas fa-check text-white text-[8px]"></i>
-                      </div>
-                      <div class="flex items-center justify-center gap-1.5 mb-1">
-                        <ProductLogoFlow name="机会通" englishShort="Opportunity" size={24} />
-                        <div>
-                          <div class="text-xs font-bold text-black">Opportunity</div>
-                          <div class="text-[8px] text-gray-400">机会通</div>
-                        </div>
-                      </div>
-                      <div class="text-[9px] text-emerald-600 font-semibold">符合标准的项目</div>
-                      <div class="text-[8px] text-gray-400 mt-0.5">投资者看板展现</div>
-                    </div>
-                    <div class="text-center sm:text-left mt-1.5 max-w-[150px]">
-                      <span class="text-[8px] text-emerald-500 font-semibold">无筛子=展示全部项目</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pipeline narrative */}
-                <div class="mt-4 pt-3 border-t border-gray-200/60 text-center">
-                  <div class="text-[10px] text-gray-500 leading-relaxed">
-                    <i class="fas fa-info-circle text-gray-400 mr-1"></i>
-                    融资者上传的数据<strong class="text-amber-600">直接流入</strong>投资者搭建的评估通→风控通筛选管道，
-                    <strong class="text-emerald-600">只有通过标准</strong>的项目才会出现在该投资者的机会通看板中
-                  </div>
-                </div>
+                  </a>
+                ))}
               </div>
             </div>
 
-            {/* Arrow: Opportunity → Terms */}
-            <div class="flex justify-center py-4">
-              <div class="flex flex-col items-center">
-                <span class="text-[9px] text-gray-400 mb-1">投资者选中项目 · 双方进入协同</span>
-                <svg width="12" height="28" viewBox="0 0 12 28"><line x1="6" y1="0" x2="6" y2="22" stroke="#CBD5E1" stroke-width="2"/><polygon points="2,22 6,28 10,22" fill="#CBD5E1"/></svg>
+            {/* RIGHT: 投资者搭建筛子 */}
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">2b</div>
+                <div>
+                  <span class="text-sm font-bold text-indigo-600">投资者搭建筛子</span>
+                  <span class="text-[10px] text-gray-400 ml-2">Investor</span>
+                </div>
               </div>
-            </div>
-
-            {/* === PHASE: 协同节点 — Terms (条款通) === */}
-            <div class="flex flex-col items-center mb-2">
-              <div class="text-center mb-2">
-                <span class="inline-flex items-center px-2.5 py-0.5 bg-[#4ECDC4] text-white text-[9px] font-bold rounded-full">
-                  <i class="fas fa-handshake mr-1"></i>Y型汇合 · 投融资协同
-                </span>
-              </div>
-              <div 
-                class="bg-white rounded-xl px-6 py-4 text-center cursor-pointer card-hover shadow-sm border-2 border-[#4ECDC4] w-56"
-                onclick="window.location.href='/terms'"
-              >
-                <div class="flex items-center justify-center gap-2 mb-1">
-                  <ProductLogoFlow name="条款通" englishShort="Terms" size={28} />
-                  <div>
-                    <div class="text-sm font-bold text-black">Terms</div>
-                    <div class="text-[9px] text-gray-400">条款通</div>
+              <div class="border-l-4 border-indigo-300 pl-4">
+                <div class="p-4 bg-indigo-50/40 rounded-xl border border-dashed border-indigo-300">
+                  <div class="text-center mb-3">
+                    <span class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-600 text-[10px] font-bold rounded-full border border-indigo-200">
+                      <i class="fas fa-robot mr-1"></i>投资者配置个性化AI筛选标准
+                    </span>
                   </div>
-                </div>
-                <div class="text-[10px] text-gray-400 mt-1">收入分成方案 · 条款协商</div>
-              </div>
-            </div>
-
-            {/* Arrow down */}
-            <div class="flex justify-center py-2">
-              <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="0" x2="6" y2="18" stroke="#CBD5E1" stroke-width="2"/><polygon points="2,18 6,24 10,18" fill="#CBD5E1"/></svg>
-            </div>
-
-            {/* === Contract === */}
-            <div class="flex flex-col items-center mb-2">
-              <div 
-                class="bg-white rounded-xl px-6 py-4 text-center cursor-pointer card-hover shadow-sm border-2 border-[#4ECDC4] w-56"
-                onclick="window.location.href='/contract'"
-              >
-                <div class="flex items-center justify-center gap-2 mb-1">
-                  <ProductLogoFlow name="合约通" englishShort="Contract" size={28} />
-                  <div>
-                    <div class="text-sm font-bold text-black">Contract</div>
-                    <div class="text-[9px] text-gray-400">合约通</div>
+                  <p class="text-[11px] text-indigo-600/70 text-center leading-relaxed mb-3">
+                    每个投资者可通过评估通和风控通搭建自己的筛选工作流。<br/>
+                    <strong>不设置任何筛子 = 在机会通看到所有融资项目。</strong>
+                  </p>
+                  <div class="flex items-center justify-center gap-2 text-[9px] text-indigo-400">
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">自定义投资标准</span>
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">自定义风控规则</span>
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">核验方式</span>
                   </div>
-                </div>
-                <div class="text-[10px] text-gray-400 mt-1">电子合约签署 · 双方协同</div>
-              </div>
-            </div>
-
-            {/* Arrow down */}
-            <div class="flex justify-center py-2">
-              <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="0" x2="6" y2="18" stroke="#CBD5E1" stroke-width="2"/><polygon points="2,18 6,24 10,18" fill="#CBD5E1"/></svg>
-            </div>
-
-            {/* === Settlement === */}
-            <div class="flex flex-col items-center mb-2">
-              <div 
-                class="bg-white rounded-xl px-6 py-4 text-center cursor-pointer card-hover shadow-sm border border-gray-200 w-56"
-                onclick="window.location.href='/settlement'"
-              >
-                <div class="flex items-center justify-center gap-2 mb-1">
-                  <ProductLogoFlow name="结算通" englishShort="Settlement" size={28} />
-                  <div>
-                    <div class="text-sm font-bold text-black">Settlement</div>
-                    <div class="text-[9px] text-gray-400">结算通</div>
-                  </div>
-                </div>
-                <div class="text-[10px] text-gray-400 mt-1">收入分成自动结算</div>
-              </div>
-            </div>
-
-            {/* Arrow down */}
-            <div class="flex justify-center py-2">
-              <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="0" x2="6" y2="18" stroke="#CBD5E1" stroke-width="2"/><polygon points="2,18 6,24 10,18" fill="#CBD5E1"/></svg>
-            </div>
-
-            {/* === Performance === */}
-            <div class="flex flex-col items-center mb-4">
-              <div class="text-center mb-2">
-                <span class="inline-flex items-center px-3 py-1 bg-red-50 text-red-500 text-[10px] font-bold rounded-full border border-red-200">
-                  <i class="fas fa-flag-checkered mr-1"></i>投后管理
-                </span>
-              </div>
-              <div 
-                class="bg-white rounded-xl px-6 py-4 text-center cursor-pointer card-hover shadow-md border-2 border-red-200 w-56"
-                onclick="window.location.href='/performance'"
-              >
-                <div class="flex items-center justify-center gap-2 mb-1">
-                  <ProductLogoFlow name="履约通" englishShort="Performance" size={28} />
-                  <div>
-                    <div class="text-sm font-bold text-black">Performance</div>
-                    <div class="text-[9px] text-gray-400">履约通</div>
-                  </div>
-                </div>
-                <div class="text-[10px] text-gray-400 mt-1">履约监控与数据追踪</div>
-              </div>
-            </div>
-
-            {/* Flow summary bar */}
-            <div class="mt-8 bg-gray-50 rounded-xl p-5 border border-gray-200">
-              <div class="text-center">
-                <div class="text-xs font-bold text-gray-500 mb-4">Y型流程总结</div>
-                {/* Top: Identity → fork */}
-                <div class="flex items-center justify-center gap-1 text-[10px] mb-3">
-                  <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-600 font-bold border border-blue-200">
-                    <i class="fas fa-sign-in-alt mr-0.5"></i>身份通
-                  </span>
-                  <span class="text-gray-300 mx-1">→ 分流 →</span>
-                  <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-600 text-[10px] border border-amber-200">融资者: 申请通(上传)</span>
-                  <span class="text-gray-300 mx-0.5">+</span>
-                  <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 text-[10px] border border-indigo-200">投资者: 搭筛子</span>
-                </div>
-                {/* Middle: Pipeline */}
-                <div class="flex items-center justify-center gap-1 text-[10px] mb-3 flex-wrap">
-                  <span class="text-gray-400">申请通数据</span>
-                  <span class="text-amber-400">→</span>
-                  <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 border border-indigo-200 font-bold">
-                    <i class="fas fa-filter mr-0.5 text-[8px]"></i>评估通
-                  </span>
-                  <span class="text-indigo-400">→</span>
-                  <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 border border-indigo-200 font-bold">
-                    <i class="fas fa-shield-alt mr-0.5 text-[8px]"></i>风控通
-                  </span>
-                  <span class="text-emerald-400">→</span>
-                  <span class="px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-600 font-bold border border-emerald-200">
-                    <i class="fas fa-check mr-0.5 text-[8px]"></i>机会通
-                  </span>
-                </div>
-                {/* Bottom: Post-merge flow */}
-                <div class="flex flex-wrap items-center justify-center gap-1 text-[10px]">
-                  <span class="text-gray-400 mr-1">汇合 →</span>
-                  {[
-                    { name: '条款通', collab: true },
-                    { name: '合约通', collab: true },
-                    { name: '结算通', collab: false },
-                    { name: '履约通', collab: false }
-                  ].map((item, idx) => (
-                    <div class="flex items-center">
-                      <span class={`px-2 py-0.5 rounded ${item.collab ? 'bg-[#4ECDC4]/15 text-[#4ECDC4] font-bold border border-[#4ECDC4]/30' : 'bg-white text-gray-600 border border-gray-200'}`}>
-                        {item.name}
-                      </span>
-                      {idx < 3 && <span class="text-gray-300 mx-0.5">→</span>}
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
           </div>
+
+          {/* ===== PHASE 3: 数据筛选管道（核心过程） ===== */}
+          <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-500 via-indigo-500 to-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">3</div>
+              <div>
+                <span class="text-sm font-bold text-gray-800">数据筛选管道</span>
+                <span class="text-[10px] text-gray-400 ml-2">申请通数据 → 评估通 → 风控通 → 机会通</span>
+              </div>
+              <div class="flex-1 h-px bg-gray-200"></div>
+            </div>
+
+            {/* Pipeline info banner */}
+            <div class="bg-gradient-to-r from-amber-50 via-indigo-50 to-emerald-50 rounded-xl p-4 border border-gray-200 mb-4">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <i class="fas fa-long-arrow-alt-right text-amber-500"></i>
+                </div>
+                <div class="text-xs text-gray-600 leading-relaxed">
+                  融资者在申请通上传的数据<strong class="text-amber-600">直接进入</strong>投资者搭建的评估通→风控通筛选管道。
+                  数据依次经过<strong class="text-indigo-600">评估通</strong>（投资标准筛选）和<strong class="text-indigo-600">风控通</strong>（风控标准筛选），
+                  <strong class="text-emerald-600">只有通过全部标准的项目</strong>才会出现在该投资者的机会通看板上。
+                  不通过的项目会被淘汰或通知融资者补充材料。
+                </div>
+              </div>
+            </div>
+
+            {/* 评估通 */}
+            <div class="relative mb-3">
+              <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-300 to-indigo-300 hidden sm:block"></div>
+              <div class="sm:ml-10">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-[9px] px-2 py-0.5 bg-amber-100 text-amber-600 rounded-full font-bold border border-amber-200">
+                    <i class="fas fa-database mr-0.5"></i>申请通数据流入
+                  </span>
+                  <span class="text-gray-300">→</span>
+                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200">
+                    <i class="fas fa-filter mr-0.5"></i>筛子①
+                  </span>
+                </div>
+                <a href={`/${investorFilterProducts[0].id}`} class="block no-underline group">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-indigo-200 hover:border-indigo-400 hover:shadow-md">
+                    <div class="flex items-start gap-4">
+                      <ProductLogo name={investorFilterProducts[0].name} englishShort={investorFilterProducts[0].englishShort} size={60} />
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorFilterProducts[0].name}</h3>
+                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[0].status].class}`}>
+                            {statusLabels[investorFilterProducts[0].status].text}
+                          </span>
+                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-bold border border-indigo-200">
+                            <i class="fas fa-filter mr-0.5"></i>AI筛子
+                          </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-1.5">{investorFilterProducts[0].englishName}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">{investorFilterProducts[0].description}</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                      <div class="flex flex-wrap gap-1.5">
+                        {investorFilterProducts[0].features.slice(0, 3).map((f) => (
+                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                        ))}
+                      </div>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Arrow between assess and risk */}
+            <div class="sm:ml-10 flex items-center gap-2 mb-3 pl-2">
+              <svg width="16" height="20" viewBox="0 0 16 20">
+                <line x1="8" y1="0" x2="8" y2="14" stroke="#6366F1" stroke-width="1.5" opacity="0.4" />
+                <polygon points="4,14 8,20 12,14" fill="#6366F1" opacity="0.4" />
+              </svg>
+              <span class="text-[9px] text-indigo-400">评估通过的项目继续流入 →</span>
+            </div>
+
+            {/* 风控通 */}
+            <div class="relative mb-3">
+              <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-300 to-emerald-300 hidden sm:block"></div>
+              <div class="sm:ml-10">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200">
+                    <i class="fas fa-shield-alt mr-0.5"></i>筛子②
+                  </span>
+                  <span class="text-[9px] text-red-400 ml-2">
+                    <i class="fas fa-times-circle mr-0.5"></i>不通过 → 淘汰/补材料
+                  </span>
+                </div>
+                <a href={`/${investorFilterProducts[1].id}`} class="block no-underline group">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-indigo-200 hover:border-indigo-400 hover:shadow-md">
+                    <div class="flex items-start gap-4">
+                      <ProductLogo name={investorFilterProducts[1].name} englishShort={investorFilterProducts[1].englishShort} size={60} />
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorFilterProducts[1].name}</h3>
+                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[1].status].class}`}>
+                            {statusLabels[investorFilterProducts[1].status].text}
+                          </span>
+                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-bold border border-indigo-200">
+                            <i class="fas fa-filter mr-0.5"></i>AI筛子
+                          </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-1.5">{investorFilterProducts[1].englishName}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">{investorFilterProducts[1].description}</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                      <div class="flex flex-wrap gap-1.5">
+                        {investorFilterProducts[1].features.slice(0, 3).map((f) => (
+                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                        ))}
+                      </div>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Arrow to Opportunity */}
+            <div class="sm:ml-10 flex items-center gap-2 mb-3 pl-2">
+              <svg width="16" height="20" viewBox="0 0 16 20">
+                <line x1="8" y1="0" x2="8" y2="14" stroke="#10B981" stroke-width="2" />
+                <polygon points="4,14 8,20 12,14" fill="#10B981" />
+              </svg>
+              <span class="text-[9px] text-emerald-500 font-bold">
+                <i class="fas fa-check-circle mr-0.5"></i>通过全部标准 → 进入机会通展现
+              </span>
+            </div>
+
+            {/* 机会通 */}
+            <div class="relative">
+              <div class="sm:ml-10">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-[9px] px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded-full font-bold border border-emerald-200">
+                    <i class="fas fa-th-large mr-0.5"></i>投资者统一看板
+                  </span>
+                  <span class="text-[9px] text-emerald-500 font-semibold">
+                    无筛子 = 展示全部融资项目
+                  </span>
+                </div>
+                <a href={`/${investorViewProduct.id}`} class="block no-underline group">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                    <div class="flex items-start gap-4">
+                      <ProductLogo name={investorViewProduct.name} englishShort={investorViewProduct.englishShort} size={60} />
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{investorViewProduct.name}</h3>
+                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorViewProduct.status].class}`}>
+                            {statusLabels[investorViewProduct.status].text}
+                          </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-1.5">{investorViewProduct.englishName}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">{investorViewProduct.description}</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                      <div class="flex flex-wrap gap-1.5">
+                        {investorViewProduct.features.slice(0, 3).map((f) => (
+                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                        ))}
+                      </div>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== MERGE VISUAL ===== */}
+          <div class="flex justify-center mb-6">
+            <div class="flex flex-col items-center">
+              <div class="flex items-center gap-3">
+                <div class="h-px w-16 bg-amber-300"></div>
+                <div class="w-10 h-10 rounded-full bg-[#4ECDC4] flex items-center justify-center shadow-lg shadow-[#4ECDC4]/30">
+                  <i class="fas fa-handshake text-white text-sm"></i>
+                </div>
+                <div class="h-px w-16 bg-indigo-300"></div>
+              </div>
+              <span class="text-[10px] text-[#4ECDC4] font-bold mt-1">Y型汇合 · 投融资双方协同</span>
+            </div>
+          </div>
+
+          {/* ===== PHASE 4: 交易达成（协同） ===== */}
+          <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">4</div>
+              <div>
+                <span class="text-sm font-bold text-purple-600">交易达成</span>
+                <span class="text-[10px] text-gray-400 ml-2">Deal Making</span>
+              </div>
+              <div class="flex-1 h-px bg-gray-200"></div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#4ECDC4] text-white font-bold">
+                <i class="fas fa-handshake mr-0.5"></i>投融资双方协同
+              </span>
+            </div>
+            <div class="space-y-3">
+              {dealProducts.map((p) => (
+                <a href={`/${p.id}`} class="block no-underline group">
+                  <div class={`portal-card bg-white rounded-2xl p-5 transition-all border ${
+                    p.isCollaborative 
+                      ? 'border-[#4ECDC4]/50 shadow-md shadow-[#4ECDC4]/10 hover:shadow-lg' 
+                      : 'border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md'
+                  }`}>
+                    <div class="flex items-start gap-4">
+                      <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
+                            {statusLabels[p.status].text}
+                          </span>
+                          {p.isCollaborative && (
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#4ECDC4] text-white font-bold">
+                              <i class="fas fa-handshake mr-0.5"></i>协同
+                            </span>
+                          )}
+                        </div>
+                        <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                      <div class="flex flex-wrap gap-1.5">
+                        {p.features.slice(0, 3).map((f) => (
+                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                        ))}
+                      </div>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Arrow */}
+          <div class="flex justify-center mb-6">
+            <svg width="16" height="24" viewBox="0 0 16 24">
+              <line x1="8" y1="0" x2="8" y2="18" stroke="#4ECDC4" stroke-width="1.5" opacity="0.3" />
+              <polygon points="4,18 8,24 12,18" fill="#4ECDC4" opacity="0.3" />
+            </svg>
+          </div>
+
+          {/* ===== PHASE 5: 投后管理 ===== */}
+          <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">5</div>
+              <div>
+                <span class="text-sm font-bold text-red-500">投后管理</span>
+                <span class="text-[10px] text-gray-400 ml-2">Post-Investment</span>
+              </div>
+              <div class="flex-1 h-px bg-gray-200"></div>
+            </div>
+            <div class="space-y-3">
+              {postInvestmentProducts.map((p) => (
+                <a href={`/${p.id}`} class="block no-underline group">
+                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#4ECDC4]/30 hover:shadow-md">
+                    <div class="flex items-start gap-4">
+                      <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 class="text-base font-bold text-black group-hover:text-[#4ECDC4] transition-colors">{p.name}</h3>
+                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
+                            {statusLabels[p.status].text}
+                          </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                      <div class="flex flex-wrap gap-1.5">
+                        {p.features.slice(0, 3).map((f) => (
+                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+                        ))}
+                      </div>
+                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#4ECDC4] transition-colors"></i>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
