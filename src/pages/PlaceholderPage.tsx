@@ -51,7 +51,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
             <span class="inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold bg-[#5DC4B3]/10 text-[#5DC4B3] border border-[#5DC4B3]/20">
               <i class="fas fa-layer-group mr-1.5"></i>{product.category}
             </span>
-            {role && (
+            {role && role.text !== product.category && (
               <span class={`inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold border ${role.class}`}>
                 <i class={`fas ${role.icon} mr-1.5`}></i>{role.text}
               </span>
