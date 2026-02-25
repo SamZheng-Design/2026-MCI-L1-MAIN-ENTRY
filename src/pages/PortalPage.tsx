@@ -2,59 +2,59 @@ import type { FC } from 'hono/jsx'
 import { products, foundations, statusLabels, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import { ProductLogoSmall } from '../components/Logos'
 
 const TEAL = '#5DC4B3'
 
 // ======================================================
-// 简化版产品入口 — Menu式设计
-// 看完设计思路后，用户只需要一眼找到自己想用的"通"
+// Portal — Tab-based grouped product entry
+// 核心改进：Tab切换，一次只看一个阶段，更清晰更elegant
 // ======================================================
 
-// 流程阶段分组（简洁展示，不再赘述pipeline逻辑）
 const phases = [
   {
+    key: 'entry',
     label: '入口',
     labelEn: 'Entry',
     color: '#5DC4B3',
-    bg: 'from-[#5DC4B3]/5 to-[#5DC4B3]/10',
-    borderColor: 'border-[#5DC4B3]/20',
     icon: 'fa-fingerprint',
+    description: '所有用户的统一起点',
     ids: ['identity']
   },
   {
+    key: 'borrower',
     label: '融资者',
     labelEn: 'Borrower',
     color: '#F59E0B',
-    bg: 'from-amber-50 to-amber-100/50',
-    borderColor: 'border-amber-200',
     icon: 'fa-upload',
+    description: '上传经营数据 · 生成标准化材料',
     ids: ['application']
   },
   {
+    key: 'investor',
     label: '投资者',
     labelEn: 'Investor',
     color: '#6366F1',
-    bg: 'from-indigo-50 to-indigo-100/50',
-    borderColor: 'border-indigo-200',
     icon: 'fa-filter',
+    description: '搭建AI筛子 · 精准发现机会',
     ids: ['assess', 'risk', 'opportunity']
   },
   {
-    label: '磋商',
+    key: 'deal',
+    label: '交易',
     labelEn: 'Deal',
     color: '#8B5CF6',
-    bg: 'from-purple-50 to-purple-100/50',
-    borderColor: 'border-purple-200',
     icon: 'fa-handshake',
+    description: '条款协商 · 合约签署',
     ids: ['terms', 'contract']
   },
   {
+    key: 'post',
     label: '投后',
-    labelEn: 'Post',
+    labelEn: 'Post-Inv',
     color: '#10B981',
-    bg: 'from-emerald-50 to-emerald-100/50',
-    borderColor: 'border-emerald-200',
     icon: 'fa-chart-line',
+    description: '自动结算 · 履约监控',
     ids: ['settlement', 'performance']
   }
 ]
@@ -72,7 +72,6 @@ const productIcons: Record<string, string> = {
   performance: 'fa-chart-bar'
 }
 
-// 每个产品一句话描述（极简版）
 const shortDesc: Record<string, string> = {
   identity: '认证登录 · 角色分流',
   application: '上传经营数据 · 生成Pitch Deck',
@@ -93,146 +92,173 @@ const roleBadge: Record<string, { text: string, class: string }> = {
   collaborative: { text: '协同', class: 'bg-[#5DC4B3]/15 text-[#0d9488]' }
 }
 
-// 简洁菜单项
-const MenuItem: FC<{ product: typeof products[0], phaseColor: string }> = ({ product: p, phaseColor }) => {
-  const icon = productIcons[p.id] || 'fa-cube'
-  const desc = shortDesc[p.id] || p.description
-  const badge = roleBadge[p.role]
-  const status = statusLabels[p.status]
-  const href = getProductUrl(p)
-  const isExt = isExternalProduct(p)
-
-  return (
-    <a href={href} target={isExt ? "_blank" : undefined} rel={isExt ? "noopener noreferrer" : undefined} class="block no-underline group">
-      <div class="menu-item flex items-center gap-4 px-5 py-4 bg-white rounded-xl border border-gray-150 hover:border-[#5DC4B3] transition-all cursor-pointer">
-        {/* Icon */}
-        <div
-          class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
-          style={`background:${phaseColor}12; border:1.5px solid ${phaseColor}30;`}
-        >
-          <i class={`fas ${icon} text-lg`} style={`color:${phaseColor};`}></i>
-        </div>
-
-        {/* Name + Description */}
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-2">
-            <span class="text-[15px] font-bold text-gray-900 group-hover:text-[#5DC4B3] transition-colors">{p.name}</span>
-            <span class="text-[10px] text-gray-300 font-medium hidden sm:inline">{p.englishName}</span>
-          </div>
-          <p class="text-xs text-gray-400 mt-0.5 truncate">{desc}</p>
-        </div>
-
-        {/* Badges */}
-        <div class="flex items-center gap-2 flex-shrink-0">
-          {p.isFilter && (
-            <span class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-500 font-bold hidden sm:inline-block">
-              AI筛子
-            </span>
-          )}
-          <span class={`text-[9px] px-1.5 py-0.5 rounded font-semibold hidden sm:inline-block ${badge.class}`}>
-            {badge.text}
-          </span>
-          <span class={`text-[9px] px-1.5 py-0.5 rounded-full font-medium border ${status.class}`}>
-            {status.text}
-          </span>
-        </div>
-
-        {/* Arrow */}
-        <i class="fas fa-chevron-right text-[10px] text-gray-200 group-hover:text-[#5DC4B3] transition-colors flex-shrink-0"></i>
-      </div>
-    </a>
-  )
-}
-
 export const PortalPage: FC = () => {
   return (
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-white">
       <Navbar active="portal" />
 
-      {/* Compact Hero */}
-      <section class="relative bg-white border-b border-gray-100 pt-10 pb-8 overflow-hidden">
-        {/* 背景装饰 */}
-        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #5DC4B3 1px, transparent 1px); background-size: 32px 32px;"></div>
-        <div class="floating-element top-[10%] right-[8%] w-3 h-3 rounded-full opacity-[0.04]" style="background: #5DC4B3; animation-delay: 0s;"></div>
-        <div class="floating-element bottom-[15%] left-[10%] w-2.5 h-2.5 rounded-full opacity-[0.03]" style="background: #6366F1; animation-delay: 2s;"></div>
-        <div class="floating-element top-[30%] left-[5%] w-2 h-2 rounded-full opacity-[0.03]" style="background: #F59E0B; animation-delay: 4s;"></div>
-        
-        <div class="max-w-2xl mx-auto px-4 text-center fade-in relative z-10">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-3 border border-[#5DC4B3]/20">
-            <i class="fas fa-th-large text-[10px]"></i>
-            选择你需要的产品
+      {/* Hero */}
+      <section class="relative bg-white pt-12 pb-8 overflow-hidden border-b border-gray-100/60">
+        <div class="absolute inset-0 opacity-[0.015]" style="background-image: radial-gradient(circle, #5DC4B3 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="max-w-3xl mx-auto px-4 text-center fade-in relative z-10">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#5DC4B3]/8 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-4 border border-[#5DC4B3]/15 tracking-wider uppercase">
+            Product Suite
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-2 tracking-tight">
-            9个<span class="text-[#5DC4B3]">「通」</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1d1d1f] mb-3 tracking-tight">
+            九大<span class="gradient-text-brand">「通」</span>
           </h1>
-          <p class="text-sm text-gray-400">
-            点击进入对应产品 · 覆盖RBF投资全生命周期
+          <p class="text-sm text-gray-400 max-w-md mx-auto">
+            选择你所处的阶段，进入对应产品
           </p>
         </div>
       </section>
 
-      {/* 流程导航条 — 让用户一眼看清5个阶段 */}
-      <section class="bg-white border-b border-gray-100 sticky top-[60px] z-30">
-        <div class="max-w-2xl mx-auto px-4">
-          <div class="flex items-center justify-between py-3 overflow-x-auto gap-1" id="phase-nav">
+      {/* Tab Navigation — 5个阶段tab */}
+      <section class="bg-white border-b border-gray-100 sticky top-[56px] z-40">
+        <div class="max-w-3xl mx-auto px-4">
+          <div class="flex items-center gap-1 py-3 overflow-x-auto" id="portal-tabs">
             {phases.map((ph, i) => (
-              <a href={`#phase-${i}`} data-phase={i} class="phase-nav-item flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all hover:opacity-80 no-underline" style={`background:${ph.color}10; color:${ph.color}; border:1px solid ${ph.color}25;`}>
-                <i class={`fas ${ph.icon} text-[10px]`}></i>
+              <button
+                data-tab={ph.key}
+                onclick={`switchTab('${ph.key}')`}
+                class={`portal-tab flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all border ${
+                  i === 0 ? 'text-white shadow-md' : 'text-gray-500 bg-white border-gray-100 hover:bg-gray-50'
+                }`}
+                style={i === 0 ? `background:${ph.color}; border-color:${ph.color}; box-shadow: 0 2px 10px ${ph.color}40;` : ''}
+              >
+                <i class={`fas ${ph.icon} text-xs`}></i>
                 {ph.label}
-                <span class="text-[9px] opacity-50">{ph.ids.length}</span>
-              </a>
+                <span class="text-[10px] opacity-60 hidden sm:inline">{ph.ids.length}</span>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 核心内容：菜单式产品列表 */}
-      <section class="py-8">
-        <div class="max-w-2xl mx-auto px-4 space-y-6">
-          {phases.map((ph, idx) => {
+      {/* Tab Content — 每个阶段的产品列表 */}
+      <section class="py-8 min-h-[50vh]">
+        <div class="max-w-3xl mx-auto px-4">
+          {phases.map((ph, phaseIdx) => {
             const phaseProducts = ph.ids.map(id => products.find(p => p.id === id)!).filter(Boolean)
             return (
-              <div id={`phase-${idx}`} class="scroll-mt-20">
-                {/* 阶段标题 */}
-                <div class="flex items-center gap-2 mb-2.5 px-1">
-                  <div class="w-6 h-6 rounded-lg flex items-center justify-center" style={`background:${ph.color}15;`}>
-                    <i class={`fas ${ph.icon} text-[10px]`} style={`color:${ph.color};`}></i>
-                  </div>
-                  <span class="text-xs font-bold text-gray-700">{ph.label}</span>
-                  <span class="text-[10px] text-gray-300 font-medium">{ph.labelEn}</span>
-                  {idx < phases.length - 1 && (
-                    <div class="flex-1 flex items-center justify-end">
-                      <div class="h-px flex-1 max-w-[60px] ml-2" style={`background:${ph.color}20;`}></div>
-                      <i class="fas fa-arrow-right text-[8px] ml-1" style={`color:${ph.color}40;`}></i>
+              <div
+                id={`tab-${ph.key}`}
+                class="tab-content"
+                style={phaseIdx === 0 ? '' : 'display:none;'}
+              >
+                {/* Phase description */}
+                <div class="mb-6 pb-5 border-b border-gray-100">
+                  <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style={`background:${ph.color}10; border: 1.5px solid ${ph.color}20;`}>
+                      <i class={`fas ${ph.icon} text-sm`} style={`color:${ph.color};`}></i>
                     </div>
-                  )}
+                    <div>
+                      <h2 class="text-xl font-extrabold text-[#1d1d1f]">{ph.label}</h2>
+                      <p class="text-[11px] font-medium tracking-wider uppercase" style={`color:${ph.color};`}>{ph.labelEn}</p>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-400 ml-[52px]">{ph.description}</p>
                 </div>
 
-                {/* 产品列表 */}
-                <div class="space-y-2">
-                  {phaseProducts.map(p => (
-                    <MenuItem product={p} phaseColor={ph.color} />
-                  ))}
+                {/* Product cards — larger, more spacious */}
+                <div class="space-y-4">
+                  {phaseProducts.map((p) => {
+                    const icon = productIcons[p.id] || 'fa-cube'
+                    const desc = shortDesc[p.id] || p.description
+                    const badge = roleBadge[p.role]
+                    const status = statusLabels[p.status]
+                    const href = getProductUrl(p)
+                    const isExt = isExternalProduct(p)
+
+                    return (
+                      <a href={href} target={isExt ? "_blank" : undefined} rel={isExt ? "noopener noreferrer" : undefined} class="block no-underline group">
+                        <div class="relative bg-white border border-gray-100 hover:border-[#5DC4B3]/30 rounded-2xl p-6 transition-all hover:shadow-lg cursor-pointer portal-card overflow-hidden">
+                          <div class="flex items-start gap-5">
+                            {/* Product logo */}
+                            <div class="flex-shrink-0">
+                              <ProductLogoSmall name={p.name} englishShort={p.englishShort} size={52} />
+                            </div>
+
+                            {/* Content */}
+                            <div class="flex-1 min-w-0">
+                              <div class="flex items-center gap-2.5 mb-1">
+                                <h3 class="text-lg font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
+                                <span class="text-xs text-gray-300 font-medium hidden sm:inline">{p.englishName}</span>
+                              </div>
+                              <p class="text-sm text-gray-500 mb-3 leading-relaxed">{desc}</p>
+                              <div class="flex items-center gap-2 flex-wrap">
+                                <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${status.class}`}>
+                                  {status.text}
+                                </span>
+                                <span class={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${badge.class}`}>
+                                  {badge.text}
+                                </span>
+                                {p.isFilter && (
+                                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-500 font-bold border border-indigo-100">
+                                    <i class="fas fa-robot mr-0.5 text-[8px]"></i>AI筛子
+                                  </span>
+                                )}
+                                {p.isCollaborative && (
+                                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-500 font-bold border border-purple-100">
+                                    <i class="fas fa-handshake mr-0.5 text-[8px]"></i>协同
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Arrow */}
+                            <div class="flex-shrink-0 pt-2">
+                              <div class="w-10 h-10 rounded-xl bg-gray-50 group-hover:bg-[#5DC4B3]/10 flex items-center justify-center transition-all">
+                                <i class="fas fa-arrow-right text-sm text-gray-300 group-hover:text-[#5DC4B3] group-hover:translate-x-0.5 transition-all"></i>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Feature tags */}
+                          {p.features && p.features.length > 0 && (
+                            <div class="mt-4 pt-3 border-t border-gray-50 flex flex-wrap gap-1.5 ml-[72px]">
+                              {p.features.slice(0, 4).map((feat) => (
+                                <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded-md">{feat}</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </a>
+                    )
+                  })}
                 </div>
+
+                {/* Next phase hint */}
+                {phaseIdx < phases.length - 1 && (
+                  <div class="mt-6 text-center">
+                    <button
+                      onclick={`switchTab('${phases[phaseIdx + 1].key}')`}
+                      class="inline-flex items-center gap-2 px-4 py-2 text-xs text-gray-400 hover:text-[#5DC4B3] font-medium transition-colors rounded-lg hover:bg-gray-50"
+                    >
+                      下一阶段: {phases[phaseIdx + 1].label}
+                      <i class="fas fa-arrow-right text-[10px]"></i>
+                    </button>
+                  </div>
+                )}
               </div>
             )
           })}
         </div>
       </section>
 
-      {/* 精简底座 */}
-      <section class="py-8 bg-white border-t border-gray-100">
-        <div class="max-w-2xl mx-auto px-4">
-          <div class="text-center mb-5">
-            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">统一底座</span>
+      {/* Foundation */}
+      <section class="py-10 bg-[#FAFAFA] border-t border-gray-100">
+        <div class="max-w-3xl mx-auto px-4">
+          <div class="text-center mb-6">
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">统一底座 · Foundation</span>
           </div>
-          <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-3 gap-4">
             {foundations.map((f) => (
-              <div class="text-center p-4 rounded-xl bg-gray-50 border border-gray-100">
-                <div class="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center mx-auto mb-2">
+              <div class="text-center p-5 rounded-2xl bg-white border border-gray-100 hover:border-[#5DC4B3]/15 hover:shadow-sm transition-all">
+                <div class="w-10 h-10 rounded-xl bg-[#5DC4B3]/8 flex items-center justify-center mx-auto mb-3">
                   <i class={`fas ${f.icon} text-[#5DC4B3]`}></i>
                 </div>
-                <div class="text-[11px] font-bold text-gray-700">{f.name.split(' ')[0]}</div>
+                <div class="text-xs font-bold text-gray-700">{f.name.split(' ')[0]}</div>
                 <div class="text-[10px] text-gray-400 mt-0.5">{f.name.split(' ').slice(1).join(' ')}</div>
               </div>
             ))}
@@ -240,62 +266,57 @@ export const PortalPage: FC = () => {
         </div>
       </section>
 
-      {/* Scroll-spy for phase nav */}
+      {/* Tab switching JS */}
       <script dangerouslySetInnerHTML={{ __html: `
-        document.addEventListener('DOMContentLoaded', function() {
-          var navItems = document.querySelectorAll('.phase-nav-item');
-          var phaseSections = [];
-          for (var i = 0; i < 5; i++) {
-            var el = document.getElementById('phase-' + i);
-            if (el) phaseSections.push(el);
-          }
-          if (!phaseSections.length || !navItems.length) return;
+        var phaseColors = ${JSON.stringify(phases.reduce((acc, p) => { acc[p.key] = p.color; return acc; }, {} as Record<string, string>))};
 
-          var colors = ${JSON.stringify(phases.map(p => p.color))};
-          var activeIdx = -1;
-
-          function updateActive(idx) {
-            if (idx === activeIdx) return;
-            activeIdx = idx;
-            navItems.forEach(function(item, i) {
-              if (i === idx) {
-                item.style.background = colors[i];
-                item.style.color = '#fff';
-                item.style.borderColor = colors[i];
-                item.style.boxShadow = '0 2px 8px ' + colors[i] + '40';
-              } else {
-                item.style.background = colors[i] + '10';
-                item.style.color = colors[i];
-                item.style.borderColor = colors[i] + '25';
-                item.style.boxShadow = 'none';
-              }
-            });
-          }
-
-          var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-              if (entry.isIntersecting) {
-                var id = entry.target.id;
-                var idx = parseInt(id.replace('phase-', ''));
-                if (!isNaN(idx)) updateActive(idx);
-              }
-            });
-          }, { rootMargin: '-30% 0px -60% 0px' });
-
-          phaseSections.forEach(function(sec) { observer.observe(sec); });
-
-          // Smooth scroll with offset for sticky nav
-          navItems.forEach(function(item) {
-            item.addEventListener('click', function(e) {
-              e.preventDefault();
-              var target = document.querySelector(item.getAttribute('href'));
-              if (target) {
-                var y = target.getBoundingClientRect().top + window.scrollY - 120;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-              }
-            });
+        function switchTab(key) {
+          // Hide all tab contents
+          document.querySelectorAll('.tab-content').forEach(function(el) {
+            el.style.display = 'none';
           });
-        });
+          // Show target
+          var target = document.getElementById('tab-' + key);
+          if (target) {
+            target.style.display = '';
+            // Smooth fade-in effect
+            target.style.opacity = '0';
+            target.style.transform = 'translateY(8px)';
+            requestAnimationFrame(function() {
+              target.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+              target.style.opacity = '1';
+              target.style.transform = 'translateY(0)';
+            });
+          }
+
+          // Update tab styles
+          var color = phaseColors[key] || '#5DC4B3';
+          document.querySelectorAll('.portal-tab').forEach(function(btn) {
+            var tabKey = btn.getAttribute('data-tab');
+            if (tabKey === key) {
+              btn.style.background = color;
+              btn.style.borderColor = color;
+              btn.style.color = '#fff';
+              btn.style.boxShadow = '0 2px 10px ' + color + '40';
+              btn.classList.remove('text-gray-500');
+            } else {
+              btn.style.background = '#fff';
+              btn.style.borderColor = '#f3f4f6';
+              btn.style.color = '#6b7280';
+              btn.style.boxShadow = 'none';
+              btn.classList.add('text-gray-500');
+            }
+          });
+
+          // Scroll tab into view on mobile
+          var activeBtn = document.querySelector('.portal-tab[data-tab="' + key + '"]');
+          if (activeBtn) {
+            activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+
+          // Scroll to top of content
+          window.scrollTo({ top: document.getElementById('portal-tabs').getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
+        }
       `}} />
 
       <Footer />
