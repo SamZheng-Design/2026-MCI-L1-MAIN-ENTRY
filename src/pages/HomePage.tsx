@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx'
-import { products, foundations, architectureGroups, statusLabels, designSections } from '../data'
+import { products, foundations, architectureGroups, statusLabels, designSections, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { BrandLogo, ProductLogoSmall } from '../components/Logos'
@@ -426,7 +426,8 @@ export const HomePage: FC = () => {
             {/* ★ 核心CTA：身份通注册 + 产品入口 */}
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               {/* 身份通注册 — 最突出的CTA */}
-              <a href="/identity" class="group relative inline-flex items-center px-8 py-4 text-white font-bold text-[15px] rounded-xl transition-all no-underline overflow-hidden" style="background: linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%); box-shadow: 0 0 40px rgba(93,196,179,0.3), 0 4px 15px rgba(93,196,179,0.25);">
+              {(() => { const idP = products.find(p => p.id === 'identity')!; return (
+              <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="group relative inline-flex items-center px-8 py-4 text-white font-bold text-[15px] rounded-xl transition-all no-underline overflow-hidden" style="background: linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%); box-shadow: 0 0 40px rgba(93,196,179,0.3), 0 4px 15px rgba(93,196,179,0.25);">
                 <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                 <i class="fas fa-fingerprint mr-2.5 text-base group-hover:scale-110 transition-transform"></i>
                 <span class="relative">
@@ -434,6 +435,7 @@ export const HomePage: FC = () => {
                   <span class="block text-[10px] font-normal text-white/70 mt-0.5">开启您的收入分成投资之旅</span>
                 </span>
               </a>
+              ) })()}
               {/* 产品入口 */}
               <a href="#product-entry" class="inline-flex items-center px-8 py-4 bg-white/[0.06] hover:bg-white/[0.10] text-white/70 hover:text-white font-semibold text-[15px] rounded-xl border border-white/[0.08] hover:border-white/[0.15] transition-all no-underline backdrop-blur-sm">
                 <i class="fas fa-th-large mr-2.5 text-sm"></i>
@@ -505,7 +507,8 @@ export const HomePage: FC = () => {
 
           {/* 身份通 — 独立大卡片（突出统一入口） */}
           <div class="mb-10">
-            <a href="/identity" class="block no-underline group">
+            {(() => { const idP = products.find(p => p.id === 'identity')!; return (
+            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="block no-underline group">
               <div class="relative overflow-hidden bg-gradient-to-r from-[#0B1A18] to-[#163832] rounded-2xl p-6 sm:p-8 border border-[#5DC4B3]/20 hover:border-[#5DC4B3]/40 transition-all hover:shadow-[0_0_40px_rgba(93,196,179,0.15)]">
                 <div class="absolute top-0 right-0 w-[300px] h-[300px] rounded-full opacity-20" style="background: radial-gradient(circle, rgba(93,196,179,0.3) 0%, transparent 60%); transform: translate(30%, -30%);"></div>
                 <div class="relative flex flex-col sm:flex-row items-start sm:items-center gap-5">
@@ -532,6 +535,7 @@ export const HomePage: FC = () => {
                 </div>
               </div>
             </a>
+            ) })()}
           </div>
 
           {/* 其他8个产品 — 按阶段分列 */}
@@ -552,7 +556,7 @@ export const HomePage: FC = () => {
                 {phase.ids.map((id) => {
                   const p = products.find(pr => pr.id === id)!
                   return (
-                    <a href={`/${p.id}`} class="block no-underline group">
+                    <a href={getProductUrl(p)} target={isExternalProduct(p) ? "_blank" : undefined} rel={isExternalProduct(p) ? "noopener noreferrer" : undefined} class="block no-underline group">
                       <div class="bg-white border border-gray-200 hover:border-gray-300 rounded-xl p-4 transition-all hover:shadow-lg cursor-pointer portal-card">
                         <div class="flex items-start gap-2.5">
                           <ProductLogoSmall name={p.name} englishShort={p.englishShort} size={38} />
@@ -648,9 +652,11 @@ export const HomePage: FC = () => {
                     <span><strong class="text-[#1d1d1f]">投后全透明</strong> — 自动结算 + 实时履约监控，每笔收入分成清清楚楚</span>
                   </li>
                 </ul>
-                <a href="/identity" class="inline-flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-700 no-underline group/link">
+                {(() => { const idP = products.find(p => p.id === 'identity')!; return (
+                <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-700 no-underline group/link">
                   注册身份通，开启投资路径 <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                 </a>
+                ) })()}
               </div>
             </div>
 
@@ -687,9 +693,11 @@ export const HomePage: FC = () => {
                     <span><strong class="text-[#1d1d1f]">灵活分成模式</strong> — 有收入才分配，不是传统借贷，与经营绑定</span>
                   </li>
                 </ul>
-                <a href="/identity" class="inline-flex items-center text-sm font-bold text-amber-600 hover:text-amber-700 no-underline group/link">
+                {(() => { const idP = products.find(p => p.id === 'identity')!; return (
+                <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center text-sm font-bold text-amber-600 hover:text-amber-700 no-underline group/link">
                   注册身份通，开启融资路径 <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                 </a>
+                ) })()}
               </div>
             </div>
           </div>
@@ -768,9 +776,11 @@ export const HomePage: FC = () => {
             注册身份通即可开启全流程闭环体验
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/identity" class="inline-flex items-center px-8 py-4 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-[15px] rounded-xl shadow-[0_0_40px_rgba(93,196,179,0.3)] transition-all no-underline">
+            {(() => { const idP = products.find(p => p.id === 'identity')!; return (
+            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center px-8 py-4 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-[15px] rounded-xl shadow-[0_0_40px_rgba(93,196,179,0.3)] transition-all no-underline">
               <i class="fas fa-fingerprint mr-2.5"></i>立即注册身份通
             </a>
+            ) })()}
             <a href="/contact" class="inline-flex items-center px-8 py-4 bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white font-semibold text-[15px] rounded-xl border border-white/[0.08] hover:border-white/[0.15] transition-all no-underline">
               <i class="fas fa-envelope mr-2.5"></i>联系我们
             </a>

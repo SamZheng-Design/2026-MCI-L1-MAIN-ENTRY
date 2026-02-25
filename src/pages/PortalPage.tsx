@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx'
-import { products, foundations, statusLabels } from '../data'
+import { products, foundations, statusLabels, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 
@@ -99,9 +99,11 @@ const MenuItem: FC<{ product: typeof products[0], phaseColor: string }> = ({ pro
   const desc = shortDesc[p.id] || p.description
   const badge = roleBadge[p.role]
   const status = statusLabels[p.status]
+  const href = getProductUrl(p)
+  const isExt = isExternalProduct(p)
 
   return (
-    <a href={`/${p.id}`} class="block no-underline group">
+    <a href={href} target={isExt ? "_blank" : undefined} rel={isExt ? "noopener noreferrer" : undefined} class="block no-underline group">
       <div class="menu-item flex items-center gap-4 px-5 py-4 bg-white rounded-xl border border-gray-150 hover:border-[#5DC4B3] transition-all cursor-pointer">
         {/* Icon */}
         <div

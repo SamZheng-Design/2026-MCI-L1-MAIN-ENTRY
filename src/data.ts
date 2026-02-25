@@ -27,6 +27,9 @@ export interface Product {
   isCollaborative?: boolean;
   // 是否是筛子组件（评估通/风控通）
   isFilter?: boolean;
+  // 外部应用URL：已在Genspark全栈模式独立搭建的"通"，填入URL后点击直接跳转外部应用
+  // 未填写(undefined)则走内部占位页 /{id}
+  externalUrl?: string;
 }
 
 export interface Foundation {
@@ -158,7 +161,9 @@ export const products: Product[] = [
     role: "collaborative",
     phase: "deal",
     flowOrder: 7,
-    isCollaborative: true
+    isCollaborative: true,
+    // TODO: 合约通已在Genspark全栈模式独立搭建，URL就绪后填入此处即可跳转
+    // externalUrl: "https://你的合约通项目.pages.dev",
   },
   {
     id: "settlement",
@@ -225,6 +230,19 @@ export const foundations: Foundation[] = [
     icon: "fa-brain"
   }
 ];
+
+// ═══════════════════════════════════════════════════════════════
+// 工具函数：产品链接跳转逻辑
+// 有 externalUrl → 跳转外部独立应用（新标签页打开）
+// 无 externalUrl → 走内部占位页 /{id}
+// ═══════════════════════════════════════════════════════════════
+export function getProductUrl(product: Product): string {
+  return product.externalUrl || `/${product.id}`
+}
+
+export function isExternalProduct(product: Product): boolean {
+  return !!product.externalUrl
+}
 
 export const statusLabels: Record<string, { text: string; class: string }> = {
   live: { text: "已上线", class: "bg-green-100 text-green-700 border-green-200" },

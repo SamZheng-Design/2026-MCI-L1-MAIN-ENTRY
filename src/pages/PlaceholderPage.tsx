@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx'
-import { products, statusLabels } from '../data'
+import { products, statusLabels, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { ProductLogo } from '../components/Logos'
@@ -131,7 +131,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
             {/* Prev */}
             <div class="flex-1">
               {prevProduct ? (
-                <a href={`/${prevProduct.id}`} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full">
+                <a href={getProductUrl(prevProduct)} target={isExternalProduct(prevProduct) ? "_blank" : undefined} rel={isExternalProduct(prevProduct) ? "noopener noreferrer" : undefined} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full">
                   <i class="fas fa-chevron-left text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
                   <div class="min-w-0">
                     <div class="text-[10px] text-gray-400 mb-0.5">上一步</div>
@@ -144,7 +144,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
             {/* Next */}
             <div class="flex-1">
               {nextProduct ? (
-                <a href={`/${nextProduct.id}`} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full justify-end text-right">
+                <a href={getProductUrl(nextProduct)} target={isExternalProduct(nextProduct) ? "_blank" : undefined} rel={isExternalProduct(nextProduct) ? "noopener noreferrer" : undefined} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full justify-end text-right">
                   <div class="min-w-0">
                     <div class="text-[10px] text-gray-400 mb-0.5">下一步</div>
                     <div class="text-sm font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors truncate">{nextProduct.name}</div>
