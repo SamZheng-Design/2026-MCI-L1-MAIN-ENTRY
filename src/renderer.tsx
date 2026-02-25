@@ -1,23 +1,31 @@
 import { jsxRenderer } from 'hono/jsx-renderer'
+import type { Lang } from './i18n'
+import { tt, t } from './i18n'
 
-export const renderer = jsxRenderer(({ children, title }) => {
+export const renderer = jsxRenderer(({ children, title, lang }) => {
+  const l: Lang = (lang as Lang) || 'zh'
+  const htmlLang = l === 'en' ? 'en' : 'zh-CN'
+  const metaDesc = tt(t.meta.description, l)
+  const ogTitle = title || tt(t.meta.ogTitle, l)
+  const ogDesc = tt(t.meta.ogDescription, l)
+
   return (
-    <html lang="zh-CN">
+    <html lang={htmlLang}>
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        <meta name="description" content="Micro Connect 滴灌通 — 收入分成投资的基础设施级平台。9个AI超级Agent，覆盖RBF投资全生命周期。" />
+        <meta name="description" content={metaDesc} />
         <meta name="theme-color" content="#0a2e2a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         
         {/* Open Graph */}
-        <meta property="og:title" content={title || 'Micro Connect 滴灌通 | 收入分成投资的操作系统'} />
-        <meta property="og:description" content="全球首个收入分成投资的统一操作系统。9个AI超级Agent，覆盖投融资全生命周期。" />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDesc} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Micro Connect 滴灌通" />
+        <meta property="og:site_name" content="Micro Connect" />
         
-        <title>{title || 'Micro Connect 滴灌通 | 收入分成投资的操作系统'}</title>
+        <title>{title || ogTitle}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235DC4B3'/></svg>" />
         
         {/* Fonts — preconnect for faster loading */}
@@ -86,6 +94,9 @@ export const renderer = jsxRenderer(({ children, title }) => {
             }
           }
         `}} />
+
+        {/* Global language state for client-side scripts */}
+        <script dangerouslySetInnerHTML={{ __html: `window.__LANG__ = '${l}';` }} />
       </head>
       <body class="antialiased">
         {children}
