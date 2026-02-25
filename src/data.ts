@@ -162,8 +162,8 @@ export const products: Product[] = [
     phase: "deal",
     flowOrder: 7,
     isCollaborative: true,
-    // TODO: 合约通已在Genspark全栈模式独立搭建，URL就绪后填入此处即可跳转
-    // externalUrl: "https://你的合约通项目.pages.dev",
+    // 合约通已在Genspark全栈模式独立搭建（临时sandbox预览URL，正式部署后替换为 .pages.dev 永久地址）
+    externalUrl: "https://www.genspark.ai/api/code_sandbox/preview_url?sandbox_id=ie1nbbimj5azgqden6yaa-ad490db5&port=3000&type=novita",
   },
   {
     id: "settlement",
