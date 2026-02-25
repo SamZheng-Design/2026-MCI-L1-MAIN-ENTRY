@@ -22,18 +22,21 @@ const BLACK = '#1d1d1f'
 // ============================================
 // 主品牌 Logo: MICRO CONNECT 滴灌通
 // ============================================
-export const BrandLogo: FC<{ height?: number }> = ({ height = 44 }) => {
+export const BrandLogo: FC<{ height?: number; variant?: 'dark' | 'light' }> = ({ height = 44, variant = 'dark' }) => {
+  // dark = 深色文字（用于浅色背景），light = 白色文字（用于深色背景）
+  const textColor = variant === 'light' ? '#FFFFFF' : BLACK
+  const cnColor = variant === 'light' ? TEAL : BLACK
   return (
     <svg viewBox="0 0 220 78" height={height} xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect 滴灌通">
       {/* MICR + teal circle replacing O */}
-      <text x="0" y="27" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">MICR</text>
+      <text x="0" y="27" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={textColor} letter-spacing="-0.5">MICR</text>
       <circle cx="103" cy="18" r="10" fill={TEAL} />
       {/* C + teal circle replacing O + NNECT */}
-      <text x="0" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">C</text>
+      <text x="0" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={textColor} letter-spacing="-0.5">C</text>
       <circle cx="33" cy="46" r="10" fill={TEAL} />
-      <text x="46" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={BLACK} letter-spacing="-0.5">NNECT</text>
+      <text x="46" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill={textColor} letter-spacing="-0.5">NNECT</text>
       {/* 滴灌通 */}
-      <text x="0" y="74" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill={BLACK}>滴灌通</text>
+      <text x="0" y="74" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill={cnColor}>滴灌通</text>
     </svg>
   )
 }

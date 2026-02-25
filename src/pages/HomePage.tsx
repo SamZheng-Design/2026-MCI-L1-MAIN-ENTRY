@@ -351,7 +351,7 @@ export const HomePage: FC = () => {
             {/* 大屏品牌Logo */}
             <div class="mb-8 flex justify-center">
               <div class="opacity-95">
-                <BrandLogo height={72} />
+                <BrandLogo height={72} variant="light" />
               </div>
             </div>
 

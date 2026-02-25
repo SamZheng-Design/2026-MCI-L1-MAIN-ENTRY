@@ -1,4 +1,5 @@
 import type { FC } from 'hono/jsx'
+import { BrandLogo } from './Logos'
 
 const TEAL = '#5DC4B3'
 
@@ -11,14 +12,7 @@ export const Footer: FC = () => {
           {/* Brand */}
           <div class="lg:col-span-2">
             <div class="flex items-center gap-3 mb-5">
-              <svg viewBox="0 0 220 78" height="36" xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect">
-                <text x="0" y="27" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">MICR</text>
-                <circle cx="103" cy="18" r="10" fill={TEAL} />
-                <text x="0" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">C</text>
-                <circle cx="33" cy="46" r="10" fill={TEAL} />
-                <text x="46" y="55" font-family="'Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">NNECT</text>
-                <text x="0" y="74" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#5DC4B3">滴灌通</text>
-              </svg>
+              <BrandLogo height={36} variant="light" />
             </div>
             <p class="text-sm text-white/30 leading-relaxed max-w-md mb-6">
               全球领先的收入分成融资(RBF)基础设施平台。通过9个AI超级Agent矩阵，为投资者和中小企业提供高效、透明、全生命周期的投融资解决方案。
