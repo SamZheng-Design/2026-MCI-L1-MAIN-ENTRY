@@ -57,7 +57,7 @@ export const NewsPage: FC = () => {
       <Navbar active="news" />
 
       {/* Hero */}
-      <section class="relative overflow-hidden bg-gradient-to-br from-[#0a1f1c] via-[#0d2b26] to-[#0f3530] pt-20 pb-16">
+      <section class="relative overflow-hidden bg-gradient-to-br from-[#0a2e2a] via-[#0c3530] to-[#164e47] pt-20 pb-16">
         <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
         <div class="max-w-4xl mx-auto px-4 relative text-center fade-in">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] text-white/50 text-xs font-semibold rounded-full mb-5 border border-white/[0.06]">

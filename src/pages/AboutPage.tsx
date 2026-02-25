@@ -13,8 +13,8 @@ export const AboutPage: FC = () => {
       <Navbar active="about" />
 
       {/* Hero */}
-      <section class="relative overflow-hidden bg-gradient-to-br from-[#0a1f1c] via-[#0d2b26] to-[#0f3530] pt-20 pb-16">
-        <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
+      <section class="aurora-bg noise-overlay relative overflow-hidden pt-20 pb-16">
+        <div class="hero-grid-overlay"></div>
         {/* 浮动粒子 */}
         <div class="floating-element top-[15%] right-[10%] w-6 h-6 rounded-full opacity-[0.10]" style="background: #5DC4B3; animation-delay: 0s;"></div>
         <div class="floating-element bottom-[20%] left-[8%] w-5 h-5 rounded-full opacity-[0.07]" style="background: #6366F1; animation-delay: 2s;"></div>

@@ -386,9 +386,9 @@ export const HomePage: FC = () => {
           <div class="mb-8 reveal">
             {(() => { const idP = products.find(p => p.id === 'identity')!; return (
             <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="block no-underline group">
-              <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 border border-[#5DC4B3]/15 hover:border-[#5DC4B3]/30 transition-all hover:shadow-[0_0_60px_rgba(93,196,179,0.12)] glow-pulse" style="background: linear-gradient(135deg, #061d1a 0%, #0a2e2a 30%, #0f3d36 60%, #164e47 100%);">
+              <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 border border-[#5DC4B3]/15 hover:border-[#5DC4B3]/30 transition-all hover:shadow-[0_0_60px_rgba(93,196,179,0.12)] glow-pulse" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 30%, #0c3530 60%, #164e47 100%);">
                 <div class="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-15" style="background: radial-gradient(circle, rgba(46,196,182,0.3) 0%, transparent 60%); transform: translate(25%, -25%);"></div>
-                <div class="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full opacity-10" style="background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 60%); transform: translate(-30%, 30%);"></div>
+                <div class="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full opacity-10" style="background: radial-gradient(circle, rgba(73,168,154,0.2) 0%, transparent 60%); transform: translate(-30%, 30%);"></div>
                 
                 <div class="relative flex flex-col sm:flex-row items-start sm:items-center gap-6">
                   <div class="flex items-center gap-5">
