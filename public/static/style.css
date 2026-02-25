@@ -1358,6 +1358,120 @@ body, p, h1, h2, h3, h4, h5, h6, span, div, li, td, th, label {
   z-index: 1;
 }
 
+/* ══════════════════════════════════════════════════════
+   32. SLOGAN SECTION — Sticky Scroll Scale Effect
+   Apple TV / Linear-style: scroll-in → hold → scroll-out
+   ══════════════════════════════════════════════════════ */
+
+/* Outer wrapper — tall to give scroll room for the sticky effect */
+.slogan-wrapper {
+  position: relative;
+  height: 280vh; /* extra height = scroll travel for the animation */
+  overflow: visible;
+}
+
+/* Sticky container — pins at top of viewport */
+.slogan-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Background fills the sticky viewport */
+.slogan-bg {
+  position: absolute;
+  inset: 0;
+}
+
+/* Content — starts scaled down and transparent */
+.slogan-content {
+  will-change: transform, opacity;
+}
+
+/* Text lines — initial state (will be animated via JS) */
+.slogan-text-en {
+  will-change: transform, opacity;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: none; /* JS controls the animation */
+}
+
+.slogan-text-cn {
+  will-change: transform, opacity;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: none;
+}
+
+.slogan-line {
+  will-change: transform, opacity;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: none;
+}
+
+/* When active — triggered by scroll observer */
+.slogan-text-en.slogan-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slogan-text-cn.slogan-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slogan-line.slogan-visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Scale container — the whole content group that scales down on scroll-out */
+.slogan-content.slogan-shrinking {
+  /* Applied dynamically via JS for smooth scroll-linked scale */
+}
+
+/* Slogan glow — subtle brand color behind text */
+.slogan-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(93,196,179,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  animation: sloganGlow 8s var(--ease-smooth) infinite alternate;
+}
+
+@keyframes sloganGlow {
+  0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ── Slogan responsive ── */
+@media (max-width: 768px) {
+  .slogan-wrapper {
+    height: 250vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slogan-text-en,
+  .slogan-text-cn {
+    transform: none;
+    opacity: 1;
+  }
+  .slogan-line {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+
 /* Grid overlay pattern for dark hero sections — reduced to near-invisible */
 .hero-grid-overlay {
   position: absolute;
