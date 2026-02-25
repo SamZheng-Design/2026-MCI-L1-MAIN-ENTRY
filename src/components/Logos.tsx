@@ -30,7 +30,7 @@ export const BrandLogo: FC<{ height?: number; variant?: 'dark' | 'light' }> = ({
   const scale = height / 44
   
   return (
-    <svg viewBox="0 0 220 72" height={height} xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect 滴灌通">
+    <svg viewBox="0 0 280 72" height={height} xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect 滴灌通">
       <defs>
         <linearGradient id={`logo-top-${variant}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color={LOGO_GREEN_BRIGHT} />
