@@ -2,7 +2,6 @@ import type { FC } from 'hono/jsx'
 import { BrandLogo } from './Logos'
 
 export const Navbar: FC<{ active: string }> = ({ active }) => {
-  // 导航链接
   const mainLinks = [
     { id: 'home', href: '/', label: '首页' },
     { id: 'product', href: '#', label: '产品', hasDropdown: true },
@@ -12,11 +11,10 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
     { id: 'contact', href: '/contact', label: '联系' },
   ]
 
-  // 产品下拉菜单子项
   const productDropdown = [
     { href: '/design', icon: 'fa-compass', label: '设计思路', desc: 'Y型业务流程 · Agent架构设计' },
     { href: '/portal', icon: 'fa-th-large', label: '产品入口', desc: '9大超级Agent · 进入各产品' },
-    { href: '/#products', icon: 'fa-layer-group', label: '产品概览', desc: '5阶段产品矩阵总览' },
+    { href: '/#product-entry', icon: 'fa-layer-group', label: '产品概览', desc: '5阶段产品矩阵总览' },
   ]
 
   const isProductActive = active === 'design' || active === 'portal'
@@ -25,13 +23,13 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
     <>
     <nav class="sticky top-0 z-50 navbar-glass">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-[60px]">
-          {/* Logo */}
+        <div class="flex items-center justify-between h-[56px]">
+          {/* Logo — slightly smaller for elegance */}
           <a href="/" class="flex items-center no-underline flex-shrink-0">
-            <BrandLogo height={34} />
+            <BrandLogo height={30} />
           </a>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav — Apple-style minimal */}
           <div class="hidden lg:flex items-center gap-0.5">
             {mainLinks.map((l) => {
               const isActive = l.id === active || (l.id === 'product' && isProductActive)
@@ -40,26 +38,26 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
                 return (
                   <div class="relative group/dropdown">
                     <button
-                      class={`px-3 py-2 text-[13px] font-medium rounded-lg transition-all flex items-center gap-1 ${
+                      class={`px-3.5 py-2 text-[13px] font-medium rounded-lg transition-all flex items-center gap-1 ${
                         isActive
                           ? 'text-[#5DC4B3] bg-[#5DC4B3]/8 font-semibold'
-                          : 'text-[#6e6e73] hover:text-[#5DC4B3] hover:bg-[#5DC4B3]/5'
+                          : 'text-[#6e6e73] hover:text-[#1d1d1f] hover:bg-gray-50'
                       }`}
                     >
                       {l.label}
-                      <i class="fas fa-chevron-down text-[8px] ml-0.5 transition-transform group-hover/dropdown:rotate-180"></i>
+                      <i class="fas fa-chevron-down text-[7px] ml-0.5 transition-transform group-hover/dropdown:rotate-180 opacity-50"></i>
                     </button>
-                    {/* Dropdown */}
+                    {/* Dropdown — refined */}
                     <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200">
-                      <div class="bg-white rounded-xl shadow-xl border border-gray-100 p-2 min-w-[240px]">
+                      <div class="bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/80 p-2 min-w-[260px]">
                         {productDropdown.map((item) => (
-                          <a href={item.href} class="flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 transition-colors no-underline group/item">
-                            <div class="w-8 h-8 rounded-lg bg-[#5DC4B3]/10 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:bg-[#5DC4B3]/15 transition-colors">
+                          <a href={item.href} class="flex items-start gap-3 px-3.5 py-3 rounded-xl hover:bg-gray-50 transition-colors no-underline group/item">
+                            <div class="w-9 h-9 rounded-xl bg-[#5DC4B3]/8 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover/item:bg-[#5DC4B3]/12 transition-colors">
                               <i class={`fas ${item.icon} text-[#5DC4B3] text-xs`}></i>
                             </div>
                             <div>
-                              <div class="text-sm font-semibold text-[#1d1d1f] group-hover/item:text-[#5DC4B3] transition-colors">{item.label}</div>
-                              <div class="text-[11px] text-gray-400 mt-0.5">{item.desc}</div>
+                              <div class="text-[13px] font-semibold text-[#1d1d1f] group-hover/item:text-[#5DC4B3] transition-colors">{item.label}</div>
+                              <div class="text-[11px] text-gray-400 mt-0.5 leading-snug">{item.desc}</div>
                             </div>
                           </a>
                         ))}
@@ -72,10 +70,10 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
               return (
                 <a
                   href={l.href}
-                  class={`px-3 py-2 text-[13px] font-medium rounded-lg transition-all no-underline ${
+                  class={`px-3.5 py-2 text-[13px] font-medium rounded-lg transition-all no-underline ${
                     isActive
                       ? 'text-[#5DC4B3] bg-[#5DC4B3]/8 font-semibold'
-                      : 'text-[#6e6e73] hover:text-[#5DC4B3] hover:bg-[#5DC4B3]/5'
+                      : 'text-[#6e6e73] hover:text-[#1d1d1f] hover:bg-gray-50'
                   }`}
                 >
                   {l.label}
@@ -84,18 +82,18 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
             })}
           </div>
 
-          {/* Desktop CTA */}
-          <div class="hidden lg:flex items-center gap-2.5">
+          {/* Desktop CTA — Apple-style minimal */}
+          <div class="hidden lg:flex items-center gap-2">
             <a
               href="/contact"
-              class="inline-flex items-center px-3.5 py-2 text-[#6e6e73] hover:text-[#5DC4B3] text-xs font-medium rounded-lg transition-all no-underline"
+              class="inline-flex items-center px-3.5 py-2 text-[#6e6e73] hover:text-[#5DC4B3] text-[12px] font-medium rounded-lg transition-all no-underline"
             >
               申请演示
             </a>
             <a
               href="/portal"
-              class="inline-flex items-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition-all no-underline hover:brightness-110"
-              style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);"
+              class="inline-flex items-center px-4 py-2 text-white text-[12px] font-bold rounded-xl transition-all no-underline hover:brightness-110"
+              style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%); box-shadow: 0 2px 8px rgba(10,46,42,0.2);"
             >
               <i class="fas fa-arrow-right mr-1.5 text-[9px]"></i>进入平台
             </a>
@@ -112,8 +110,6 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           <a href="/" class={`flex items-center gap-2.5 px-4 py-2.5 text-sm rounded-lg no-underline ${active === 'home' ? 'text-[#5DC4B3] bg-[#5DC4B3]/5 font-semibold' : 'text-[#6e6e73]'}`}>
             <i class="fas fa-home text-xs w-4 text-center"></i>首页
           </a>
-          
-          {/* 产品子菜单 - mobile */}
           <div class="px-4 py-2">
             <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">产品</span>
           </div>
@@ -123,7 +119,6 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           <a href="/portal" class={`flex items-center gap-2.5 px-6 py-2 text-sm rounded-lg no-underline ${active === 'portal' ? 'text-[#5DC4B3] bg-[#5DC4B3]/5 font-semibold' : 'text-[#6e6e73]'}`}>
             <i class="fas fa-th-large text-xs w-4 text-center"></i>产品入口
           </a>
-          
           <a href="/about" class={`flex items-center gap-2.5 px-4 py-2.5 text-sm rounded-lg no-underline ${active === 'about' ? 'text-[#5DC4B3] bg-[#5DC4B3]/5 font-semibold' : 'text-[#6e6e73]'}`}>
             <i class="fas fa-building text-xs w-4 text-center"></i>关于
           </a>
@@ -136,31 +131,20 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           <a href="/contact" class={`flex items-center gap-2.5 px-4 py-2.5 text-sm rounded-lg no-underline ${active === 'contact' ? 'text-[#5DC4B3] bg-[#5DC4B3]/5 font-semibold' : 'text-[#6e6e73]'}`}>
             <i class="fas fa-envelope text-xs w-4 text-center"></i>联系
           </a>
-
           <div class="mt-3 px-4 flex gap-2">
-            <a href="/portal" class="flex-1 flex items-center justify-center py-2.5 text-[#5DC4B3] text-sm font-semibold rounded-lg border border-[#5DC4B3]/20 no-underline">
-              进入产品
-            </a>
-            <a href="/contact" class="flex-1 flex items-center justify-center py-2.5 bg-[#5DC4B3] text-white text-sm font-bold rounded-lg no-underline">
-              申请演示
-            </a>
+            <a href="/portal" class="flex-1 flex items-center justify-center py-2.5 text-[#5DC4B3] text-sm font-semibold rounded-xl border border-[#5DC4B3]/20 no-underline">进入产品</a>
+            <a href="/contact" class="flex-1 flex items-center justify-center py-2.5 bg-[#5DC4B3] text-white text-sm font-bold rounded-xl no-underline">申请演示</a>
           </div>
         </div>
       </div>
     </nav>
 
-    {/* Navbar interaction scripts */}
     <script dangerouslySetInnerHTML={{ __html: `
-      // --- Mobile menu toggle with auto-close ---
       function toggleMobileMenu() {
         var menu = document.getElementById('mobile-menu');
         var icon = document.getElementById('mobile-menu-icon');
         menu.classList.toggle('hidden');
-        if (menu.classList.contains('hidden')) {
-          icon.className = 'fas fa-bars text-lg';
-        } else {
-          icon.className = 'fas fa-times text-lg';
-        }
+        icon.className = menu.classList.contains('hidden') ? 'fas fa-bars text-lg' : 'fas fa-times text-lg';
       }
       function closeMobileMenu() {
         var menu = document.getElementById('mobile-menu');
@@ -170,7 +154,6 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           if (icon) icon.className = 'fas fa-bars text-lg';
         }
       }
-      // Auto-close on link click
       document.addEventListener('DOMContentLoaded', function() {
         var mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenu) {
@@ -179,26 +162,6 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           });
         }
       });
-
-      // --- Navbar scroll state: more opaque on scroll ---
-      (function() {
-        var navbar = document.querySelector('.navbar-glass');
-        if (!navbar) return;
-        var scrolled = false;
-        function onScroll() {
-          var y = window.scrollY || window.pageYOffset;
-          if (y > 20 && !scrolled) {
-            scrolled = true;
-            navbar.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)';
-            navbar.style.borderBottomColor = 'rgba(0,0,0,0.08)';
-          } else if (y <= 20 && scrolled) {
-            scrolled = false;
-            navbar.style.boxShadow = '0 0.5px 0 rgba(0,0,0,0.04)';
-            navbar.style.borderBottomColor = '';
-          }
-        }
-        window.addEventListener('scroll', onScroll, { passive: true });
-      })();
     `}} />
     </>
   )
