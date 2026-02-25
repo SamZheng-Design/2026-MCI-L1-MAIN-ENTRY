@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { renderer } from './renderer'
-import { getLangFromQuery, tt, t } from './i18n'
+import { getLangFromQuery } from './i18n'
+import { tt, t } from './i18n'
 import { HomePage } from './pages/HomePage'
 import { DesignPage } from './pages/DesignPage'
 import { PortalPage } from './pages/PortalPage'
@@ -14,25 +15,21 @@ const app = new Hono()
 
 app.use(renderer)
 
-// Homepage
 app.get('/', (c) => {
   const lang = getLangFromQuery(c.req.url)
   return c.render(<HomePage lang={lang} />, { title: tt(t.titles.home, lang), lang })
 })
 
-// Design philosophy
 app.get('/design', (c) => {
   const lang = getLangFromQuery(c.req.url)
   return c.render(<DesignPage lang={lang} />, { title: tt(t.titles.design, lang), lang })
 })
 
-// Product portal
 app.get('/portal', (c) => {
   const lang = getLangFromQuery(c.req.url)
   return c.render(<PortalPage lang={lang} />, { title: tt(t.titles.portal, lang), lang })
 })
 
-// Company pages
 app.get('/about', (c) => {
   const lang = getLangFromQuery(c.req.url)
   return c.render(<AboutPage lang={lang} />, { title: tt(t.titles.about, lang), lang })
@@ -53,7 +50,6 @@ app.get('/contact', (c) => {
   return c.render(<ContactPage lang={lang} />, { title: tt(t.titles.contact, lang), lang })
 })
 
-// Product placeholder pages - 9个通
 const productIds = [
   'identity', 'application', 'assess',
   'risk', 'opportunity', 'terms', 'contract',

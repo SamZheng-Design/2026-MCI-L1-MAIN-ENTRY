@@ -1,540 +1,314 @@
 import type { FC } from 'hono/jsx'
-import { products, foundations, architectureGroups, designSections, statusLabels, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts } from '../data'
+import { products, foundations, architectureGroups, designSections, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { ProductLogoSmall, ProductLogoFlow, ProductLogo } from '../components/Logos'
+import type { Lang } from '../i18n'
+import { tt, ta, t, langLink } from '../i18n'
 
 const TEAL = '#5DC4B3'
-const AMBER = '#F59E0B'
-const INDIGO = '#6366F1'
-const EMERALD = '#10B981'
-const PURPLE = '#8B5CF6'
 
-export const DesignPage: FC = () => {
+const getStatusLabel = (status: string, l: Lang) => {
+  const labels: Record<string, { text: string; class: string }> = {
+    live: { text: tt(t.data.statusLive, l), class: 'bg-green-100 text-green-700 border-green-200' },
+    beta: { text: tt(t.data.statusBeta, l), class: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+    coming: { text: tt(t.data.statusComing, l), class: 'bg-gray-100 text-gray-500 border-gray-200' },
+  }
+  return labels[status] || labels.coming
+}
+
+const getProductDesc = (id: string, l: Lang): string => {
+  const key = `${id}Desc` as keyof typeof t.data
+  const entry = t.data[key]
+  if (entry && typeof entry === 'object' && 'zh' in entry) return tt(entry as { zh: string; en: string }, l)
+  return ''
+}
+
+const getProductFeatures = (id: string, l: Lang): string[] => {
+  const key = `${id}Features` as keyof typeof t.data
+  const entry = t.data[key]
+  if (entry && typeof entry === 'object' && 'zh' in entry) return ta(entry as { zh: string[]; en: string[] }, l)
+  return []
+}
+
+const getFoundations = (l: Lang) => [
+  { name: tt(t.data.foundation1Name, l), description: tt(t.data.foundation1Desc, l), icon: 'fa-users' },
+  { name: tt(t.data.foundation2Name, l), description: tt(t.data.foundation2Desc, l), icon: 'fa-database' },
+  { name: tt(t.data.foundation3Name, l), description: tt(t.data.foundation3Desc, l), icon: 'fa-brain' },
+]
+
+const ProductCard: FC<{ p: typeof products[0]; lang: Lang; showFilter?: boolean; showCollab?: boolean; borderClass?: string }> = ({ p, lang: l, showFilter, showCollab, borderClass }) => {
+  const status = getStatusLabel(p.status, l)
+  const desc = getProductDesc(p.id, l)
+  const features = getProductFeatures(p.id, l)
+  const href = langLink(`/${p.id}`, l)
+  const bc = borderClass || 'border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md'
+
+  return (
+    <a href={href} class="block no-underline group">
+      <div class={`portal-card bg-white rounded-2xl p-5 transition-all border ${bc}`}>
+        <div class="flex items-start gap-4">
+          <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{l === 'en' ? p.englishName : p.name}</h3>
+              <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${status.class}`}>{status.text}</span>
+              {showFilter && p.isFilter && (
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-bold border border-indigo-200">
+                  <i class="fas fa-filter mr-0.5"></i>{tt(t.design.aiFilter, l)}
+                </span>
+              )}
+              {showCollab && p.isCollaborative && (
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold">
+                  <i class="fas fa-handshake mr-0.5"></i>{tt(t.design.collaborative, l)}
+                </span>
+              )}
+            </div>
+            <p class="text-xs text-gray-400 mb-1.5">{l === 'en' ? p.name : p.englishName}</p>
+            <p class="text-sm text-gray-500 leading-relaxed">{desc}</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+          <div class="flex flex-wrap gap-1.5">
+            {features.slice(0, 3).map((f) => (
+              <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
+            ))}
+          </div>
+          <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
+        </div>
+      </div>
+    </a>
+  )
+}
+
+export const DesignPage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
+  const l = lang
+  const ll = (href: string) => langLink(href, l)
+  const localFoundations = getFoundations(l)
+
   return (
     <div class="min-h-screen">
-      <Navbar active="design" />
+      <Navbar active="design" lang={l} />
 
-      {/* Hero Section */}
       <section class="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-[#5DC4B3]/5 pt-16 pb-20">
         <div class="absolute inset-0 dot-pattern opacity-30"></div>
-        {/* 浮动装饰元素 */}
-        <div class="floating-element top-[12%] right-[8%] w-4 h-4 rounded-full opacity-[0.05]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+        <div class="floating-element top-[12%] right-[8%] w-4 h-4 rounded-full opacity-[0.05]" style="background: #5DC4B3;"></div>
         <div class="floating-element top-[50%] left-[5%] w-3 h-3 rounded-full opacity-[0.04]" style="background: #6366F1; animation-delay: 1.5s;"></div>
-        <div class="floating-element bottom-[20%] right-[12%] w-2.5 h-2.5 rounded-full opacity-[0.03]" style="background: #F59E0B; animation-delay: 3s;"></div>
-        <div class="floating-element top-[25%] left-[15%] w-2 h-2 rounded-full opacity-[0.04]" style="background: #10B981; animation-delay: 4.5s;"></div>
-        <div class="floating-element bottom-[30%] left-[8%] opacity-[0.04]" style="animation-delay: 2s;">
-          <div class="w-12 h-12 rounded-xl border border-gray-200 flex items-center justify-center bg-white/80 shadow-sm">
-            <i class="fas fa-code-branch text-[#5DC4B3]"></i>
-          </div>
-        </div>
-        <div class="floating-element top-[20%] right-[20%] opacity-[0.04]" style="animation-delay: 5s;">
-          <div class="w-11 h-11 rounded-xl border border-gray-200 flex items-center justify-center bg-white/80 shadow-sm">
-            <i class="fas fa-filter text-[#6366F1] text-sm"></i>
-          </div>
-        </div>
-        
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div class="text-center fade-in">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full mb-6 border border-[#5DC4B3]/20">
               <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="5" fill="#5DC4B3"/></svg>
-              Super Agent Architecture
+              {tt(t.design.badge, l)}
             </div>
             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1d1d1f] mb-4 leading-tight tracking-tight">
-              9个通如何串联成<span class="text-[#5DC4B3]">Super Agent</span>
+              {tt(t.design.heroTitle1, l)}<span class="text-[#5DC4B3]">{tt(t.design.heroTitle2, l)}</span>
             </h1>
-            <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-              身份通统一入口 · Y型双角色分流 · <strong class="text-[#1d1d1f]">数据穿越AI筛子</strong> · 协同汇合
-            </p>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">{tt(t.design.heroSubtitle, l)}</p>
           </div>
         </div>
       </section>
 
-      {/* ========== Y-Shape Flow Diagram (CORE) — 排布对齐 PortalPage ========== */}
       <section class="py-12 bg-white" id="y-flow">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full mb-3">
-              Y型业务流程
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-3">完整Y型业务流程</h2>
-            <p class="text-sm text-gray-500 max-w-2xl mx-auto">身份通统一入口分流两个角色：融资者通过申请通上传数据，数据直接进入投资者搭建的评估通→风控通筛选管道，通过标准的项目进入机会通展现</p>
-            {/* Legend */}
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-500 text-xs font-semibold rounded-full mb-3">{tt(t.design.yFlowBadge, l)}</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-3">{tt(t.design.yFlowTitle, l)}</h2>
+            <p class="text-sm text-gray-500 max-w-2xl mx-auto">{tt(t.design.yFlowSubtitle, l)}</p>
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mt-6">
-              <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-amber-100 border-2 border-amber-400"></div>
-                <span class="text-xs text-gray-500">融资者路径</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-indigo-100 border-2 border-indigo-400"></div>
-                <span class="text-xs text-gray-500">投资者路径</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-0.5 rounded bg-amber-400" style="border-top: 2px dashed #F59E0B"></div>
-                <span class="text-xs text-gray-500">数据穿越管道</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-[#5DC4B3]/20 border-2 border-[#5DC4B3]"></div>
-                <span class="text-xs text-gray-500">投融资双方协同</span>
-              </div>
+              <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-amber-100 border-2 border-amber-400"></div><span class="text-xs text-gray-500">{tt(t.design.legendBorrower, l)}</span></div>
+              <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-indigo-100 border-2 border-indigo-400"></div><span class="text-xs text-gray-500">{tt(t.design.legendInvestor, l)}</span></div>
+              <div class="flex items-center gap-2"><div class="w-8 h-0.5 rounded bg-amber-400" style="border-top: 2px dashed #F59E0B"></div><span class="text-xs text-gray-500">{tt(t.design.legendDataPipe, l)}</span></div>
+              <div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-[#5DC4B3]/20 border-2 border-[#5DC4B3]"></div><span class="text-xs text-gray-500">{tt(t.design.legendCollaborative, l)}</span></div>
             </div>
           </div>
 
-          {/* ===== PHASE 1: 统一入口 ===== */}
+          {/* Phase 1 */}
           <div class="mb-8">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">1</div>
-              <div>
-                <span class="text-sm font-bold text-[#1d1d1f]">统一入口</span>
-                <span class="text-[10px] text-gray-400 ml-2">Unified Entry</span>
-              </div>
+              <div><span class="text-sm font-bold text-[#1d1d1f]">{tt(t.design.phase1, l)}</span></div>
               <div class="flex-1 h-px bg-gray-200"></div>
             </div>
-            <a href={`/${entryProduct.id}`} class="block no-underline group">
-              <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
-                <div class="flex items-start gap-4">
-                  <ProductLogo name={entryProduct.name} englishShort={entryProduct.englishShort} size={60} />
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{entryProduct.name}</h3>
-                      <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[entryProduct.status].class}`}>
-                        {statusLabels[entryProduct.status].text}
-                      </span>
-                    </div>
-                    <p class="text-xs text-gray-400 mb-1.5">{entryProduct.englishName}</p>
-                    <p class="text-sm text-gray-500 leading-relaxed">{entryProduct.description}</p>
-                  </div>
-                </div>
-                <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                  <div class="flex flex-wrap gap-1.5">
-                    {entryProduct.features.slice(0, 3).map((f) => (
-                      <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                    ))}
-                  </div>
-                  <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                </div>
-              </div>
-            </a>
+            <ProductCard p={entryProduct} lang={l} />
           </div>
 
-          {/* ===== Y-FORK VISUAL ===== */}
           <div class="flex justify-center mb-6">
             <div class="flex flex-col items-center">
-              <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30">
-                <i class="fas fa-code-branch text-white text-sm"></i>
-              </div>
-              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">Y型分流</span>
+              <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30"><i class="fas fa-code-branch text-white text-sm"></i></div>
+              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">{l === 'en' ? 'Y-Shape Split' : 'Y型分流'}</span>
             </div>
           </div>
 
-          {/* ===== PHASE 2: 双角色分流（并排） ===== */}
+          {/* Phase 2 */}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* LEFT: 融资者路径 */}
             <div>
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">2a</div>
-                <div>
-                  <span class="text-sm font-bold text-amber-600">融资者路径</span>
-                  <span class="text-[10px] text-gray-400 ml-2">Borrower</span>
-                </div>
+                <span class="text-sm font-bold text-amber-600">{tt(t.design.phase2a, l)}</span>
               </div>
               <div class="border-l-4 border-amber-300 pl-4">
-                {borrowerProducts.map((p) => (
-                  <a href={`/${p.id}`} class="block no-underline group">
-                    <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
-                      <div class="flex items-start gap-4">
-                        <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
-                        <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
-                            <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
-                              {statusLabels[p.status].text}
-                            </span>
-                          </div>
-                          <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
-                          <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
-                        </div>
-                      </div>
-                      <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex flex-wrap gap-1.5">
-                          {p.features.slice(0, 3).map((f) => (
-                            <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                          ))}
-                        </div>
-                        <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                      </div>
-                    </div>
-                  </a>
-                ))}
+                {borrowerProducts.map((p) => (<ProductCard p={p} lang={l} />))}
               </div>
             </div>
-
-            {/* RIGHT: 投资者搭建筛子 */}
             <div>
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">2b</div>
-                <div>
-                  <span class="text-sm font-bold text-indigo-600">投资者搭建筛子</span>
-                  <span class="text-[10px] text-gray-400 ml-2">Investor</span>
-                </div>
+                <span class="text-sm font-bold text-indigo-600">{tt(t.design.phase2b, l)}</span>
               </div>
               <div class="border-l-4 border-indigo-300 pl-4">
                 <div class="p-4 bg-indigo-50/40 rounded-xl border border-dashed border-indigo-300">
                   <div class="text-center mb-3">
                     <span class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-600 text-[10px] font-bold rounded-full border border-indigo-200">
-                      <i class="fas fa-robot mr-1"></i>投资者配置个性化AI筛选标准
+                      <i class="fas fa-robot mr-1"></i>{tt(t.design.investorConfigLabel, l)}
                     </span>
                   </div>
                   <p class="text-[11px] text-indigo-600/70 text-center leading-relaxed mb-3">
-                    每个投资者可通过评估通和风控通搭建自己的筛选工作流。<br/>
-                    <strong>不设置任何筛子 = 在机会通看到所有融资项目。</strong>
+                    {tt(t.design.investorConfigDesc, l)}<br/><strong>{tt(t.design.investorConfigDesc2, l)}</strong>
                   </p>
                   <div class="flex items-center justify-center gap-2 text-[9px] text-indigo-400">
-                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">自定义投资标准</span>
-                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">自定义风控规则</span>
-                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">核验方式</span>
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">{tt(t.design.investorTag1, l)}</span>
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">{tt(t.design.investorTag2, l)}</span>
+                    <span class="px-2 py-0.5 bg-white rounded border border-indigo-200">{tt(t.design.investorTag3, l)}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ===== PHASE 3: 数据筛选管道（核心过程） ===== */}
+          {/* Phase 3: Pipeline */}
           <div class="mb-8">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-500 via-indigo-500 to-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">3</div>
-              <div>
-                <span class="text-sm font-bold text-gray-800">数据筛选管道</span>
-                <span class="text-[10px] text-gray-400 ml-2">申请通数据 → 评估通 → 风控通 → 机会通</span>
-              </div>
+              <div><span class="text-sm font-bold text-gray-800">{tt(t.design.phase3, l)}</span><span class="text-[10px] text-gray-400 ml-2">{tt(t.design.phase3Desc, l)}</span></div>
               <div class="flex-1 h-px bg-gray-200"></div>
             </div>
-
-            {/* Pipeline info banner */}
             <div class="bg-gradient-to-r from-amber-50 via-indigo-50 to-emerald-50 rounded-xl p-4 border border-gray-200 mb-4">
               <div class="flex items-start gap-3">
-                <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <i class="fas fa-long-arrow-alt-right text-amber-500"></i>
-                </div>
-                <div class="text-xs text-gray-600 leading-relaxed">
-                  融资者在申请通上传的数据<strong class="text-amber-600">直接进入</strong>投资者搭建的评估通→风控通筛选管道。
-                  数据依次经过<strong class="text-indigo-600">评估通</strong>（投资标准筛选）和<strong class="text-indigo-600">风控通</strong>（风控标准筛选），
-                  <strong class="text-emerald-600">只有通过全部标准的项目</strong>才会出现在该投资者的机会通看板上。
-                  不通过的项目会被淘汰或通知融资者补充材料。
-                </div>
+                <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-long-arrow-alt-right text-amber-500"></i></div>
+                <div class="text-xs text-gray-600 leading-relaxed">{tt(t.design.pipelineDesc, l)}</div>
               </div>
             </div>
 
-            {/* 评估通 */}
             <div class="relative mb-3">
               <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-300 to-indigo-300 hidden sm:block"></div>
               <div class="sm:ml-10">
                 <div class="flex items-center gap-2 mb-2">
-                  <span class="text-[9px] px-2 py-0.5 bg-amber-100 text-amber-600 rounded-full font-bold border border-amber-200">
-                    <i class="fas fa-database mr-0.5"></i>申请通数据流入
-                  </span>
+                  <span class="text-[9px] px-2 py-0.5 bg-amber-100 text-amber-600 rounded-full font-bold border border-amber-200"><i class="fas fa-database mr-0.5"></i>{tt(t.design.dataFlowIn, l)}</span>
                   <span class="text-gray-300">→</span>
-                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200">
-                    <i class="fas fa-filter mr-0.5"></i>筛子①
-                  </span>
+                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200"><i class="fas fa-filter mr-0.5"></i>{tt(t.design.filter1, l)}</span>
                 </div>
-                <a href={`/${investorFilterProducts[0].id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-indigo-200 hover:border-indigo-400 hover:shadow-md">
-                    <div class="flex items-start gap-4">
-                      <ProductLogo name={investorFilterProducts[0].name} englishShort={investorFilterProducts[0].englishShort} size={60} />
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorFilterProducts[0].name}</h3>
-                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[0].status].class}`}>
-                            {statusLabels[investorFilterProducts[0].status].text}
-                          </span>
-                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-bold border border-indigo-200">
-                            <i class="fas fa-filter mr-0.5"></i>AI筛子
-                          </span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-1.5">{investorFilterProducts[0].englishName}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed">{investorFilterProducts[0].description}</p>
-                      </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                      <div class="flex flex-wrap gap-1.5">
-                        {investorFilterProducts[0].features.slice(0, 3).map((f) => (
-                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                        ))}
-                      </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                    </div>
-                  </div>
-                </a>
+                <ProductCard p={investorFilterProducts[0]} lang={l} showFilter={true} />
               </div>
             </div>
 
-            {/* Arrow between assess and risk */}
             <div class="sm:ml-10 flex items-center gap-2 mb-3 pl-2">
-              <svg width="16" height="20" viewBox="0 0 16 20">
-                <line x1="8" y1="0" x2="8" y2="14" stroke="#6366F1" stroke-width="1.5" opacity="0.4" />
-                <polygon points="4,14 8,20 12,14" fill="#6366F1" opacity="0.4" />
-              </svg>
-              <span class="text-[9px] text-indigo-400">评估通过的项目继续流入 →</span>
+              <svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="14" stroke="#6366F1" stroke-width="1.5" opacity="0.4" /><polygon points="4,14 8,20 12,14" fill="#6366F1" opacity="0.4" /></svg>
+              <span class="text-[9px] text-indigo-400">{tt(t.design.assessPassed, l)}</span>
             </div>
 
-            {/* 风控通 */}
             <div class="relative mb-3">
               <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-300 to-emerald-300 hidden sm:block"></div>
               <div class="sm:ml-10">
                 <div class="flex items-center gap-2 mb-2">
-                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200">
-                    <i class="fas fa-shield-alt mr-0.5"></i>筛子②
-                  </span>
-                  <span class="text-[9px] text-red-400 ml-2">
-                    <i class="fas fa-times-circle mr-0.5"></i>不通过 → 淘汰/补材料
-                  </span>
+                  <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-full font-bold border border-indigo-200"><i class="fas fa-shield-alt mr-0.5"></i>{tt(t.design.filter2, l)}</span>
+                  <span class="text-[9px] text-red-400 ml-2"><i class="fas fa-times-circle mr-0.5"></i>{tt(t.design.rejected, l)}</span>
                 </div>
-                <a href={`/${investorFilterProducts[1].id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-indigo-200 hover:border-indigo-400 hover:shadow-md">
-                    <div class="flex items-start gap-4">
-                      <ProductLogo name={investorFilterProducts[1].name} englishShort={investorFilterProducts[1].englishShort} size={60} />
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorFilterProducts[1].name}</h3>
-                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorFilterProducts[1].status].class}`}>
-                            {statusLabels[investorFilterProducts[1].status].text}
-                          </span>
-                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-bold border border-indigo-200">
-                            <i class="fas fa-filter mr-0.5"></i>AI筛子
-                          </span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-1.5">{investorFilterProducts[1].englishName}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed">{investorFilterProducts[1].description}</p>
-                      </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                      <div class="flex flex-wrap gap-1.5">
-                        {investorFilterProducts[1].features.slice(0, 3).map((f) => (
-                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                        ))}
-                      </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                    </div>
-                  </div>
-                </a>
+                <ProductCard p={investorFilterProducts[1]} lang={l} showFilter={true} />
               </div>
             </div>
 
-            {/* Arrow to Opportunity */}
             <div class="sm:ml-10 flex items-center gap-2 mb-3 pl-2">
-              <svg width="16" height="20" viewBox="0 0 16 20">
-                <line x1="8" y1="0" x2="8" y2="14" stroke="#10B981" stroke-width="2" />
-                <polygon points="4,14 8,20 12,14" fill="#10B981" />
-              </svg>
-              <span class="text-[9px] text-emerald-500 font-bold">
-                <i class="fas fa-check-circle mr-0.5"></i>通过全部标准 → 进入机会通展现
-              </span>
+              <svg width="16" height="20" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="14" stroke="#10B981" stroke-width="2" /><polygon points="4,14 8,20 12,14" fill="#10B981" /></svg>
+              <span class="text-[9px] text-emerald-500 font-bold"><i class="fas fa-check-circle mr-0.5"></i>{tt(t.design.passedAll, l)}</span>
             </div>
 
-            {/* 机会通 */}
             <div class="relative">
               <div class="sm:ml-10">
                 <div class="flex items-center gap-2 mb-2">
-                  <span class="text-[9px] px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded-full font-bold border border-emerald-200">
-                    <i class="fas fa-th-large mr-0.5"></i>投资者统一看板
-                  </span>
-                  <span class="text-[9px] text-emerald-500 font-semibold">
-                    无筛子 = 展示全部融资项目
-                  </span>
+                  <span class="text-[9px] px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded-full font-bold border border-emerald-200"><i class="fas fa-th-large mr-0.5"></i>{tt(t.design.investorBoard, l)}</span>
+                  <span class="text-[9px] text-emerald-500 font-semibold">{tt(t.design.noFilterRule, l)}</span>
                 </div>
-                <a href={`/${investorViewProduct.id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
-                    <div class="flex items-start gap-4">
-                      <ProductLogo name={investorViewProduct.name} englishShort={investorViewProduct.englishShort} size={60} />
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{investorViewProduct.name}</h3>
-                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[investorViewProduct.status].class}`}>
-                            {statusLabels[investorViewProduct.status].text}
-                          </span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-1.5">{investorViewProduct.englishName}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed">{investorViewProduct.description}</p>
-                      </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                      <div class="flex flex-wrap gap-1.5">
-                        {investorViewProduct.features.slice(0, 3).map((f) => (
-                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                        ))}
-                      </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                    </div>
-                  </div>
-                </a>
+                <ProductCard p={investorViewProduct} lang={l} />
               </div>
             </div>
           </div>
 
-          {/* ===== MERGE VISUAL ===== */}
+          {/* Merge */}
           <div class="flex justify-center mb-6">
             <div class="flex flex-col items-center">
               <div class="flex items-center gap-3">
                 <div class="h-px w-16 bg-amber-300"></div>
-                <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30">
-                  <i class="fas fa-handshake text-white text-sm"></i>
-                </div>
+                <div class="w-10 h-10 rounded-full bg-[#5DC4B3] flex items-center justify-center shadow-lg shadow-[#5DC4B3]/30"><i class="fas fa-handshake text-white text-sm"></i></div>
                 <div class="h-px w-16 bg-indigo-300"></div>
               </div>
-              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">Y型汇合 · 投融资双方协同</span>
+              <span class="text-[10px] text-[#5DC4B3] font-bold mt-1">{tt(t.design.yMerge, l)}</span>
             </div>
           </div>
 
-          {/* ===== PHASE 4: 交易达成（协同） ===== */}
+          {/* Phase 4 */}
           <div class="mb-8">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">4</div>
-              <div>
-                <span class="text-sm font-bold text-purple-600">交易达成</span>
-                <span class="text-[10px] text-gray-400 ml-2">Deal Making</span>
-              </div>
+              <span class="text-sm font-bold text-purple-600">{tt(t.design.phase4, l)}</span>
               <div class="flex-1 h-px bg-gray-200"></div>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold">
-                <i class="fas fa-handshake mr-0.5"></i>投融资双方协同
-              </span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold"><i class="fas fa-handshake mr-0.5"></i>{tt(t.design.phase4Label, l)}</span>
             </div>
             <div class="space-y-3">
-              {dealProducts.map((p) => (
-                <a href={`/${p.id}`} class="block no-underline group">
-                  <div class={`portal-card bg-white rounded-2xl p-5 transition-all border ${
-                    p.isCollaborative 
-                      ? 'border-[#5DC4B3]/50 shadow-md shadow-[#5DC4B3]/10 hover:shadow-lg' 
-                      : 'border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md'
-                  }`}>
-                    <div class="flex items-start gap-4">
-                      <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
-                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
-                            {statusLabels[p.status].text}
-                          </span>
-                          {p.isCollaborative && (
-                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#5DC4B3] text-white font-bold">
-                              <i class="fas fa-handshake mr-0.5"></i>协同
-                            </span>
-                          )}
-                        </div>
-                        <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
-                      </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                      <div class="flex flex-wrap gap-1.5">
-                        {p.features.slice(0, 3).map((f) => (
-                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                        ))}
-                      </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                    </div>
-                  </div>
-                </a>
-              ))}
+              {dealProducts.map((p) => (<ProductCard p={p} lang={l} showCollab={true} borderClass={p.isCollaborative ? 'border-[#5DC4B3]/50 shadow-md shadow-[#5DC4B3]/10 hover:shadow-lg' : undefined} />))}
             </div>
           </div>
 
-          {/* Arrow */}
           <div class="flex justify-center mb-6">
-            <svg width="16" height="24" viewBox="0 0 16 24">
-              <line x1="8" y1="0" x2="8" y2="18" stroke="#5DC4B3" stroke-width="1.5" opacity="0.3" />
-              <polygon points="4,18 8,24 12,18" fill="#5DC4B3" opacity="0.3" />
-            </svg>
+            <svg width="16" height="24" viewBox="0 0 16 24"><line x1="8" y1="0" x2="8" y2="18" stroke="#5DC4B3" stroke-width="1.5" opacity="0.3" /><polygon points="4,18 8,24 12,18" fill="#5DC4B3" opacity="0.3" /></svg>
           </div>
 
-          {/* ===== PHASE 5: 投后管理 ===== */}
+          {/* Phase 5 */}
           <div class="mb-8">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">5</div>
-              <div>
-                <span class="text-sm font-bold text-emerald-600">投后管理</span>
-                <span class="text-[10px] text-gray-400 ml-2">Post-Investment</span>
-              </div>
+              <span class="text-sm font-bold text-emerald-600">{tt(t.design.phase5, l)}</span>
               <div class="flex-1 h-px bg-gray-200"></div>
             </div>
             <div class="space-y-3">
-              {postInvestmentProducts.map((p) => (
-                <a href={`/${p.id}`} class="block no-underline group">
-                  <div class="portal-card bg-white rounded-2xl p-5 transition-all border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md">
-                    <div class="flex items-start gap-4">
-                      <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 class="text-base font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors">{p.name}</h3>
-                          <span class={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${statusLabels[p.status].class}`}>
-                            {statusLabels[p.status].text}
-                          </span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-1.5">{p.englishName}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed">{p.description}</p>
-                      </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                      <div class="flex flex-wrap gap-1.5">
-                        {p.features.slice(0, 3).map((f) => (
-                          <span class="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-400 rounded border border-gray-100">{f}</span>
-                        ))}
-                      </div>
-                      <i class="fas fa-arrow-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
-                    </div>
-                  </div>
-                </a>
-              ))}
+              {postInvestmentProducts.map((p) => (<ProductCard p={p} lang={l} />))}
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* Architecture Overview - 5-group layout */}
+      {/* Architecture Overview */}
       <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">架构总览</h2>
-            <p class="text-sm text-gray-500">按Y型分流阶段分组的9个核心Agent</p>
+            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">{tt(t.design.archTitle, l)}</h2>
+            <p class="text-sm text-gray-500">{tt(t.design.archSubtitle, l)}</p>
           </div>
-
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
             {architectureGroups.map((group) => (
               <div class="space-y-3">
                 <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-100 shadow-sm">
                   <i class={`fas ${group.icon} text-xs`} style={`color: ${group.color}`}></i>
                   <div class="flex-1 min-w-0">
-                    <span class="text-xs font-bold text-[#1d1d1f] block truncate">{group.title}</span>
-                    <span class="text-[9px] text-gray-400">{group.titleEn}</span>
+                    <span class="text-xs font-bold text-[#1d1d1f] block truncate">{l === 'en' ? group.titleEn : group.title}</span>
+                    <span class="text-[9px] text-gray-400">{l === 'en' ? group.title : group.titleEn}</span>
                   </div>
                 </div>
-
                 {group.ids.map((id) => {
                   const p = products.find(pr => pr.id === id)!
+                  const status = getStatusLabel(p.status, l)
                   return (
-                    <div class="card-hover bg-white border border-gray-200 rounded-xl p-3 cursor-pointer" onclick={`window.location.href='/${p.id}'`}>
+                    <div class="card-hover bg-white border border-gray-200 rounded-xl p-3 cursor-pointer" onclick={`window.location.href='${ll(`/${p.id}`)}'`}>
                       <div class="flex items-start gap-2">
                         <ProductLogoSmall name={p.name} englishShort={p.englishShort} size={40} />
                         <div class="flex-1 min-w-0">
-                          <h3 class="text-xs font-bold text-[#1d1d1f] mb-0.5">{p.name}</h3>
-                          <p class="text-[10px] text-gray-400">{p.englishShort}</p>
+                          <h3 class="text-xs font-bold text-[#1d1d1f] mb-0.5">{l === 'en' ? p.englishName : p.name}</h3>
+                          <p class="text-[10px] text-gray-400">{l === 'en' ? p.name : p.englishShort}</p>
                         </div>
                       </div>
                       <div class="mt-2 pt-2 border-t border-gray-100 flex items-center gap-1.5 flex-wrap">
-                        <span class={`text-[9px] px-1.5 py-0.5 rounded-full border ${statusLabels[p.status].class}`}>
-                          {statusLabels[p.status].text}
-                        </span>
-                        {p.isFilter && (
-                          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-500 border border-indigo-200 font-semibold">
-                            <i class="fas fa-filter mr-0.5"></i>筛子
-                          </span>
-                        )}
-                        {p.isCollaborative && (
-                          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-[#5DC4B3]/10 text-[#5DC4B3] border border-[#5DC4B3]/20 font-semibold">
-                            协同
-                          </span>
-                        )}
+                        <span class={`text-[9px] px-1.5 py-0.5 rounded-full border ${status.class}`}>{status.text}</span>
+                        {p.isFilter && (<span class="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-500 border border-indigo-200 font-semibold"><i class="fas fa-filter mr-0.5"></i>{tt(t.design.filterLabel, l)}</span>)}
+                        {p.isCollaborative && (<span class="text-[9px] px-1.5 py-0.5 rounded-full bg-[#5DC4B3]/10 text-[#5DC4B3] border border-[#5DC4B3]/20 font-semibold">{tt(t.design.collaborative, l)}</span>)}
                       </div>
                     </div>
                   )
@@ -545,43 +319,29 @@ export const DesignPage: FC = () => {
         </div>
       </section>
 
-      {/* Connection Layer */}
       <section class="py-8 bg-white">
         <div class="max-w-4xl mx-auto px-4 text-center">
           <div class="flex items-center justify-center gap-4">
             <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-            <div class="flex items-center gap-3">
-              <svg viewBox="0 0 20 20" width="12" height="12"><circle cx="10" cy="10" r="6" fill={TEAL} opacity="0.5"/></svg>
-              <span class="text-sm font-semibold text-[#1d1d1f] tracking-wider">事件驱动 · AI筛子编排 · 双向赋能</span>
-              <svg viewBox="0 0 20 20" width="12" height="12"><circle cx="10" cy="10" r="6" fill={TEAL} opacity="0.5"/></svg>
-            </div>
+            <span class="text-sm font-semibold text-[#1d1d1f] tracking-wider">{tt(t.design.connLabel, l)}</span>
             <div class="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
           </div>
         </div>
       </section>
 
-      {/* Foundation Layer */}
       <section class="py-16 bg-gray-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="relative border-t-4 border-[#5DC4B3] rounded-xl bg-white shadow-lg overflow-hidden">
             <div class="absolute inset-0 dot-pattern opacity-10"></div>
             <div class="relative p-8">
               <div class="flex items-center justify-between mb-8">
-                <div>
-                  <h2 class="text-xl font-extrabold text-[#1d1d1f]">统一底座（基础设施层）</h2>
-                  <p class="text-xs text-gray-400 mt-1">Unified Foundation Layer</p>
-                </div>
-                <span class="px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full border border-[#5DC4B3]/20">
-                  <i class="fas fa-check-circle mr-1"></i>所有Agent共用
-                </span>
+                <div><h2 class="text-xl font-extrabold text-[#1d1d1f]">{tt(t.design.foundTitle, l)}</h2><p class="text-xs text-gray-400 mt-1">{tt(t.design.foundSubtitle, l)}</p></div>
+                <span class="px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full border border-[#5DC4B3]/20"><i class="fas fa-check-circle mr-1"></i>{tt(t.design.foundShared, l)}</span>
               </div>
-
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {foundations.map((f) => (
+                {localFoundations.map((f) => (
                   <div class="card-hover bg-gray-50 rounded-xl p-6 text-center border border-gray-100">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                      <i class={`fas ${f.icon} text-2xl text-[#5DC4B3]`}></i>
-                    </div>
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm"><i class={`fas ${f.icon} text-2xl text-[#5DC4B3]`}></i></div>
                     <h3 class="text-base font-bold text-[#1d1d1f] mb-2">{f.name}</h3>
                     <p class="text-sm text-gray-500">{f.description}</p>
                   </div>
@@ -592,27 +352,19 @@ export const DesignPage: FC = () => {
         </div>
       </section>
 
-      {/* Design Thinking Accordion */}
+      {/* Design Thinking Accordion - uses original designSections data */}
       <section class="py-16 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">核心设计思路</h2>
-            <p class="text-sm text-gray-500">从理念到架构的完整思考过程</p>
+            <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-2">{tt(t.design.designTitle, l)}</h2>
+            <p class="text-sm text-gray-500">{tt(t.design.designSubtitle, l)}</p>
           </div>
-
           <div class="space-y-4" id="accordion">
             {designSections.map((section, idx) => (
               <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                <button
-                  class="w-full flex items-center gap-4 p-5 text-left hover:bg-gray-50 transition-colors"
-                  onclick={`toggleAccordion(this)`}
-                >
-                  <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <i class={`fas ${section.icon} text-[#5DC4B3]`}></i>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-base font-bold text-[#1d1d1f]">{section.title}</h3>
-                  </div>
+                <button class="w-full flex items-center gap-4 p-5 text-left hover:bg-gray-50 transition-colors" onclick="toggleAccordion(this)">
+                  <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm"><i class={`fas ${section.icon} text-[#5DC4B3]`}></i></div>
+                  <div class="flex-1"><h3 class="text-base font-bold text-[#1d1d1f]">{section.title}</h3></div>
                   <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-300 accordion-icon"></i>
                 </button>
                 <div class={`accordion-content ${idx === 1 ? 'open' : ''}`}>
@@ -631,46 +383,27 @@ export const DesignPage: FC = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section class="py-16 bg-gradient-to-br from-[#5DC4B3]/5 via-white to-[#5DC4B3]/8">
         <div class="max-w-4xl mx-auto px-4 text-center">
-          <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-4">准备好探索超级Agent产品矩阵了吗？</h2>
-          <p class="text-gray-500 mb-8">点击进入产品统一入口，体验9个"通"的完整功能</p>
+          <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-4">{tt(t.design.ctaTitle, l)}</h2>
+          <p class="text-gray-500 mb-8">{tt(t.design.ctaSubtitle, l)}</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/portal" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
-              <i class="fas fa-rocket mr-2"></i>进入产品入口
-            </a>
-            <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#1d1d1f] font-bold rounded-xl border-2 border-gray-200 hover:border-[#5DC4B3] transition-all no-underline">
-              <i class="fas fa-download mr-2"></i>下载产品白皮书
-            </a>
+            <a href={ll('/portal')} class="inline-flex items-center justify-center px-8 py-3.5 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline"><i class="fas fa-rocket mr-2"></i>{tt(t.design.ctaPrimary, l)}</a>
+            <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#1d1d1f] font-bold rounded-xl border-2 border-gray-200 hover:border-[#5DC4B3] transition-all no-underline"><i class="fas fa-download mr-2"></i>{tt(t.design.ctaSecondary, l)}</a>
           </div>
         </div>
       </section>
 
-      {/* Accordion mutual exclusive + scroll reveal */}
       <script dangerouslySetInnerHTML={{ __html: `
         function toggleAccordion(btn) {
-          var content = btn.nextElementSibling;
-          var icon = btn.querySelector('.accordion-icon');
-          var isOpen = content.classList.contains('open');
-
-          // Close all
-          document.querySelectorAll('#accordion .accordion-content').forEach(function(c) {
-            c.classList.remove('open');
-          });
-          document.querySelectorAll('#accordion .accordion-icon').forEach(function(ic) {
-            ic.classList.remove('rotate-180');
-          });
-
-          // Toggle current
-          if (!isOpen) {
-            content.classList.add('open');
-            icon.classList.add('rotate-180');
-          }
+          var content = btn.nextElementSibling; var icon = btn.querySelector('.accordion-icon'); var isOpen = content.classList.contains('open');
+          document.querySelectorAll('#accordion .accordion-content').forEach(function(c) { c.classList.remove('open'); });
+          document.querySelectorAll('#accordion .accordion-icon').forEach(function(ic) { ic.classList.remove('rotate-180'); });
+          if (!isOpen) { content.classList.add('open'); icon.classList.add('rotate-180'); }
         }
-      `}} />
+      ` }} />
 
-      <Footer />
+      <Footer lang={l} />
     </div>
   )
 }

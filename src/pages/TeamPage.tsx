@@ -1,56 +1,46 @@
 import type { FC } from 'hono/jsx'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import type { Lang } from '../i18n'
+import { tt, t, langLink } from '../i18n'
 
-/*
- * 团队页面 — 优雅占位版
- * Sam后续提供实际团队成员照片和简介
- */
+export const TeamPage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
+  const l = lang
+  const ll = (href: string) => langLink(href, l)
+  const tm = t.team
 
-interface TeamMember {
-  name: string
-  title: string
-  titleEn: string
-  desc: string
-  icon: string
-  color: string
-}
+  const teamMembers = [
+    { name: tt(tm.m1Name, l), titleEn: 'CEO', desc: tt(tm.m1Desc, l), icon: 'fa-chess-king', color: '#5DC4B3' },
+    { name: tt(tm.m2Name, l), titleEn: 'CTO', desc: tt(tm.m2Desc, l), icon: 'fa-microchip', color: '#6366F1' },
+    { name: tt(tm.m3Name, l), titleEn: 'CIO', desc: tt(tm.m3Desc, l), icon: 'fa-chart-pie', color: '#F59E0B' },
+    { name: tt(tm.m4Name, l), titleEn: 'CPO', desc: tt(tm.m4Desc, l), icon: 'fa-compass', color: '#8B5CF6' },
+  ]
 
-const teamMembers: TeamMember[] = [
-  { name: '创始人 / CEO', title: '首席执行官', titleEn: 'CEO', desc: '深耕金融科技领域十余年，曾主导多个大型金融基础设施项目的架构设计与交付。', icon: 'fa-chess-king', color: '#5DC4B3' },
-  { name: '联合创始人 / CTO', title: '首席技术官', titleEn: 'CTO', desc: '全栈技术专家，专注于AI/ML与分布式系统架构，推动Agent矩阵核心技术研发。', icon: 'fa-microchip', color: '#6366F1' },
-  { name: '首席投资官', title: '首席投资官', titleEn: 'CIO', desc: '资深投资管理人，横跨PE/VC与另类投资，具备丰富的RBF与结构化融资经验。', icon: 'fa-chart-pie', color: '#F59E0B' },
-  { name: '首席产品官', title: '首席产品官', titleEn: 'CPO', desc: '前头部金融科技公司产品负责人，擅长复杂金融产品的用户体验设计与流程优化。', icon: 'fa-compass', color: '#8B5CF6' },
-]
+  const advisors = [
+    { name: tt(tm.a1Name, l), titleEn: 'Strategic Advisor', desc: tt(tm.a1Desc, l), icon: 'fa-landmark', color: '#10B981' },
+    { name: tt(tm.a2Name, l), titleEn: 'Technical Advisor', desc: tt(tm.a2Desc, l), icon: 'fa-brain', color: '#EF4444' },
+  ]
 
-const advisors: TeamMember[] = [
-  { name: '战略顾问', title: '战略顾问', titleEn: 'Strategic Advisor', desc: '前国际投行高管，在资本市场与金融监管领域拥有深厚资源。', icon: 'fa-landmark', color: '#10B981' },
-  { name: '技术顾问', title: '技术顾问', titleEn: 'Technical Advisor', desc: '知名AI科学家，曾任大型科技公司AI实验室负责人。', icon: 'fa-brain', color: '#EF4444' },
-]
-
-export const TeamPage: FC = () => {
   return (
     <div class="min-h-screen">
-      <Navbar active="team" />
+      <Navbar active="team" lang={l} />
 
       {/* Hero */}
       <section class="aurora-bg noise-overlay relative overflow-hidden pt-20 pb-16">
         <div class="hero-grid-overlay"></div>
         <div class="max-w-4xl mx-auto px-4 relative text-center fade-in" style="z-index: 10;">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] text-white/50 text-xs font-semibold rounded-full mb-5 border border-white/[0.06]">
-            Our Team
+            {tt(tm.badge, l)}
           </div>
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight">核心团队</h1>
-          <p class="text-base text-white/40 max-w-xl mx-auto">
-            汇聚金融、科技、产品三大领域的资深专业人才
-          </p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight">{tt(tm.title, l)}</h1>
+          <p class="text-base text-white/40 max-w-xl mx-auto">{tt(tm.subtitle, l)}</p>
         </div>
       </section>
 
       {/* Core Team */}
       <section class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 class="text-lg font-extrabold text-[#1d1d1f] mb-8 text-center">管理团队</h2>
+          <h2 class="text-lg font-extrabold text-[#1d1d1f] mb-8 text-center">{tt(tm.managementTitle, l)}</h2>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {teamMembers.map((m) => (
               <div class="card-hover text-center p-6 rounded-2xl border border-gray-100">
@@ -69,7 +59,7 @@ export const TeamPage: FC = () => {
       {/* Advisors */}
       <section class="py-14 bg-gray-50">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 class="text-lg font-extrabold text-[#1d1d1f] mb-8 text-center">顾问团队</h2>
+          <h2 class="text-lg font-extrabold text-[#1d1d1f] mb-8 text-center">{tt(tm.advisorsTitle, l)}</h2>
           <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {advisors.map((a) => (
               <div class="card-hover flex items-center gap-4 p-5 rounded-2xl border border-gray-100 bg-white">
@@ -93,17 +83,15 @@ export const TeamPage: FC = () => {
           <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#5DC4B3]/10 flex items-center justify-center">
             <i class="fas fa-user-plus text-[#5DC4B3] text-xl"></i>
           </div>
-          <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">加入我们</h3>
-          <p class="text-sm text-gray-500 mb-6">
-            我们正在寻找对金融科技充满热情的人才。如果你想用技术改变投资行业，欢迎联系。
-          </p>
-          <a href="/contact" class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
-            <i class="fas fa-envelope mr-2"></i>联系我们
+          <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">{tt(tm.joinTitle, l)}</h3>
+          <p class="text-sm text-gray-500 mb-6">{tt(tm.joinDesc, l)}</p>
+          <a href={ll('/contact')} class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
+            <i class="fas fa-envelope mr-2"></i>{tt(tm.joinCta, l)}
           </a>
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={l} />
     </div>
   )
 }

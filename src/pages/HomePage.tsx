@@ -11,88 +11,88 @@ const TEAL = '#5DC4B3'
 const getNarrativeSections = (l: Lang) => [
   {
     id: 'entry', phase: 1,
-    eyebrow: tt(t.home.sec1Eyebrow, l), eyebrowColor: '#5DC4B3',
-    title: tt(t.home.sec1Title, l), subtitle: tt(t.home.sec1Subtitle, l),
+    eyebrow: tt(t.home.step01Eyebrow, l), eyebrowColor: '#5DC4B3',
+    title: tt(t.home.step01Title, l), subtitle: tt(t.home.step01Subtitle, l),
     products: ['identity'], illustration: 'entry', align: 'left' as const, bgClass: 'bg-white',
     features: [
-      { icon: 'fa-fingerprint', text: tt(t.home.sec1Feat1, l) },
-      { icon: 'fa-code-branch', text: tt(t.home.sec1Feat2, l) },
-      { icon: 'fa-shield-alt', text: tt(t.home.sec1Feat3, l) },
+      { icon: 'fa-fingerprint', text: tt(t.home.step01f1, l) },
+      { icon: 'fa-code-branch', text: tt(t.home.step01f2, l) },
+      { icon: 'fa-shield-alt', text: tt(t.home.step01f3, l) },
     ]
   },
   {
     id: 'borrower', phase: 2,
-    eyebrow: tt(t.home.sec2Eyebrow, l), eyebrowColor: '#F59E0B',
-    title: tt(t.home.sec2Title, l), subtitle: tt(t.home.sec2Subtitle, l),
+    eyebrow: tt(t.home.step02Eyebrow, l), eyebrowColor: '#F59E0B',
+    title: tt(t.home.step02Title, l), subtitle: tt(t.home.step02Subtitle, l),
     products: ['application'], illustration: 'borrower', align: 'right' as const, bgClass: 'bg-[#FAFAFA]',
     features: [
-      { icon: 'fa-upload', text: tt(t.home.sec2Feat1, l) },
-      { icon: 'fa-magic', text: tt(t.home.sec2Feat2, l) },
-      { icon: 'fa-bullseye', text: tt(t.home.sec2Feat3, l) },
+      { icon: 'fa-upload', text: tt(t.home.step02f1, l) },
+      { icon: 'fa-magic', text: tt(t.home.step02f2, l) },
+      { icon: 'fa-bullseye', text: tt(t.home.step02f3, l) },
     ]
   },
   {
     id: 'investor', phase: 3,
-    eyebrow: tt(t.home.sec3Eyebrow, l), eyebrowColor: '#6366F1',
-    title: tt(t.home.sec3Title, l), subtitle: tt(t.home.sec3Subtitle, l),
+    eyebrow: tt(t.home.step03Eyebrow, l), eyebrowColor: '#6366F1',
+    title: tt(t.home.step03Title, l), subtitle: tt(t.home.step03Subtitle, l),
     products: ['assess', 'risk', 'opportunity'], illustration: 'investor', align: 'left' as const, bgClass: 'bg-white',
     features: [
-      { icon: 'fa-sliders-h', text: tt(t.home.sec3Feat1, l) },
-      { icon: 'fa-robot', text: tt(t.home.sec3Feat2, l) },
-      { icon: 'fa-binoculars', text: tt(t.home.sec3Feat3, l) },
+      { icon: 'fa-sliders-h', text: tt(t.home.step03f1, l) },
+      { icon: 'fa-robot', text: tt(t.home.step03f2, l) },
+      { icon: 'fa-binoculars', text: tt(t.home.step03f3, l) },
     ]
   },
   {
     id: 'deal', phase: 4,
-    eyebrow: tt(t.home.sec4Eyebrow, l), eyebrowColor: '#8B5CF6',
-    title: tt(t.home.sec4Title, l), subtitle: tt(t.home.sec4Subtitle, l),
+    eyebrow: tt(t.home.step04Eyebrow, l), eyebrowColor: '#8B5CF6',
+    title: tt(t.home.step04Title, l), subtitle: tt(t.home.step04Subtitle, l),
     products: ['terms', 'contract'], illustration: 'deal', align: 'right' as const, bgClass: 'bg-[#FAFAFA]',
     features: [
-      { icon: 'fa-file-contract', text: tt(t.home.sec4Feat1, l) },
-      { icon: 'fa-handshake', text: tt(t.home.sec4Feat2, l) },
-      { icon: 'fa-gavel', text: tt(t.home.sec4Feat3, l) },
+      { icon: 'fa-file-contract', text: tt(t.home.step04f1, l) },
+      { icon: 'fa-handshake', text: tt(t.home.step04f2, l) },
+      { icon: 'fa-gavel', text: tt(t.home.step04f3, l) },
     ]
   },
   {
     id: 'post', phase: 5,
-    eyebrow: tt(t.home.sec5Eyebrow, l), eyebrowColor: '#10B981',
-    title: tt(t.home.sec5Title, l), subtitle: tt(t.home.sec5Subtitle, l),
+    eyebrow: tt(t.home.step05Eyebrow, l), eyebrowColor: '#10B981',
+    title: tt(t.home.step05Title, l), subtitle: tt(t.home.step05Subtitle, l),
     products: ['settlement', 'performance'], illustration: 'post', align: 'left' as const, bgClass: 'bg-white',
     features: [
-      { icon: 'fa-coins', text: tt(t.home.sec5Feat1, l) },
-      { icon: 'fa-chart-line', text: tt(t.home.sec5Feat2, l) },
-      { icon: 'fa-bell', text: tt(t.home.sec5Feat3, l) },
+      { icon: 'fa-coins', text: tt(t.home.step05f1, l) },
+      { icon: 'fa-chart-line', text: tt(t.home.step05f2, l) },
+      { icon: 'fa-bell', text: tt(t.home.step05f3, l) },
     ]
   },
 ]
 
 const getSliderSlides = (l: Lang) => [
   {
-    title: tt(t.home.welcomeSlide1Title, l),
+    title: tt(t.home.slide1Title, l),
     subtitle: 'Revenue-Based Financing OS',
     icon: 'fa-rocket', color: '#5DC4B3',
-    content: tt(t.home.welcomeSlide1Content, l),
+    content: tt(t.home.slide1Content, l),
     visual: 'hero'
   },
   {
-    title: tt(t.home.welcomeSlide2Title, l),
+    title: tt(t.home.slide2Title, l),
     subtitle: 'Y-Shape Architecture',
     icon: 'fa-code-branch', color: '#6366F1',
-    content: tt(t.home.welcomeSlide2Content, l),
+    content: tt(t.home.slide2Content, l),
     visual: 'yflow'
   },
   {
-    title: tt(t.home.welcomeSlide3Title, l),
+    title: tt(t.home.slide3Title, l),
     subtitle: 'Personalized AI Filtering',
     icon: 'fa-filter', color: '#F59E0B',
-    content: tt(t.home.welcomeSlide3Content, l),
+    content: tt(t.home.slide3Content, l),
     visual: 'filter'
   },
   {
-    title: tt(t.home.welcomeSlide4Title, l),
+    title: tt(t.home.slide4Title, l),
     subtitle: 'Full Lifecycle Management',
     icon: 'fa-chart-line', color: '#10B981',
-    content: tt(t.home.welcomeSlide4Content, l),
+    content: tt(t.home.slide4Content, l),
     visual: 'lifecycle'
   }
 ]
@@ -136,12 +136,12 @@ const FlowIllustration: FC<{ type: string, color: string, lang: Lang }> = ({ typ
                 <i class="fas fa-file-upload text-amber-500"></i>
               </div>
               <div>
-                <div class="text-sm font-bold text-gray-800">{tt(t.home.illustDataUpload, l)}</div>
-                <div class="text-[10px] text-gray-400">{tt(t.home.illustAutoProcess, l)}</div>
+                <div class="text-sm font-bold text-gray-800">{tt(t.home.illustUpload, l)}</div>
+                <div class="text-[10px] text-gray-400">{tt(t.home.illustAutoStd, l)}</div>
               </div>
             </div>
             <div class="space-y-2">
-              {[tt(t.home.illustFinancialFlow, l), tt(t.home.illustPosData, l), tt(t.home.illustStoreInfo, l)].map((item) => (
+              {[tt(t.home.illustFinancial, l), tt(t.home.illustPos, l), tt(t.home.illustStore, l)].map((item) => (
                 <div class="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg">
                   <div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
                   <span class="text-xs text-gray-600">{item}</span>
@@ -152,7 +152,7 @@ const FlowIllustration: FC<{ type: string, color: string, lang: Lang }> = ({ typ
           </div>
           <i class="fas fa-arrow-down text-gray-300"></i>
           <div class="px-4 py-2.5 bg-amber-50 rounded-full border border-amber-100">
-            <span class="text-xs font-bold text-amber-600"><i class="fas fa-magic mr-1.5"></i>{tt(t.home.illustPitchDeck, l)}</span>
+            <span class="text-xs font-bold text-amber-600"><i class="fas fa-magic mr-1.5"></i>{tt(t.home.illustAiPitch, l)}</span>
           </div>
         </div>
       </div>
@@ -182,14 +182,14 @@ const FlowIllustration: FC<{ type: string, color: string, lang: Lang }> = ({ typ
                 <i class="fas fa-binoculars text-emerald-500 text-sm"></i>
               </div>
               <div class="text-[11px] font-bold text-gray-700">{tt(t.home.illustOpportunity, l)}</div>
-              <div class="text-[9px] text-emerald-400 font-medium mt-0.5">{tt(t.home.illustFilteredBoard, l)}</div>
+              <div class="text-[9px] text-emerald-400 font-medium mt-0.5">{tt(t.home.illustDashboard, l)}</div>
             </div>
           </div>
           <div class="w-full bg-gradient-to-r from-indigo-50 to-emerald-50 rounded-xl p-4 mt-1">
             <div class="flex items-center justify-between text-center">
               <div>
                 <div class="text-lg font-extrabold text-indigo-600">100+</div>
-                <div class="text-[9px] text-gray-400">{tt(t.home.illustProjects, l)}</div>
+                <div class="text-[9px] text-gray-400">{tt(t.home.illustFundingProjects, l)}</div>
               </div>
               <i class="fas fa-long-arrow-alt-right text-gray-300"></i>
               <div>
@@ -240,7 +240,7 @@ const FlowIllustration: FC<{ type: string, color: string, lang: Lang }> = ({ typ
           </div>
           <div class="flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-full">
             <i class="fas fa-check-circle text-purple-400 text-xs"></i>
-            <span class="text-[10px] font-semibold text-purple-500">{tt(t.home.illustBothComplete, l)}</span>
+            <span class="text-[10px] font-semibold text-purple-500">{tt(t.home.illustDualComplete, l)}</span>
           </div>
         </div>
       </div>
@@ -262,7 +262,7 @@ const FlowIllustration: FC<{ type: string, color: string, lang: Lang }> = ({ typ
               ))}
             </div>
             <div class="flex items-center justify-between text-[10px] text-gray-400">
-              <span>{tt(t.home.illustRecent10, l)}</span>
+              <span>{tt(t.home.illustRecentSettlements, l)}</span>
               <span class="text-green-500 font-bold"><i class="fas fa-arrow-up text-[8px] mr-0.5"></i>+12.3%</span>
             </div>
           </div>
@@ -519,10 +519,10 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
             <div class="flex items-center gap-2">
               <a href={ll('/design')} onclick="closeWelcomeModal()" class="hidden sm:inline-flex items-center px-3 py-2 text-[11px] text-gray-400 hover:text-[#5DC4B3] font-medium rounded-lg transition-colors no-underline">
                 <i class="fas fa-book-open mr-1.5 text-[9px]"></i>
-                {tt(t.home.welcomeDesignStory, l)}
+                {tt(t.home.designStory, l)}
               </a>
               <button id="slider-next-btn" onclick="nextSlideOrClose()" class="inline-flex items-center px-5 py-2.5 text-white text-xs font-bold rounded-xl transition-all hover:brightness-110" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);">
-                <span id="slider-btn-text">{tt(t.home.welcomeNextBtn, l)}</span>
+                <span id="slider-btn-text">{tt(t.home.nextStep, l)}</span>
                 <i id="slider-btn-icon" class="fas fa-arrow-right ml-2 text-[10px]"></i>
               </button>
             </div>
@@ -533,7 +533,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
       {/* Modal JS */}
       <script dangerouslySetInnerHTML={{ __html: `
         var currentSlide=0,totalSlides=${sliderSlides.length},modalVisible=false;
-        var _nextLabel='${tt(t.home.welcomeNextBtn, l)}',_exploreLabel='${tt(t.home.welcomeExploreBtn, l)}';
+        var _nextLabel='${tt(t.home.nextStep, l)}',_exploreLabel='${tt(t.home.startExploring, l)}';
         function closeWelcomeModal(){var m=document.getElementById('welcome-modal');if(!m||!modalVisible)return;var c=m.querySelector('.modal-enter');if(c){c.classList.remove('modal-enter');c.classList.add('modal-exit');}modalVisible=false;setTimeout(function(){m.style.display='none';document.body.style.overflow='';sessionStorage.setItem('mc_welcome_seen','1');},250);}
         function goToSlide(i){currentSlide=i;updateSlider();}
         function nextSlideOrClose(){if(currentSlide>=totalSlides-1)closeWelcomeModal();else{currentSlide++;updateSlider();}}
@@ -566,7 +566,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5DC4B3] opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#5DC4B3]"></span>
                 </span>
-                {tt(t.home.heroBadge, l)}
+                {tt(t.home.heroTag, l)}
               </div>
             </div>
             <h1 class="hero-text-reveal hero-text-reveal-3 display-xl text-white mb-6">
@@ -585,22 +585,22 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
               <a href={ll(getProductUrl(idP))} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="group relative inline-flex items-center px-8 py-4 text-white font-bold text-[15px] rounded-2xl transition-all no-underline overflow-hidden" style="background: linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%); box-shadow: 0 0 50px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.3);">
                 <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                 <i class="fas fa-fingerprint mr-2.5 text-base group-hover:scale-110 transition-transform"></i>
-                <span class="relative">{tt(t.home.heroCtaPrimary, l)}</span>
+                <span class="relative">{tt(t.home.heroCtaIdentity, l)}</span>
                 <i class="fas fa-arrow-right ml-3 text-sm opacity-70 group-hover:translate-x-1 transition-transform"></i>
               </a>
               ) })()}
               <a href="#flow-narrative" class="inline-flex items-center px-8 py-4 bg-white/[0.06] hover:bg-white/[0.10] text-white/60 hover:text-white font-semibold text-[15px] rounded-2xl border border-white/[0.08] hover:border-white/[0.15] transition-all no-underline backdrop-blur-sm">
                 <i class="fas fa-arrow-down mr-2.5 text-sm animate-bounce"></i>
-                {tt(t.home.heroCtaSecondary, l)}
+                {tt(t.home.heroCtaJourney, l)}
               </a>
             </div>
 
             <div class="hero-text-reveal hero-text-reveal-6 flex flex-wrap items-center justify-center gap-3">
               {[
-                { val: '5', label: tt(t.home.stat1, l), color: '#5DC4B3' },
-                { val: '9', label: tt(t.home.stat2, l), color: '#6366F1' },
-                { val: 'AI', label: tt(t.home.stat3, l), color: '#F59E0B' },
-                { val: '∞', label: tt(t.home.stat4, l), color: '#10B981' },
+                { val: '5', label: tt(t.home.statPhases, l), color: '#5DC4B3' },
+                { val: '9', label: tt(t.home.statAgents, l), color: '#6366F1' },
+                { val: 'AI', label: tt(t.home.statAiFilter, l), color: '#F59E0B' },
+                { val: '∞', label: tt(t.home.statIndustry, l), color: '#10B981' },
               ].map((d) => (
                 <div class="flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm" style="background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.06);">
                   <span class="text-base font-extrabold" style={`color: ${d.color};`}>{d.val}</span>
@@ -627,7 +627,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12 reveal">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/6 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-5 border border-[#5DC4B3]/10 tracking-[0.15em] uppercase">
-              {tt(t.home.flowBadge, l)}
+              {tt(t.home.flowTag, l)}
             </div>
             <h2 class="display-lg text-[#1d1d1f] mb-4">{tt(t.home.flowTitle, l)}</h2>
             <p class="text-base text-gray-400 max-w-lg mx-auto">{tt(t.home.flowSubtitle, l)}</p>
@@ -722,7 +722,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14 reveal">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 text-indigo-500 text-[11px] font-semibold rounded-full mb-5 border border-indigo-100 tracking-[0.15em] uppercase">
-              {tt(t.home.dualBadge, l)}
+              {tt(t.home.dualTag, l)}
             </div>
             <h2 class="display-lg text-[#1d1d1f] mb-4">{tt(t.home.dualTitle, l)}</h2>
             <p class="text-base text-gray-400 max-w-lg mx-auto">{tt(t.home.dualSubtitle, l)}</p>
@@ -737,15 +737,15 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                     <i class="fas fa-chart-pie text-indigo-500 text-xl"></i>
                   </div>
                   <div>
-                    <h3 class="text-xl font-extrabold text-[#1d1d1f] tracking-tight">{tt(t.home.investorTitle, l)}</h3>
-                    <p class="text-[11px] text-indigo-400 font-semibold tracking-wider uppercase">{tt(t.home.investorSubtitle, l)}</p>
+                    <h3 class="text-xl font-extrabold text-[#1d1d1f] tracking-tight">{tt(t.home.investorPlatform, l)}</h3>
+                    <p class="text-[11px] text-indigo-400 font-semibold tracking-wider uppercase">{tt(t.home.investorPlatformTag, l)}</p>
                   </div>
                 </div>
                 <ul class="space-y-3.5 mb-8">
                   {[
-                    { title: tt(t.home.investorFeat1Title, l), desc: tt(t.home.investorFeat1Desc, l) },
-                    { title: tt(t.home.investorFeat2Title, l), desc: tt(t.home.investorFeat2Desc, l) },
-                    { title: tt(t.home.investorFeat3Title, l), desc: tt(t.home.investorFeat3Desc, l) },
+                    { title: tt(t.home.inv1Title, l), desc: tt(t.home.inv1Desc, l) },
+                    { title: tt(t.home.inv2Title, l), desc: tt(t.home.inv2Desc, l) },
+                    { title: tt(t.home.inv3Title, l), desc: tt(t.home.inv3Desc, l) },
                   ].map((item) => (
                     <li class="flex items-start gap-3 text-sm text-gray-600">
                       <span class="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -757,7 +757,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                 </ul>
                 {(() => { const idP = products.find(p => p.id === 'identity')!; return (
                 <a href={ll(getProductUrl(idP))} target={isExternalProduct(idP) ? "_blank" : undefined} class="inline-flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-700 no-underline group/link">
-                  {tt(t.home.investorCta, l)} <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
+                  {tt(t.home.invCta, l)} <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                 </a>
                 ) })()}
               </div>
@@ -771,15 +771,15 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                     <i class="fas fa-store text-amber-500 text-xl"></i>
                   </div>
                   <div>
-                    <h3 class="text-xl font-extrabold text-[#1d1d1f] tracking-tight">{tt(t.home.borrowerTitle, l)}</h3>
-                    <p class="text-[11px] text-amber-400 font-semibold tracking-wider uppercase">{tt(t.home.borrowerSubtitle, l)}</p>
+                    <h3 class="text-xl font-extrabold text-[#1d1d1f] tracking-tight">{tt(t.home.businessPlatform, l)}</h3>
+                    <p class="text-[11px] text-amber-400 font-semibold tracking-wider uppercase">{tt(t.home.businessPlatformTag, l)}</p>
                   </div>
                 </div>
                 <ul class="space-y-3.5 mb-8">
                   {[
-                    { title: tt(t.home.borrowerFeat1Title, l), desc: tt(t.home.borrowerFeat1Desc, l) },
-                    { title: tt(t.home.borrowerFeat2Title, l), desc: tt(t.home.borrowerFeat2Desc, l) },
-                    { title: tt(t.home.borrowerFeat3Title, l), desc: tt(t.home.borrowerFeat3Desc, l) },
+                    { title: tt(t.home.biz1Title, l), desc: tt(t.home.biz1Desc, l) },
+                    { title: tt(t.home.biz2Title, l), desc: tt(t.home.biz2Desc, l) },
+                    { title: tt(t.home.biz3Title, l), desc: tt(t.home.biz3Desc, l) },
                   ].map((item) => (
                     <li class="flex items-start gap-3 text-sm text-gray-600">
                       <span class="w-5 h-5 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -791,7 +791,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                 </ul>
                 {(() => { const idP = products.find(p => p.id === 'identity')!; return (
                 <a href={ll(getProductUrl(idP))} target={isExternalProduct(idP) ? "_blank" : undefined} class="inline-flex items-center text-sm font-bold text-amber-600 hover:text-amber-700 no-underline group/link">
-                  {tt(t.home.borrowerCta, l)} <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
+                  {tt(t.home.bizCta, l)} <i class="fas fa-arrow-right text-xs ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                 </a>
                 ) })()}
               </div>
@@ -805,10 +805,10 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-14 reveal">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/6 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-5 border border-[#5DC4B3]/10 tracking-[0.15em] uppercase">
-              {tt(t.home.foundBadge, l)}
+              {tt(t.home.foundationTag, l)}
             </div>
-            <h2 class="display-lg text-[#1d1d1f] mb-4">{tt(t.home.foundTitle, l)}</h2>
-            <p class="text-base text-gray-400 max-w-md mx-auto">{tt(t.home.foundSubtitle, l)}</p>
+            <h2 class="display-lg text-[#1d1d1f] mb-4">{tt(t.home.foundationTitle, l)}</h2>
+            <p class="text-base text-gray-400 max-w-md mx-auto">{tt(t.home.foundationSubtitle, l)}</p>
           </div>
 
           <div class="grid md:grid-cols-3 gap-5 reveal">
@@ -826,11 +826,11 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
           <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-3 mt-12">
             <a href={ll('/design')} class="inline-flex items-center px-7 py-3.5 bg-white text-[#1d1d1f] font-bold text-sm rounded-xl border border-gray-200 hover:border-[#5DC4B3] hover:text-[#5DC4B3] transition-all no-underline group">
               <i class="fas fa-book-open mr-2 text-xs group-hover:text-[#5DC4B3]"></i>
-              {tt(t.home.foundDesignLink, l)}
+              {tt(t.home.foundationDesignStory, l)}
               <i class="fas fa-arrow-right ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
             </a>
             <a href={ll('/portal')} class="inline-flex items-center px-7 py-3.5 text-white font-bold text-sm rounded-xl transition-all no-underline hover:brightness-110" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);">
-              <i class="fas fa-th-large mr-2"></i>{tt(t.home.foundPortalLink, l)}
+              <i class="fas fa-th-large mr-2"></i>{tt(t.home.foundationFullPortal, l)}
             </a>
           </div>
         </div>
@@ -847,7 +847,7 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
           <div class="reveal">
             <div class="inline-flex items-center gap-2.5 px-5 py-2 bg-[#5DC4B3]/8 rounded-full mb-8 border border-[#5DC4B3]/12">
               <i class="fas fa-fingerprint text-[#5DC4B3] text-sm"></i>
-              <span class="text-[11px] font-semibold text-[#5DC4B3] tracking-wider">{tt(t.home.ctaBadge, l)}</span>
+              <span class="text-[11px] font-semibold text-[#5DC4B3] tracking-wider">{tt(t.home.ctaFrom, l)}</span>
             </div>
           </div>
           <h2 class="reveal display-lg text-white mb-6 leading-tight">
@@ -863,12 +863,12 @@ export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
           <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
             {(() => { const idP = products.find(p => p.id === 'identity')!; return (
             <a href={ll(getProductUrl(idP))} target={isExternalProduct(idP) ? "_blank" : undefined} class="inline-flex items-center px-8 py-4 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold text-[15px] rounded-2xl transition-all no-underline" style="box-shadow: 0 0 50px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.3);">
-              <i class="fas fa-fingerprint mr-2.5"></i>{tt(t.home.ctaPrimary, l)}
+              <i class="fas fa-fingerprint mr-2.5"></i>{tt(t.home.ctaRegister, l)}
               <i class="fas fa-arrow-right ml-3 text-sm opacity-70"></i>
             </a>
             ) })()}
             <a href={ll('/contact')} class="inline-flex items-center px-8 py-4 bg-white/[0.04] hover:bg-white/[0.08] text-white/50 hover:text-white font-semibold text-[15px] rounded-2xl border border-white/[0.06] hover:border-white/[0.12] transition-all no-underline">
-              <i class="fas fa-envelope mr-2.5"></i>{tt(t.home.ctaSecondary, l)}
+              <i class="fas fa-envelope mr-2.5"></i>{tt(t.home.ctaContact, l)}
             </a>
           </div>
         </div>

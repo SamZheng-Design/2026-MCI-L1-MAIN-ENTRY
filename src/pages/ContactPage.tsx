@@ -1,32 +1,31 @@
 import type { FC } from 'hono/jsx'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import type { Lang } from '../i18n'
+import { tt, t, langLink } from '../i18n'
 
-/*
- * 联系我们 — 优雅占位版
- * Sam后续提供实际联系方式
- */
+export const ContactPage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
+  const l = lang
+  const ll = (href: string) => langLink(href, l)
+  const c = t.contact
 
-export const ContactPage: FC = () => {
   return (
     <div class="min-h-screen">
-      <Navbar active="contact" />
+      <Navbar active="contact" lang={l} />
 
       {/* Hero */}
       <section class="aurora-bg noise-overlay relative overflow-hidden pt-20 pb-16">
         <div class="hero-grid-overlay"></div>
         <div class="max-w-4xl mx-auto px-4 relative text-center fade-in" style="z-index: 10;">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] text-white/50 text-xs font-semibold rounded-full mb-5 border border-white/[0.06]">
-            Contact Us
+            {tt(c.badge, l)}
           </div>
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight">联系我们</h1>
-          <p class="text-base text-white/40 max-w-xl mx-auto">
-            无论您是投资者、融资企业还是潜在合作伙伴，我们期待与您对话
-          </p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight">{tt(c.title, l)}</h1>
+          <p class="text-base text-white/40 max-w-xl mx-auto">{tt(c.subtitle, l)}</p>
         </div>
       </section>
 
-      {/* Contact Cards — 双入口 */}
+      {/* Contact Cards */}
       <section class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid md:grid-cols-2 gap-8 mb-14">
@@ -35,10 +34,8 @@ export const ContactPage: FC = () => {
               <div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
                 <i class="fas fa-chart-pie text-indigo-500 text-xl"></i>
               </div>
-              <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">投资者咨询</h3>
-              <p class="text-sm text-gray-500 leading-relaxed mb-5">
-                了解产品功能、申请产品演示、获取投资白皮书
-              </p>
+              <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">{tt(c.investorTitle, l)}</h3>
+              <p class="text-sm text-gray-500 leading-relaxed mb-5">{tt(c.investorDesc, l)}</p>
               <div class="space-y-3">
                 <div class="flex items-center gap-3 text-sm text-gray-600">
                   <i class="fas fa-envelope text-indigo-400 text-xs w-5 text-center"></i>
@@ -51,7 +48,7 @@ export const ContactPage: FC = () => {
               </div>
               <div class="mt-6">
                 <a href="#" class="inline-flex items-center px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-bold rounded-xl transition-all no-underline shadow-sm">
-                  <i class="fas fa-calendar-alt mr-2 text-xs"></i>预约演示
+                  <i class="fas fa-calendar-alt mr-2 text-xs"></i>{tt(c.investorCta, l)}
                 </a>
               </div>
             </div>
@@ -61,10 +58,8 @@ export const ContactPage: FC = () => {
               <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
                 <i class="fas fa-store text-amber-500 text-xl"></i>
               </div>
-              <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">融资企业咨询</h3>
-              <p class="text-sm text-gray-500 leading-relaxed mb-5">
-                了解融资流程、提交融资申请、对接合作资源
-              </p>
+              <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-2">{tt(c.businessTitle, l)}</h3>
+              <p class="text-sm text-gray-500 leading-relaxed mb-5">{tt(c.businessDesc, l)}</p>
               <div class="space-y-3">
                 <div class="flex items-center gap-3 text-sm text-gray-600">
                   <i class="fas fa-envelope text-amber-400 text-xs w-5 text-center"></i>
@@ -77,7 +72,7 @@ export const ContactPage: FC = () => {
               </div>
               <div class="mt-6">
                 <a href="#" class="inline-flex items-center px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-xl transition-all no-underline shadow-sm">
-                  <i class="fas fa-file-alt mr-2 text-xs"></i>提交申请
+                  <i class="fas fa-file-alt mr-2 text-xs"></i>{tt(c.businessCta, l)}
                 </a>
               </div>
             </div>
@@ -89,26 +84,22 @@ export const ContactPage: FC = () => {
               <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
                 <i class="fas fa-envelope text-[#5DC4B3] text-lg"></i>
               </div>
-              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">一般查询</h4>
+              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">{tt(c.generalTitle, l)}</h4>
               <p class="text-xs text-gray-500">info@microconnect.com</p>
             </div>
             <div class="text-center p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all">
               <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
                 <i class="fas fa-map-marker-alt text-[#5DC4B3] text-lg"></i>
               </div>
-              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">办公地址</h4>
-              <p class="text-xs text-gray-500">
-                香港中环康乐广场8号<br />交易广场2期 2105-2108室
-              </p>
+              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">{tt(c.addressTitle, l)}</h4>
+              <p class="text-xs text-gray-500" dangerouslySetInnerHTML={{ __html: tt(c.address, l).replace('\n', '<br />') }}></p>
             </div>
             <div class="text-center p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all">
               <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
                 <i class="fas fa-clock text-[#5DC4B3] text-lg"></i>
               </div>
-              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">工作时间</h4>
-              <p class="text-xs text-gray-500">
-                周一至周五 9:00 - 18:00<br />(HKT / GMT+8)
-              </p>
+              <h4 class="text-sm font-bold text-[#1d1d1f] mb-1">{tt(c.hoursTitle, l)}</h4>
+              <p class="text-xs text-gray-500" dangerouslySetInnerHTML={{ __html: tt(c.hours, l).replace('\n', '<br />') }}></p>
             </div>
           </div>
         </div>
@@ -117,7 +108,7 @@ export const ContactPage: FC = () => {
       {/* Social */}
       <section class="py-14 bg-gray-50">
         <div class="max-w-md mx-auto px-4 text-center">
-          <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-6">关注我们</h3>
+          <h3 class="text-lg font-extrabold text-[#1d1d1f] mb-6">{tt(c.socialTitle, l)}</h3>
           <div class="flex items-center justify-center gap-4">
             {[
               { icon: 'fab fa-linkedin-in', label: 'LinkedIn', color: 'hover:bg-blue-600' },
@@ -132,7 +123,7 @@ export const ContactPage: FC = () => {
         </div>
       </section>
 
-      <Footer />
+      <Footer lang={l} />
     </div>
   )
 }
