@@ -4,6 +4,13 @@ import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { ProductLogo } from '../components/Logos'
 
+const roleLabels: Record<string, { text: string; icon: string; class: string }> = {
+  shared: { text: '统一入口', icon: 'fa-sign-in-alt', class: 'bg-blue-50 text-blue-600 border-blue-200' },
+  borrower: { text: '融资者专属', icon: 'fa-upload', class: 'bg-amber-50 text-amber-600 border-amber-200' },
+  investor: { text: '投资者专属', icon: 'fa-filter', class: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
+  collaborative: { text: '投融资协同', icon: 'fa-handshake', class: 'bg-[#4ECDC4]/10 text-[#4ECDC4] border-[#4ECDC4]/20' },
+}
+
 export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
   const product = products.find(p => p.id === productId)
   if (!product) {
@@ -17,6 +24,8 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
       </div>
     )
   }
+
+  const role = roleLabels[product.role]
 
   return (
     <div class="min-h-screen">
@@ -38,10 +47,20 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
           <p class="text-sm text-gray-400 mb-4">{product.englishName}</p>
           <p class="text-base text-gray-500 max-w-lg mx-auto leading-relaxed">{product.description}</p>
 
-          <div class="mt-4">
+          <div class="mt-4 flex justify-center gap-2">
             <span class="inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold bg-[#4ECDC4]/10 text-[#4ECDC4] border border-[#4ECDC4]/20">
               <i class="fas fa-layer-group mr-1.5"></i>{product.category}
             </span>
+            {role && (
+              <span class={`inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold border ${role.class}`}>
+                <i class={`fas ${role.icon} mr-1.5`}></i>{role.text}
+              </span>
+            )}
+            {product.isFilter && (
+              <span class="inline-flex items-center text-xs px-3 py-1 rounded-lg font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200">
+                <i class="fas fa-robot mr-1.5"></i>AI筛子工作流
+              </span>
+            )}
           </div>
         </div>
       </section>
