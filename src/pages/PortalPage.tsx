@@ -40,7 +40,7 @@ const phases = [
     ids: ['assess', 'risk', 'opportunity']
   },
   {
-    label: '交易',
+    label: '磋商',
     labelEn: 'Deal',
     color: '#8B5CF6',
     bg: 'from-purple-50 to-purple-100/50',
