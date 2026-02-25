@@ -15,9 +15,9 @@ const phases = [
   {
     label: '入口',
     labelEn: 'Entry',
-    color: '#3B82F6',
-    bg: 'from-blue-50 to-blue-100/50',
-    borderColor: 'border-blue-200',
+    color: '#5DC4B3',
+    bg: 'from-[#5DC4B3]/5 to-[#5DC4B3]/10',
+    borderColor: 'border-[#5DC4B3]/20',
     icon: 'fa-fingerprint',
     ids: ['identity']
   },
@@ -51,9 +51,9 @@ const phases = [
   {
     label: '投后',
     labelEn: 'Post',
-    color: '#EF4444',
-    bg: 'from-red-50 to-red-100/50',
-    borderColor: 'border-red-200',
+    color: '#10B981',
+    bg: 'from-emerald-50 to-emerald-100/50',
+    borderColor: 'border-emerald-200',
     icon: 'fa-chart-line',
     ids: ['settlement', 'performance']
   }

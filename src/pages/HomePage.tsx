@@ -407,7 +407,7 @@ export const HomePage: FC = () => {
                     <p class="text-sm text-white/40 leading-relaxed mb-4 max-w-sm sm:ml-auto">
                       所有用户的统一入口 — 认证后自动识别角色，分流至投资者或融资者专属路径
                     </p>
-                    <div class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white text-sm font-bold rounded-xl transition-all group-hover:shadow-[0_0_30px_rgba(93,196,179,0.3)]">
+                    <div class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white text-sm font-bold rounded-xl transition-all group-hover:shadow-[0_0_30px_rgba(93,196,179,0.3)]">
                       <i class="fas fa-fingerprint mr-2"></i>
                       立即注册
                       <i class="fas fa-arrow-right ml-2.5 text-xs group-hover:translate-x-1 transition-transform"></i>
@@ -654,7 +654,7 @@ export const HomePage: FC = () => {
           </p>
           <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
             {(() => { const idP = products.find(p => p.id === 'identity')!; return (
-            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center px-8 py-4 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-[15px] rounded-2xl transition-all no-underline" style="box-shadow: 0 0 50px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.3);">
+            <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="inline-flex items-center px-8 py-4 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold text-[15px] rounded-2xl transition-all no-underline" style="box-shadow: 0 0 50px rgba(93,196,179,0.25), 0 4px 20px rgba(93,196,179,0.3);">
               <i class="fas fa-fingerprint mr-2.5"></i>立即注册身份通
               <i class="fas fa-arrow-right ml-3 text-sm opacity-70"></i>
             </a>

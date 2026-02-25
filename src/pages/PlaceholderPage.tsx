@@ -117,7 +117,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
           </p>
           <a
             href="/portal"
-            class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3DBDB5] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline"
+            class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline"
           >
             <i class="fas fa-arrow-left mr-2"></i>返回产品入口
           </a>

@@ -97,7 +97,7 @@ export const TeamPage: FC = () => {
           <p class="text-sm text-gray-500 mb-6">
             我们正在寻找对金融科技充满热情的人才。如果你想用技术改变投资行业，欢迎联系。
           </p>
-          <a href="/contact" class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#4AB5A5] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
+          <a href="/contact" class="inline-flex items-center px-6 py-3 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold text-sm rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
             <i class="fas fa-envelope mr-2"></i>联系我们
           </a>
         </div>

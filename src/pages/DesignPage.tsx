@@ -450,9 +450,9 @@ export const DesignPage: FC = () => {
           {/* ===== PHASE 5: 投后管理 ===== */}
           <div class="mb-8">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">5</div>
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">5</div>
               <div>
-                <span class="text-sm font-bold text-red-500">投后管理</span>
+                <span class="text-sm font-bold text-emerald-600">投后管理</span>
                 <span class="text-[10px] text-gray-400 ml-2">Post-Investment</span>
               </div>
               <div class="flex-1 h-px bg-gray-200"></div>
@@ -637,7 +637,7 @@ export const DesignPage: FC = () => {
           <h2 class="text-2xl font-extrabold text-[#1d1d1f] mb-4">准备好探索超级Agent产品矩阵了吗？</h2>
           <p class="text-gray-500 mb-8">点击进入产品统一入口，体验9个"通"的完整功能</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/portal" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#5DC4B3] hover:bg-[#3DBDB5] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
+            <a href="/portal" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#5DC4B3] hover:bg-[#3D8F83] text-white font-bold rounded-xl shadow-lg shadow-[#5DC4B3]/25 transition-all no-underline">
               <i class="fas fa-rocket mr-2"></i>进入产品入口
             </a>
             <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#1d1d1f] font-bold rounded-xl border-2 border-gray-200 hover:border-[#5DC4B3] transition-all no-underline">
