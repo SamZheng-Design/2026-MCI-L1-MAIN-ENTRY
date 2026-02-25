@@ -512,3 +512,64 @@ a, button {
               filter var(--duration-fast) var(--ease-smooth),
               opacity var(--duration-fast) var(--ease-smooth);
 }
+
+/* ── 十六、Slider / Welcome Modal ── */
+
+/* Slider dots */
+.slider-dot {
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  border-radius: var(--radius-full);
+  transition: width 0.3s var(--ease-spring),
+              background-color 0.3s var(--ease-smooth);
+}
+.slider-dot:hover {
+  opacity: 0.8;
+}
+
+/* Slider track smooth animation */
+#slider-track {
+  transition: transform 0.5s var(--ease-apple);
+}
+
+/* Welcome modal overlay fade */
+#welcome-modal .backdrop-blur-sm {
+  animation: overlayFadeIn 0.3s var(--ease-smooth);
+}
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Hero brand logo entrance animation */
+.fade-in .opacity-95 {
+  animation: logoReveal 1s var(--ease-spring) 0.2s both;
+}
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(12px);
+  }
+  to {
+    opacity: 0.95;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Scroll indicator bounce */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* Product entry card hover glow */
+.portal-card:hover {
+  box-shadow: var(--shadow-card-hover), 0 0 0 1px rgba(93,196,179,0.08);
+}
+
+/* Identity card shimmer effect */
+@keyframes identityShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
