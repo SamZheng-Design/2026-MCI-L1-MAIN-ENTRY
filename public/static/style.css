@@ -523,6 +523,7 @@ a, button {
   border-radius: var(--radius-full);
   transition: width 0.3s var(--ease-spring),
               background-color 0.3s var(--ease-smooth);
+  -webkit-tap-highlight-color: transparent;
 }
 .slider-dot:hover {
   opacity: 0.8;
@@ -572,4 +573,44 @@ a, button {
 @keyframes identityShimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
+}
+
+/* ── 十七、Touch-friendly & Mobile UX ── */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+.phase-nav-item {
+  transition: background 0.25s var(--ease-smooth),
+              color 0.25s var(--ease-smooth),
+              border-color 0.25s var(--ease-smooth),
+              box-shadow 0.25s var(--ease-smooth);
+  text-decoration: none;
+}
+
+/* Breadcrumb */
+nav[class*="flex items-center gap-2"] a {
+  text-decoration: none;
+}
+
+/* Accordion rotate utility */
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Prev/Next navigation cards active state */
+section a[href]:active .fa-chevron-left,
+section a[href]:active .fa-chevron-right {
+  color: var(--color-primary);
+}
+
+/* Better focus states for accessibility */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Prevent overscroll on mobile modals */
+#welcome-modal {
+  overscroll-behavior: contain;
 }

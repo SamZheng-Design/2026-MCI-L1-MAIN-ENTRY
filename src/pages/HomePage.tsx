@@ -193,16 +193,19 @@ export const HomePage: FC = () => {
 
           {/* Slider controls */}
           <div class="px-7 sm:px-10 pb-6 sm:pb-8 flex items-center justify-between">
-            {/* Dots */}
-            <div class="flex items-center gap-2">
-              {sliderSlides.map((_, idx) => (
-                <button 
-                  onclick={`goToSlide(${idx})`}
-                  class="slider-dot w-2 h-2 rounded-full transition-all duration-300"
-                  style={idx === 0 ? `background: #5DC4B3; width: 20px;` : `background: #d1d5db;`}
-                  data-index={idx}
-                ></button>
-              ))}
+            {/* Dots + step counter */}
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2">
+                {sliderSlides.map((_, idx) => (
+                  <button 
+                    onclick={`goToSlide(${idx})`}
+                    class="slider-dot w-2 h-2 rounded-full transition-all duration-300"
+                    style={idx === 0 ? `background: #5DC4B3; width: 20px;` : `background: #d1d5db;`}
+                    data-index={idx}
+                  ></button>
+                ))}
+              </div>
+              <span id="slider-counter" class="text-[10px] text-gray-300 font-medium tabular-nums">1 / {sliderSlides.length}</span>
             </div>
 
             <div class="flex items-center gap-2">
@@ -226,28 +229,51 @@ export const HomePage: FC = () => {
       <script dangerouslySetInnerHTML={{ __html: `
         var currentSlide = 0;
         var totalSlides = ${sliderSlides.length};
-        var modalShown = false;
+        var modalVisible = false;
 
         // 首次进入自动弹出弹窗
         document.addEventListener('DOMContentLoaded', function() {
-          // 检查session是否已看过
           if (!sessionStorage.getItem('mc_welcome_seen')) {
             setTimeout(function() {
-              document.getElementById('welcome-modal').style.display = 'flex';
-              modalShown = true;
+              var modal = document.getElementById('welcome-modal');
+              if (modal) {
+                modal.style.display = 'flex';
+                modalVisible = true;
+                // 禁止背景滚动
+                document.body.style.overflow = 'hidden';
+              }
             }, 800);
+          }
+
+          // Swipe support — safe init after DOM ready
+          var sc = document.getElementById('slider-container');
+          var touchStartX = 0;
+          if (sc) {
+            sc.addEventListener('touchstart', function(e) {
+              touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            sc.addEventListener('touchend', function(e) {
+              var diff = touchStartX - e.changedTouches[0].screenX;
+              if (Math.abs(diff) > 50) {
+                if (diff > 0) nextSlideOrClose();
+                else if (currentSlide > 0) { currentSlide--; updateSlider(); }
+              }
+            });
           }
         });
 
         function closeWelcomeModal() {
           var modal = document.getElementById('welcome-modal');
+          if (!modal || !modalVisible) return;
           var card = modal.querySelector('.modal-enter');
           if (card) {
             card.classList.remove('modal-enter');
             card.classList.add('modal-exit');
           }
+          modalVisible = false;
           setTimeout(function() {
             modal.style.display = 'none';
+            document.body.style.overflow = '';
             sessionStorage.setItem('mc_welcome_seen', '1');
           }, 250);
         }
@@ -268,11 +294,10 @@ export const HomePage: FC = () => {
 
         function updateSlider() {
           var track = document.getElementById('slider-track');
-          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          if (track) track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
           
           // Update dots
-          var dots = document.querySelectorAll('.slider-dot');
-          dots.forEach(function(dot, i) {
+          document.querySelectorAll('.slider-dot').forEach(function(dot, i) {
             if (i === currentSlide) {
               dot.style.background = '#5DC4B3';
               dot.style.width = '20px';
@@ -281,6 +306,10 @@ export const HomePage: FC = () => {
               dot.style.width = '8px';
             }
           });
+
+          // Update step counter
+          var counter = document.getElementById('slider-counter');
+          if (counter) counter.textContent = (currentSlide + 1) + ' / ' + totalSlides;
 
           // Update button
           var btnText = document.getElementById('slider-btn-text');
@@ -296,25 +325,10 @@ export const HomePage: FC = () => {
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
-          if (!modalShown) return;
-          var modal = document.getElementById('welcome-modal');
-          if (modal.style.display === 'none') return;
+          if (!modalVisible) return;
           if (e.key === 'Escape') closeWelcomeModal();
           if (e.key === 'ArrowRight') nextSlideOrClose();
           if (e.key === 'ArrowLeft' && currentSlide > 0) { currentSlide--; updateSlider(); }
-        });
-
-        // Swipe support
-        var touchStartX = 0;
-        document.getElementById('slider-container')?.addEventListener('touchstart', function(e) {
-          touchStartX = e.changedTouches[0].screenX;
-        });
-        document.getElementById('slider-container')?.addEventListener('touchend', function(e) {
-          var diff = touchStartX - e.changedTouches[0].screenX;
-          if (Math.abs(diff) > 50) {
-            if (diff > 0) nextSlideOrClose();
-            else if (currentSlide > 0) { currentSlide--; updateSlider(); }
-          }
         });
       `}} />
 
@@ -711,6 +725,49 @@ export const HomePage: FC = () => {
           </p>
         </div>
       </section>
+
+      {/* Scroll reveal animations */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        document.addEventListener('DOMContentLoaded', function() {
+          // Scroll-triggered fade-in for sections
+          var sections = document.querySelectorAll('#product-entry, #product-entry + section, #product-entry + section + section, section.py-24');
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+          sections.forEach(function(sec) {
+            sec.style.opacity = '0';
+            sec.style.transform = 'translateY(24px)';
+            sec.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+            observer.observe(sec);
+          });
+
+          // Stagger animation for product cards in the product entry section
+          var productCards = document.querySelectorAll('#product-entry .portal-card, #product-entry .card-hover');
+          var cardObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                cardObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
+
+          productCards.forEach(function(card, i) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(16px)';
+            card.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's, transform 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's';
+            cardObserver.observe(card);
+          });
+        });
+      `}} />
 
       <Footer />
     </div>

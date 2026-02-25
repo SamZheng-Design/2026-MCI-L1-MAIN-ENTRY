@@ -2,7 +2,7 @@ import type { FC } from 'hono/jsx'
 import { BrandLogo } from './Logos'
 
 export const Navbar: FC<{ active: string }> = ({ active }) => {
-  // 主导航链接
+  // 导航链接
   const mainLinks = [
     { id: 'home', href: '/', label: '首页' },
     { id: 'product', href: '#', label: '产品', hasDropdown: true },
@@ -22,6 +22,7 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
   const isProductActive = active === 'design' || active === 'portal'
 
   return (
+    <>
     <nav class="sticky top-0 z-50 navbar-glass">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-[60px]">
@@ -100,8 +101,8 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
           </div>
 
           {/* Mobile toggle */}
-          <button class="lg:hidden p-2 text-[#86868b] hover:text-[#5DC4B3]" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-            <i class="fas fa-bars text-lg"></i>
+          <button class="lg:hidden p-2 text-[#86868b] hover:text-[#5DC4B3]" onclick="toggleMobileMenu()">
+            <i id="mobile-menu-icon" class="fas fa-bars text-lg"></i>
           </button>
         </div>
 
@@ -146,5 +147,58 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
         </div>
       </div>
     </nav>
+
+    {/* Navbar interaction scripts */}
+    <script dangerouslySetInnerHTML={{ __html: `
+      // --- Mobile menu toggle with auto-close ---
+      function toggleMobileMenu() {
+        var menu = document.getElementById('mobile-menu');
+        var icon = document.getElementById('mobile-menu-icon');
+        menu.classList.toggle('hidden');
+        if (menu.classList.contains('hidden')) {
+          icon.className = 'fas fa-bars text-lg';
+        } else {
+          icon.className = 'fas fa-times text-lg';
+        }
+      }
+      function closeMobileMenu() {
+        var menu = document.getElementById('mobile-menu');
+        var icon = document.getElementById('mobile-menu-icon');
+        if (menu && !menu.classList.contains('hidden')) {
+          menu.classList.add('hidden');
+          if (icon) icon.className = 'fas fa-bars text-lg';
+        }
+      }
+      // Auto-close on link click
+      document.addEventListener('DOMContentLoaded', function() {
+        var mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu) {
+          mobileMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', closeMobileMenu);
+          });
+        }
+      });
+
+      // --- Navbar scroll state: more opaque on scroll ---
+      (function() {
+        var navbar = document.querySelector('.navbar-glass');
+        if (!navbar) return;
+        var scrolled = false;
+        function onScroll() {
+          var y = window.scrollY || window.pageYOffset;
+          if (y > 20 && !scrolled) {
+            scrolled = true;
+            navbar.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)';
+            navbar.style.borderBottomColor = 'rgba(0,0,0,0.08)';
+          } else if (y <= 20 && scrolled) {
+            scrolled = false;
+            navbar.style.boxShadow = '0 0.5px 0 rgba(0,0,0,0.04)';
+            navbar.style.borderBottomColor = '';
+          }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    `}} />
+    </>
   )
 }

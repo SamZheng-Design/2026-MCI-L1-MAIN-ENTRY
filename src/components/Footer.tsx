@@ -30,7 +30,7 @@ export const Footer: FC = () => {
                 { icon: 'fab fa-weixin', label: 'WeChat' },
                 { icon: 'fab fa-github', label: 'GitHub' },
               ].map(s => (
-                <a href="#" class="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-[#5DC4B3] flex items-center justify-center transition-all no-underline group" title={s.label}>
+                <a href="#" class="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-[#5DC4B3] flex items-center justify-center transition-all no-underline group" title={s.label} rel="noopener noreferrer" target="_blank">
                   <i class={`${s.icon} text-sm text-white/30 group-hover:text-white transition-colors`}></i>
                 </a>
               ))}

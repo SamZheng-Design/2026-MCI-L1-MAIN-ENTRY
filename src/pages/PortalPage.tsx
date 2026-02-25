@@ -164,17 +164,16 @@ export const PortalPage: FC = () => {
       </section>
 
       {/* 流程导航条 — 让用户一眼看清5个阶段 */}
-      <section class="bg-white border-b border-gray-100 sticky top-0 z-30">
+      <section class="bg-white border-b border-gray-100 sticky top-[60px] z-30">
         <div class="max-w-2xl mx-auto px-4">
-          <div class="flex items-center justify-between py-3 overflow-x-auto gap-1">
+          <div class="flex items-center justify-between py-3 overflow-x-auto gap-1" id="phase-nav">
             {phases.map((ph, i) => (
-              <a href={`#phase-${i}`} class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all hover:opacity-80" style={`background:${ph.color}10; color:${ph.color}; border:1px solid ${ph.color}25;`}>
+              <a href={`#phase-${i}`} data-phase={i} class="phase-nav-item flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all hover:opacity-80 no-underline" style={`background:${ph.color}10; color:${ph.color}; border:1px solid ${ph.color}25;`}>
                 <i class={`fas ${ph.icon} text-[10px]`}></i>
                 {ph.label}
                 <span class="text-[9px] opacity-50">{ph.ids.length}</span>
               </a>
             ))}
-            {/* 连接箭头 */}
           </div>
         </div>
       </section>
@@ -232,6 +231,64 @@ export const PortalPage: FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Scroll-spy for phase nav */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        document.addEventListener('DOMContentLoaded', function() {
+          var navItems = document.querySelectorAll('.phase-nav-item');
+          var phaseSections = [];
+          for (var i = 0; i < 5; i++) {
+            var el = document.getElementById('phase-' + i);
+            if (el) phaseSections.push(el);
+          }
+          if (!phaseSections.length || !navItems.length) return;
+
+          var colors = ${JSON.stringify(phases.map(p => p.color))};
+          var activeIdx = -1;
+
+          function updateActive(idx) {
+            if (idx === activeIdx) return;
+            activeIdx = idx;
+            navItems.forEach(function(item, i) {
+              if (i === idx) {
+                item.style.background = colors[i];
+                item.style.color = '#fff';
+                item.style.borderColor = colors[i];
+                item.style.boxShadow = '0 2px 8px ' + colors[i] + '40';
+              } else {
+                item.style.background = colors[i] + '10';
+                item.style.color = colors[i];
+                item.style.borderColor = colors[i] + '25';
+                item.style.boxShadow = 'none';
+              }
+            });
+          }
+
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                var id = entry.target.id;
+                var idx = parseInt(id.replace('phase-', ''));
+                if (!isNaN(idx)) updateActive(idx);
+              }
+            });
+          }, { rootMargin: '-30% 0px -60% 0px' });
+
+          phaseSections.forEach(function(sec) { observer.observe(sec); });
+
+          // Smooth scroll with offset for sticky nav
+          navItems.forEach(function(item) {
+            item.addEventListener('click', function(e) {
+              e.preventDefault();
+              var target = document.querySelector(item.getAttribute('href'));
+              if (target) {
+                var y = target.getBoundingClientRect().top + window.scrollY - 120;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              }
+            });
+          });
+        });
+      `}} />
 
       <Footer />
     </div>

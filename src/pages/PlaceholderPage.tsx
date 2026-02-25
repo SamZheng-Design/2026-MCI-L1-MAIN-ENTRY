@@ -11,6 +11,9 @@ const roleLabels: Record<string, { text: string; icon: string; class: string }> 
   collaborative: { text: '投融资协同', icon: 'fa-handshake', class: 'bg-[#5DC4B3]/10 text-[#5DC4B3] border-[#5DC4B3]/20' },
 }
 
+// 按flowOrder排序的产品列表（用于上/下页切换）
+const sortedProducts = [...products].sort((a, b) => a.flowOrder - b.flowOrder)
+
 export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
   const product = products.find(p => p.id === productId)
   if (!product) {
@@ -19,17 +22,37 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
         <div class="text-center">
           <h1 class="text-4xl font-extrabold text-gray-300 mb-4">404</h1>
           <p class="text-gray-500 mb-6">产品模块未找到</p>
-          <a href="/portal" class="text-[#5DC4B3] hover:underline font-semibold">返回产品入口</a>
+          <a href="/portal" class="text-[#5DC4B3] hover:underline font-semibold no-underline">返回产品入口</a>
         </div>
       </div>
     )
   }
 
   const role = roleLabels[product.role]
+  
+  // 上一个/下一个产品
+  const currentIdx = sortedProducts.findIndex(p => p.id === productId)
+  const prevProduct = currentIdx > 0 ? sortedProducts[currentIdx - 1] : null
+  const nextProduct = currentIdx < sortedProducts.length - 1 ? sortedProducts[currentIdx + 1] : null
 
   return (
     <div class="min-h-screen">
       <Navbar active="" />
+
+      {/* Breadcrumb */}
+      <div class="bg-gray-50 border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+          <nav class="flex items-center gap-2 text-xs text-gray-400">
+            <a href="/" class="hover:text-[#5DC4B3] transition-colors no-underline">
+              <i class="fas fa-home text-[10px]"></i>
+            </a>
+            <i class="fas fa-chevron-right text-[8px] text-gray-300"></i>
+            <a href="/portal" class="hover:text-[#5DC4B3] transition-colors no-underline">产品入口</a>
+            <i class="fas fa-chevron-right text-[8px] text-gray-300"></i>
+            <span class="text-[#1d1d1f] font-semibold">{product.name}</span>
+          </nav>
+        </div>
+      </div>
 
       {/* Hero */}
       <section class="relative overflow-hidden pt-16 pb-12 bg-gradient-to-br from-white via-gray-50 to-[#5DC4B3]/5">
@@ -98,6 +121,40 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
           >
             <i class="fas fa-arrow-left mr-2"></i>返回产品入口
           </a>
+        </div>
+      </section>
+
+      {/* Prev / Next Product Navigation */}
+      <section class="py-8 bg-white border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="flex items-stretch gap-4">
+            {/* Prev */}
+            <div class="flex-1">
+              {prevProduct ? (
+                <a href={`/${prevProduct.id}`} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full">
+                  <i class="fas fa-chevron-left text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
+                  <div class="min-w-0">
+                    <div class="text-[10px] text-gray-400 mb-0.5">上一步</div>
+                    <div class="text-sm font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors truncate">{prevProduct.name}</div>
+                    <div class="text-[10px] text-gray-400">{prevProduct.englishShort}</div>
+                  </div>
+                </a>
+              ) : <div />}
+            </div>
+            {/* Next */}
+            <div class="flex-1">
+              {nextProduct ? (
+                <a href={`/${nextProduct.id}`} class="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md transition-all no-underline group h-full justify-end text-right">
+                  <div class="min-w-0">
+                    <div class="text-[10px] text-gray-400 mb-0.5">下一步</div>
+                    <div class="text-sm font-bold text-[#1d1d1f] group-hover:text-[#5DC4B3] transition-colors truncate">{nextProduct.name}</div>
+                    <div class="text-[10px] text-gray-400">{nextProduct.englishShort}</div>
+                  </div>
+                  <i class="fas fa-chevron-right text-xs text-gray-300 group-hover:text-[#5DC4B3] transition-colors"></i>
+                </a>
+              ) : <div />}
+            </div>
+          </div>
         </div>
       </section>
 

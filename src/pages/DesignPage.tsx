@@ -589,12 +589,7 @@ export const DesignPage: FC = () => {
               <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <button
                   class="w-full flex items-center gap-4 p-5 text-left hover:bg-gray-50 transition-colors"
-                  onclick={`
-                    const content = this.nextElementSibling;
-                    const icon = this.querySelector('.accordion-icon');
-                    content.classList.toggle('open');
-                    icon.classList.toggle('rotate-180');
-                  `}
+                  onclick={`toggleAccordion(this)`}
                 >
                   <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
                     <i class={`fas ${section.icon} text-[#5DC4B3]`}></i>
@@ -635,6 +630,29 @@ export const DesignPage: FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Accordion mutual exclusive + scroll reveal */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        function toggleAccordion(btn) {
+          var content = btn.nextElementSibling;
+          var icon = btn.querySelector('.accordion-icon');
+          var isOpen = content.classList.contains('open');
+
+          // Close all
+          document.querySelectorAll('#accordion .accordion-content').forEach(function(c) {
+            c.classList.remove('open');
+          });
+          document.querySelectorAll('#accordion .accordion-icon').forEach(function(ic) {
+            ic.classList.remove('rotate-180');
+          });
+
+          // Toggle current
+          if (!isOpen) {
+            content.classList.add('open');
+            icon.classList.add('rotate-180');
+          }
+        }
+      `}} />
 
       <Footer />
     </div>

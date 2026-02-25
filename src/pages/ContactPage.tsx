@@ -124,7 +124,7 @@ export const ContactPage: FC = () => {
               { icon: 'fab fa-twitter', label: 'Twitter', color: 'hover:bg-sky-500' },
               { icon: 'fab fa-weixin', label: 'WeChat', color: 'hover:bg-green-500' },
             ].map((s) => (
-              <a href="#" class={`w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 ${s.color} hover:text-white hover:border-transparent transition-all no-underline shadow-sm`} title={s.label}>
+              <a href="#" class={`w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 ${s.color} hover:text-white hover:border-transparent transition-all no-underline shadow-sm`} title={s.label} rel="noopener noreferrer" target="_blank">
                 <i class={`${s.icon} text-lg`}></i>
               </a>
             ))}
