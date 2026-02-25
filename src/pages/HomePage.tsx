@@ -345,6 +345,134 @@ const FlowIllustration: FC<{ type: string, color: string }> = ({ type, color }) 
 export const HomePage: FC = () => {
   return (
     <div class="min-h-screen bg-white">
+
+      {/* ═══════════════════════════════════════════
+          SPLASH SCREEN — 开屏动画 (仅首页，sessionStorage控制)
+          3秒自动退场，科技感加载效果
+      ═══════════════════════════════════════════ */}
+      <div id="splash-screen" class="splash-screen" style="display:none;">
+        <div class="splash-bg aurora-bg noise-overlay">
+          <div class="absolute inset-0" style="z-index: 3;">
+            <div class="absolute inset-0 opacity-[0.015]" style="background-image: linear-gradient(rgba(93,196,179,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.15) 1px, transparent 1px); background-size: 120px 120px;"></div>
+          </div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] opacity-[0.03]" style="z-index: 2;">
+            <svg viewBox="0 0 900 900" fill="none" class="w-full h-full orbit-ring">
+              <circle cx="450" cy="450" r="440" stroke="#5DC4B3" stroke-width="0.5" stroke-dasharray="8 20" />
+              <circle cx="450" cy="450" r="340" stroke="#5DC4B3" stroke-width="0.3" stroke-dasharray="4 24" />
+              <circle cx="450" cy="450" r="240" stroke="#5DC4B3" stroke-width="0.3" stroke-dasharray="3 28" />
+            </svg>
+          </div>
+        </div>
+        <div class="splash-content" style="z-index: 10;">
+          <div class="splash-logo">
+            <svg viewBox="0 0 280 50" width="160" height="30" xmlns="http://www.w3.org/2000/svg" aria-label="Micro Connect">
+              <defs>
+                <linearGradient id="sp-logo-top" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2EC4B6" />
+                  <stop offset="100%" stop-color="#3DD8CA" />
+                </linearGradient>
+                <linearGradient id="sp-logo-btm" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#28A696" />
+                  <stop offset="100%" stop-color="#2EC4B6" />
+                </linearGradient>
+              </defs>
+              <circle cx="16" cy="24" r="14" fill="url(#sp-logo-btm)" opacity="0.85" />
+              <circle cx="20" cy="16" r="14" fill="url(#sp-logo-top)" />
+              <text x="42" y="22" font-family="'Montserrat','Inter','Futura','Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="900" fill="#FFFFFF" letter-spacing="0.8">MICRO CONNECT</text>
+              <text x="42" y="42" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">滴灌通</text>
+            </svg>
+          </div>
+          <div class="splash-slogan">
+            <div class="splash-line splash-line-1">
+              <span class="splash-text-en">Connect</span>
+            </div>
+            <div class="splash-line splash-line-2">
+              <span class="splash-text-en gradient-text-brand">Worldwide</span>
+            </div>
+            <div class="splash-line splash-line-3">
+              <span class="splash-text-en">Opportunities</span>
+            </div>
+            <div class="splash-line splash-line-4">
+              <span class="splash-text-cn">看见世界的机会</span>
+            </div>
+          </div>
+          <div class="splash-loader">
+            <div class="splash-progress">
+              <div class="splash-progress-bar" id="splash-progress-bar"></div>
+            </div>
+            <div class="splash-dots">
+              <span class="splash-dot splash-dot-1"></span>
+              <span class="splash-dot splash-dot-2"></span>
+              <span class="splash-dot splash-dot-3"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Splash + Welcome Modal controller script */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        (function() {
+          var splash = document.getElementById('splash-screen');
+          var progressBar = document.getElementById('splash-progress-bar');
+          if (!splash) return;
+
+          // Only show splash if not seen this session
+          if (sessionStorage.getItem('mc_splash_seen')) {
+            splash.style.display = 'none';
+            // Still trigger welcome modal after a short delay if not seen
+            if (!sessionStorage.getItem('mc_welcome_seen')) {
+              setTimeout(function() {
+                var modal = document.getElementById('welcome-modal');
+                if (modal) {
+                  modal.style.display = 'flex';
+                  if (typeof modalVisible !== 'undefined') modalVisible = true;
+                  document.body.style.overflow = 'hidden';
+                }
+              }, 600);
+            }
+            return;
+          }
+
+          // Show splash
+          splash.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+
+          // Animate progress bar over ~2.5s
+          var startTime = Date.now();
+          var duration = 2500;
+          function animateProgress() {
+            var elapsed = Date.now() - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            if (progressBar) progressBar.style.width = (eased * 100) + '%';
+            if (progress < 1) requestAnimationFrame(animateProgress);
+          }
+          requestAnimationFrame(animateProgress);
+
+          // Trigger text animations
+          setTimeout(function() { splash.classList.add('splash-text-active'); }, 200);
+
+          // Dismiss after 3s
+          setTimeout(function() {
+            splash.classList.add('splash-exit');
+            sessionStorage.setItem('mc_splash_seen', '1');
+
+            setTimeout(function() {
+              splash.style.display = 'none';
+              document.body.style.overflow = '';
+
+              // Now trigger welcome modal
+              var modal = document.getElementById('welcome-modal');
+              if (modal && !sessionStorage.getItem('mc_welcome_seen')) {
+                modal.style.display = 'flex';
+                if (typeof modalVisible !== 'undefined') modalVisible = true;
+                document.body.style.overflow = 'hidden';
+              }
+            }, 700);
+          }, 3000);
+        })();
+      `}} />
+
       <Navbar active="home" />
 
       {/* ═══════════════════════════════════════════
@@ -472,17 +600,10 @@ export const HomePage: FC = () => {
         </div>
       </div>
 
-      {/* Modal JS */}
+      {/* Modal JS — splash screen handles triggering, not DOMContentLoaded */}
       <script dangerouslySetInnerHTML={{ __html: `
         var currentSlide=0,totalSlides=${sliderSlides.length},modalVisible=false;
-        document.addEventListener('DOMContentLoaded',function(){
-          if(!sessionStorage.getItem('mc_welcome_seen')){
-            setTimeout(function(){
-              var m=document.getElementById('welcome-modal');
-              if(m){m.style.display='flex';modalVisible=true;document.body.style.overflow='hidden';}
-            },800);
-          }
-        });
+        /* Welcome modal is now triggered by splash screen exit, not DOMContentLoaded */
         function closeWelcomeModal(){var m=document.getElementById('welcome-modal');if(!m||!modalVisible)return;var c=m.querySelector('.modal-enter');if(c){c.classList.remove('modal-enter');c.classList.add('modal-exit');}modalVisible=false;setTimeout(function(){m.style.display='none';document.body.style.overflow='';sessionStorage.setItem('mc_welcome_seen','1');},250);}
         function goToSlide(i){currentSlide=i;updateSlider();}
         function nextSlideOrClose(){if(currentSlide>=totalSlides-1)closeWelcomeModal();else{currentSlide++;updateSlider();}}
@@ -580,65 +701,8 @@ export const HomePage: FC = () => {
       </section>
 
 
-      {/* ═══════════════════════════════════════════
-          SLOGAN — "Connect Worldwide Opportunities"
-          Apple TV-style: Sticky scroll → scale in → hold → scale out
-          位置：Hero 和 Flow Overview 之间，品牌升华的转折点
-      ═══════════════════════════════════════════ */}
-      <section id="slogan-section" class="slogan-wrapper">
-        <div class="slogan-sticky">
-          {/* Dark aurora background */}
-          <div class="slogan-bg aurora-bg noise-overlay">
-            <div class="absolute inset-0" style="z-index: 3;">
-              <div class="absolute inset-0 opacity-[0.015]" style="background-image: linear-gradient(rgba(93,196,179,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.15) 1px, transparent 1px); background-size: 120px 120px;"></div>
-            </div>
-            
-            {/* Decorative orbit rings */}
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] opacity-[0.03]" style="z-index: 2;">
-              <svg viewBox="0 0 900 900" fill="none" class="w-full h-full orbit-ring">
-                <circle cx="450" cy="450" r="440" stroke="#5DC4B3" stroke-width="0.5" stroke-dasharray="8 20" />
-                <circle cx="450" cy="450" r="340" stroke="#5DC4B3" stroke-width="0.3" stroke-dasharray="4 24" />
-                <circle cx="450" cy="450" r="240" stroke="#5DC4B3" stroke-width="0.3" stroke-dasharray="3 28" />
-              </svg>
-            </div>
-
-            {/* Slogan content — centered */}
-            <div class="slogan-content relative flex flex-col items-center justify-center min-h-screen px-4" style="z-index: 10;">
-              {/* English — hero-size */}
-              <div class="slogan-en-line overflow-hidden mb-2">
-                <h2 class="slogan-text-en text-center text-white font-mono" style="font-size: clamp(2rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;">
-                  Connect
-                </h2>
-              </div>
-              <div class="slogan-en-line overflow-hidden mb-2">
-                <h2 class="slogan-text-en text-center text-white font-mono" style="font-size: clamp(2rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;">
-                  <span class="gradient-text-brand">Worldwide</span>
-                </h2>
-              </div>
-              <div class="slogan-en-line overflow-hidden mb-6">
-                <h2 class="slogan-text-en text-center text-white font-mono" style="font-size: clamp(2rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;">
-                  Opportunities
-                </h2>
-              </div>
-
-              {/* Chinese subtitle */}
-              <div class="slogan-cn-wrap overflow-hidden">
-                <p class="slogan-text-cn text-center text-white/40" style="font-size: clamp(1rem, 2.5vw, 1.75rem); font-weight: 300; letter-spacing: 0.15em; line-height: 1.6;">
-                  看见世界的机会
-                </p>
-              </div>
-
-              {/* Subtle decorative line below */}
-              <div class="slogan-line mt-10 w-12 h-px bg-gradient-to-r from-transparent via-[#5DC4B3]/40 to-transparent"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Transition gradient from dark to light */}
-      <div class="h-32 bg-gradient-to-b from-[#061b18] to-white relative" style="z-index: 5;"></div>
-
+      {/* Transition from dark hero to light content */}
+      <div class="h-24 bg-gradient-to-b from-[#061b18] to-white relative" style="z-index: 5;"></div>
 
       {/* ═══════════════════════════════════════════
           FLOW OVERVIEW — Y型架构一图流
@@ -944,7 +1008,7 @@ export const HomePage: FC = () => {
         </div>
       </section>
 
-      {/* ★ Scroll Reveal Engine + Slogan Parallax */}
+      {/* ★ Scroll Reveal Engine */}
       <script dangerouslySetInnerHTML={{ __html: `
         document.addEventListener('DOMContentLoaded', function() {
           // ── Standard reveal ──
@@ -958,100 +1022,6 @@ export const HomePage: FC = () => {
             });
           }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
           revealEls.forEach(function(el) { revealObserver.observe(el); });
-
-          // ── Slogan scroll-linked animation ──
-          var sloganWrapper = document.getElementById('slogan-section');
-          if (!sloganWrapper) return;
-
-          var enLines = sloganWrapper.querySelectorAll('.slogan-text-en');
-          var cnText = sloganWrapper.querySelector('.slogan-text-cn');
-          var sloganLine = sloganWrapper.querySelector('.slogan-line');
-          var sloganContent = sloganWrapper.querySelector('.slogan-content');
-          var hasEnteredOnce = false;
-
-          function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
-          function lerp(a, b, t) { return a + (b - a) * t; }
-
-          // Easing function — easeOutExpo
-          function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
-          function easeInCubic(t) { return t * t * t; }
-
-          function onSloganScroll() {
-            var rect = sloganWrapper.getBoundingClientRect();
-            var wh = window.innerHeight;
-            var wrapperH = sloganWrapper.offsetHeight;
-
-            // scrollProgress: 0 = top of wrapper at bottom of viewport
-            //                 1 = bottom of wrapper at top of viewport
-            var rawProgress = (wh - rect.top) / (wh + wrapperH);
-            var progress = clamp(rawProgress, 0, 1);
-
-            // Phase 1: Enter (0 → 0.25) — text slides in + fades in
-            // Phase 2: Hold  (0.25 → 0.6) — text stays fully visible, centered
-            // Phase 3: Exit  (0.6 → 1.0) — text scales down + fades out
-
-            // === ENTER PHASE ===
-            if (progress > 0.05 && !hasEnteredOnce) {
-              hasEnteredOnce = true;
-              // Stagger the text lines
-              enLines.forEach(function(el, i) {
-                setTimeout(function() {
-                  el.style.transition = 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1)';
-                  el.classList.add('slogan-visible');
-                }, i * 150);
-              });
-              // Chinese text — delayed
-              setTimeout(function() {
-                if (cnText) {
-                  cnText.style.transition = 'transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s cubic-bezier(0.22, 1, 0.36, 1)';
-                  cnText.classList.add('slogan-visible');
-                }
-              }, enLines.length * 150 + 200);
-              // Line
-              setTimeout(function() {
-                if (sloganLine) {
-                  sloganLine.style.transition = 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
-                  sloganLine.classList.add('slogan-visible');
-                }
-              }, enLines.length * 150 + 500);
-            }
-
-            // === EXIT PHASE — smooth scroll-linked scale + opacity ===
-            if (progress > 0.55) {
-              var exitProgress = clamp((progress - 0.55) / 0.40, 0, 1);
-              var easedExit = easeInCubic(exitProgress);
-              
-              var scale = lerp(1, 0.65, easedExit);
-              var opacity = lerp(1, 0, easedExit);
-              var yShift = lerp(0, -40, easedExit); // subtle upward drift
-
-              if (sloganContent) {
-                sloganContent.style.transform = 'scale(' + scale + ') translateY(' + yShift + 'px)';
-                sloganContent.style.opacity = opacity;
-              }
-            } else if (hasEnteredOnce) {
-              // Hold phase — ensure full size
-              if (sloganContent) {
-                sloganContent.style.transform = 'scale(1) translateY(0)';
-                sloganContent.style.opacity = 1;
-              }
-            }
-          }
-
-          // Throttled scroll listener
-          var ticking = false;
-          window.addEventListener('scroll', function() {
-            if (!ticking) {
-              requestAnimationFrame(function() {
-                onSloganScroll();
-                ticking = false;
-              });
-              ticking = true;
-            }
-          }, { passive: true });
-
-          // Initial check
-          onSloganScroll();
         });
       `}} />
 
