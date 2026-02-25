@@ -216,7 +216,7 @@ export const HomePage: FC = () => {
               </a>
 
               {/* Next / Enter button */}
-              <button id="slider-next-btn" onclick="nextSlideOrClose()" class="inline-flex items-center px-5 py-2.5 bg-[#0B1A18] hover:bg-[#1a3832] text-white text-xs font-bold rounded-xl transition-all">
+              <button id="slider-next-btn" onclick="nextSlideOrClose()" class="inline-flex items-center px-5 py-2.5 text-white text-xs font-bold rounded-xl transition-all hover:brightness-110" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);">
                 <span id="slider-btn-text">下一步</span>
                 <i id="slider-btn-icon" class="fas fa-arrow-right ml-2 text-[10px]"></i>
               </button>
@@ -337,13 +337,11 @@ export const HomePage: FC = () => {
           HERO — Full-screen 大屏Logo + 身份通注册CTA
           深色、沉浸感、金融级专业质感
       ═══════════════════════════════════════════ */}
-      <section class="relative overflow-hidden bg-[#0B1A18] min-h-[100vh] flex items-center justify-center pt-16 pb-20">
-        {/* 多层背景效果 + 渐变流动 */}
-        <div class="absolute inset-0">
+      <section class="aurora-bg aurora-hero relative min-h-[100vh] flex items-center justify-center pt-16 pb-20">
+        {/* 装饰层（z-index: 2，在 aurora ::before/::after 之上） */}
+        <div class="absolute inset-0" style="z-index: 2;">
+          {/* 网格纹理 */}
           <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-          <div class="absolute top-[-20%] left-[50%] translate-x-[-50%] w-[900px] h-[900px] rounded-full pulse-glow" style="background: radial-gradient(circle, rgba(93,196,179,0.08) 0%, transparent 55%);"></div>
-          <div class="absolute bottom-[-15%] right-[5%] w-[500px] h-[500px] rounded-full breathe" style="background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 60%);"></div>
-          <div class="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full breathe" style="background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 60%); animation-delay: 2s;"></div>
           
           {/* 旋转轨道装饰环 */}
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orbit-ring opacity-[0.04]">
@@ -394,7 +392,7 @@ export const HomePage: FC = () => {
           </div>
         </div>
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full" style="z-index: 10;">
           <div class="text-center fade-in">
             {/* 大屏品牌Logo */}
             <div class="mb-8 flex justify-center">
@@ -462,7 +460,7 @@ export const HomePage: FC = () => {
                   { val: 'AI', sub: 'Filtering Engine', gradient: true },
                   { val: '\u221E', sub: 'Industry Coverage' },
                 ].map((d, idx) => (
-                  <div class="bg-[#0B1A18]/80 backdrop-blur-sm px-6 py-6 text-center hover:bg-white/[0.03] transition-colors" style={`transition-delay: ${idx * 0.1}s;`}>
+                  <div class="backdrop-blur-sm px-6 py-6 text-center hover:bg-white/[0.03] transition-colors" style={`background: rgba(10,46,42,0.6); transition-delay: ${idx * 0.1}s;`}>
                     <div class={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 count-animate ${d.gradient ? 'bg-gradient-to-r from-[#5DC4B3] to-[#7DD4C7] bg-clip-text text-transparent' : 'text-white'}`} style={`animation-delay: ${0.3 + idx * 0.15}s;`}>{d.val}</div>
                     <div class="text-[10px] text-white/25 font-medium tracking-wider uppercase">{d.sub}</div>
                   </div>
@@ -473,7 +471,7 @@ export const HomePage: FC = () => {
         </div>
 
         {/* Scroll indicator */}
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40" style="z-index: 10;">
           <span class="text-[10px] text-white/50 tracking-widest uppercase">Scroll</span>
           <div class="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center pt-1.5">
             <div class="w-1 h-2 bg-white/40 rounded-full animate-bounce"></div>
@@ -481,7 +479,7 @@ export const HomePage: FC = () => {
         </div>
 
         {/* Bottom gradient fade */}
-        <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" style="z-index: 3;"></div>
       </section>
 
 
@@ -509,8 +507,8 @@ export const HomePage: FC = () => {
           <div class="mb-10">
             {(() => { const idP = products.find(p => p.id === 'identity')!; return (
             <a href={getProductUrl(idP)} target={isExternalProduct(idP) ? "_blank" : undefined} rel={isExternalProduct(idP) ? "noopener noreferrer" : undefined} class="block no-underline group">
-              <div class="relative overflow-hidden bg-gradient-to-r from-[#0B1A18] to-[#163832] rounded-2xl p-6 sm:p-8 border border-[#5DC4B3]/20 hover:border-[#5DC4B3]/40 transition-all hover:shadow-[0_0_40px_rgba(93,196,179,0.15)]">
-                <div class="absolute top-0 right-0 w-[300px] h-[300px] rounded-full opacity-20" style="background: radial-gradient(circle, rgba(93,196,179,0.3) 0%, transparent 60%); transform: translate(30%, -30%);"></div>
+              <div class="relative overflow-hidden rounded-2xl p-6 sm:p-8 border border-[#5DC4B3]/20 hover:border-[#5DC4B3]/40 transition-all hover:shadow-[0_0_40px_rgba(93,196,179,0.15)]" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);">
+                <div class="absolute top-0 right-0 w-[300px] h-[300px] rounded-full opacity-20" style="background: radial-gradient(circle, rgba(46,196,182,0.3) 0%, transparent 60%); transform: translate(30%, -30%);"></div>
                 <div class="relative flex flex-col sm:flex-row items-start sm:items-center gap-5">
                   <div class="flex items-center gap-4">
                     <ProductLogoSmall name="身份通" englishShort="Identity" size={56} />
@@ -596,7 +594,7 @@ export const HomePage: FC = () => {
               产品设计背后的故事
               <i class="fas fa-arrow-right ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
             </a>
-            <a href="/portal" class="inline-flex items-center px-7 py-3 bg-[#1d1d1f] hover:bg-[#333] text-white font-bold text-sm rounded-xl transition-all no-underline">
+            <a href="/portal" class="inline-flex items-center px-7 py-3 text-white font-bold text-sm rounded-xl transition-all no-underline hover:brightness-110" style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);">
               <i class="fas fa-th-large mr-2"></i>完整产品入口
             </a>
           </div>
@@ -711,7 +709,7 @@ export const HomePage: FC = () => {
       <section class="py-16 lg:py-24 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#1d1d1f]/5 text-[#1d1d1f] text-xs font-bold rounded-full mb-4 tracking-wider uppercase">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/8 text-[#5DC4B3] text-xs font-bold rounded-full mb-4 border border-[#5DC4B3]/15 tracking-wider uppercase">
               Platform Capabilities
             </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1d1d1f] mb-3 tracking-tight">
@@ -750,10 +748,9 @@ export const HomePage: FC = () => {
       {/* ═══════════════════════════════════════════
           FINAL CTA — 身份通注册号召
       ═══════════════════════════════════════════ */}
-      <section class="relative py-24 overflow-hidden bg-[#0B1A18]">
-        <div class="absolute inset-0">
+      <section class="aurora-bg aurora-cta relative py-24">
+        <div class="absolute inset-0" style="z-index: 2;">
           <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-          <div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[600px] h-[600px] rounded-full pulse-glow" style="background: radial-gradient(circle, rgba(93,196,179,0.06) 0%, transparent 60%);"></div>
           
           {/* 浮动粒子 */}
           <div class="floating-element top-[10%] left-[10%] w-5 h-5 rounded-full opacity-[0.10]" style="background: #5DC4B3; animation-delay: 0.5s;"></div>
@@ -762,7 +759,7 @@ export const HomePage: FC = () => {
           <div class="floating-element bottom-[25%] right-[10%] w-3 h-3 rounded-full opacity-[0.12]" style="background: #F59E0B; animation-delay: 1s;"></div>
           <div class="floating-element top-[60%] left-[5%] w-4 h-4 rounded-full opacity-[0.06]" style="background: #8B5CF6; animation-delay: 4s;"></div>
         </div>
-        <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+        <div class="max-w-3xl mx-auto px-4 text-center relative" style="z-index: 10;">
           <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#5DC4B3]/10 rounded-full mb-6 border border-[#5DC4B3]/15">
             <i class="fas fa-fingerprint text-[#5DC4B3] text-sm"></i>
             <span class="text-xs font-semibold text-[#5DC4B3]">从身份通开始</span>

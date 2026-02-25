@@ -94,7 +94,8 @@ export const Navbar: FC<{ active: string }> = ({ active }) => {
             </a>
             <a
               href="/portal"
-              class="inline-flex items-center px-4 py-2 bg-[#0B1A18] hover:bg-[#163832] text-white text-xs font-bold rounded-lg shadow-sm transition-all no-underline"
+              class="inline-flex items-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition-all no-underline hover:brightness-110"
+              style="background: linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);"
             >
               <i class="fas fa-arrow-right mr-1.5 text-[9px]"></i>进入平台
             </a>
