@@ -6,7 +6,8 @@ export const renderer = jsxRenderer(({ children, title }) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title || '滴灌通超级Agent产品Demo'}</title>
+        <title>{title || 'Micro Connect | 收入分成投资基础设施平台'}</title>
+        <meta name="description" content="Micro Connect - 全球领先的收入分成融资(RBF)基础设施平台。9个AI超级Agent覆盖完整投融资生命周期。" />
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235DC4B3'/></svg>" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
@@ -40,8 +41,10 @@ export const renderer = jsxRenderer(({ children, title }) => {
             }
           }
         `}} />
+        <link rel="stylesheet" href="/static/style.css" />
         <style dangerouslySetInnerHTML={{ __html: `
           * { margin: 0; padding: 0; box-sizing: border-box; }
+          html { scroll-behavior: smooth; }
         `}} />
       </head>
       <body class="antialiased">
