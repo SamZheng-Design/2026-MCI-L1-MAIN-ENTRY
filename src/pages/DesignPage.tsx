@@ -2,7 +2,7 @@ import type { FC } from 'hono/jsx'
 import { products, foundations, architectureGroups, designSections, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
-import { ProductLogoSmall, ProductLogoFlow, ProductLogo } from '../components/Logos'
+import { ProductLogoSmall, ProductLogo } from '../components/Logos'
 import type { Lang } from '../i18n'
 import { tt, ta, t, langLink } from '../i18n'
 
