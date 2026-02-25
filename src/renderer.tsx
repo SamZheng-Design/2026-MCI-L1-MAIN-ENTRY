@@ -6,12 +6,13 @@ export const renderer = jsxRenderer(({ children, title }) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title || 'Micro Connect | 收入分成投资基础设施平台'}</title>
-        <meta name="description" content="Micro Connect - 全球领先的收入分成融资(RBF)基础设施平台。9个AI超级Agent覆盖完整投融资生命周期。" />
+        <meta name="description" content="Micro Connect 滴灌通 — 收入分成投资的操作系统。9个AI超级Agent，覆盖RBF投资全生命周期。" />
+        <title>{title || 'Micro Connect 滴灌通 | 收入分成投资的操作系统'}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235DC4B3'/></svg>" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="/static/style.css" rel="stylesheet" />
         <script dangerouslySetInnerHTML={{ __html: `
           tailwind.config = {
             theme: {
@@ -41,10 +42,32 @@ export const renderer = jsxRenderer(({ children, title }) => {
             }
           }
         `}} />
-        <link rel="stylesheet" href="/static/style.css" />
         <style dangerouslySetInnerHTML={{ __html: `
           * { margin: 0; padding: 0; box-sizing: border-box; }
-          html { scroll-behavior: smooth; }
+          
+          /* Hero animation */
+          .hero-animate {
+            animation: heroFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          @keyframes heroFadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(24px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          /* Gradient text support */
+          .bg-clip-text {
+            -webkit-background-clip: text;
+            background-clip: text;
+          }
+          .text-transparent {
+            -webkit-text-fill-color: transparent;
+          }
         `}} />
       </head>
       <body class="antialiased">
