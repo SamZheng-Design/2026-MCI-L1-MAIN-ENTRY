@@ -21,11 +21,11 @@ app.get('/portal', (c) => {
   return c.render(<PortalPage />, { title: '产品入口 - 滴灌通超级Agent' })
 })
 
-// Product placeholder pages
+// Product placeholder pages - 8个通
 const productIds = [
-  'identity', 'application', 'opportunity',
-  'assess', 'risk', 'terms',
-  'contract', 'performance', 'settlement'
+  'identity', 'application', 'assess',
+  'risk', 'terms', 'contract',
+  'settlement', 'performance'
 ]
 
 productIds.forEach((id) => {

@@ -1,4 +1,5 @@
 // 滴灌通超级Agent产品数据层
+// 8个通串联成Super Agent + Opportunity投资者看板（副流程）
 
 export interface Product {
   id: string;
@@ -9,11 +10,14 @@ export interface Product {
   description: string;
   category: string;
   categoryEn: string;
-  role: 'all' | 'fundraiser' | 'investor';
   status: 'live' | 'beta' | 'coming';
   features: string[];
   color: string;
   colorDark: string;
+  // 流程中的序号（1-8），Opportunity为0（副流程）
+  flowOrder: number;
+  // 是否标记"协同"
+  isCollaborative?: boolean;
 }
 
 export interface Foundation {
@@ -22,6 +26,7 @@ export interface Foundation {
   icon: string;
 }
 
+// 8个通（主流程顺序） + Opportunity（副流程看板）
 export const products: Product[] = [
   {
     id: "identity",
@@ -32,11 +37,11 @@ export const products: Product[] = [
     description: "统一认证入口，支持融资者和投资者的身份管理与权限控制",
     category: "融资前端",
     categoryEn: "Financing Frontend",
-    role: "all",
     status: "live",
     features: ["统一认证", "权限隔离", "多因素认证", "账户安全"],
     color: "#DBEAFE",
-    colorDark: "#3B82F6"
+    colorDark: "#3B82F6",
+    flowOrder: 1
   },
   {
     id: "application",
@@ -47,26 +52,11 @@ export const products: Product[] = [
     description: "协助融资者整理材料、生成Pitch Deck，开启融资之旅",
     category: "融资前端",
     categoryEn: "Financing Frontend",
-    role: "fundraiser",
     status: "beta",
     features: ["材料整理", "数据归类", "AI生成Pitch Deck", "项目宣传"],
     color: "#DBEAFE",
-    colorDark: "#3B82F6"
-  },
-  {
-    id: "opportunity",
-    name: "机会通",
-    englishName: "Opportunity Connect",
-    englishShort: "Opportunity",
-    logo: "https://www.genspark.ai/api/files/s/kL9Lw4YV",
-    description: "投资者的项目发现看板，实时查看融资项目和评估报告",
-    category: "项目评估",
-    categoryEn: "Project Assessment",
-    role: "investor",
-    status: "live",
-    features: ["项目展示", "评估报告查看", "风控结论", "项目跟进"],
-    color: "#E0E7FF",
-    colorDark: "#6366F1"
+    colorDark: "#3B82F6",
+    flowOrder: 2
   },
   {
     id: "assess",
@@ -77,11 +67,11 @@ export const products: Product[] = [
     description: "AI驱动的项目分析引擎，自动生成量化评估与尽调报告",
     category: "项目评估",
     categoryEn: "Project Assessment",
-    role: "all",
     status: "beta",
     features: ["AI量化评估", "尽调报告", "数据可视化", "财务建模"],
     color: "#E0E7FF",
-    colorDark: "#6366F1"
+    colorDark: "#6366F1",
+    flowOrder: 3
   },
   {
     id: "risk",
@@ -92,11 +82,11 @@ export const products: Product[] = [
     description: "投资者的风险把关者，材料验真与合规性审查",
     category: "项目评估",
     categoryEn: "Project Assessment",
-    role: "investor",
     status: "live",
     features: ["材料验真", "风控标准", "合规审查", "风险评分"],
     color: "#E0E7FF",
-    colorDark: "#6366F1"
+    colorDark: "#6366F1",
+    flowOrder: 4
   },
   {
     id: "terms",
@@ -107,11 +97,12 @@ export const products: Product[] = [
     description: "基于AI评估和风控结论，自动生成收入分成方案",
     category: "投资决策",
     categoryEn: "Investment Decision",
-    role: "all",
     status: "coming",
     features: ["收入分成方案", "条款协商", "方案对比", "模拟测算"],
     color: "#EDE9FE",
-    colorDark: "#8B5CF6"
+    colorDark: "#8B5CF6",
+    flowOrder: 5,
+    isCollaborative: true
   },
   {
     id: "contract",
@@ -122,26 +113,12 @@ export const products: Product[] = [
     description: "电子合约签署平台，投融资双方在线协同完成合约",
     category: "投资决策",
     categoryEn: "Investment Decision",
-    role: "all",
     status: "beta",
     features: ["电子签署", "合约管理", "版本控制", "法律合规"],
     color: "#EDE9FE",
-    colorDark: "#8B5CF6"
-  },
-  {
-    id: "performance",
-    name: "履约通",
-    englishName: "Performance Connect",
-    englishShort: "Performance",
-    logo: "https://www.genspark.ai/api/files/s/goK923ZW",
-    description: "履约监控与数据追踪，实时掌握项目运营状况",
-    category: "投后管理",
-    categoryEn: "Post-Investment",
-    role: "all",
-    status: "coming",
-    features: ["履约监控", "数据追踪", "预警提示", "报表生成"],
-    color: "#D1FAE5",
-    colorDark: "#10B981"
+    colorDark: "#8B5CF6",
+    flowOrder: 6,
+    isCollaborative: true
   },
   {
     id: "settlement",
@@ -152,13 +129,42 @@ export const products: Product[] = [
     description: "收入分成自动结算，透明化资金流转记录",
     category: "投后管理",
     categoryEn: "Post-Investment",
-    role: "all",
     status: "coming",
     features: ["自动结算", "资金流转", "账单管理", "对账核销"],
     color: "#D1FAE5",
-    colorDark: "#10B981"
+    colorDark: "#10B981",
+    flowOrder: 7
+  },
+  {
+    id: "performance",
+    name: "履约通",
+    englishName: "Performance Connect",
+    englishShort: "Performance",
+    logo: "https://www.genspark.ai/api/files/s/goK923ZW",
+    description: "履约监控与数据追踪，实时掌握项目运营状况",
+    category: "投后管理",
+    categoryEn: "Post-Investment",
+    status: "coming",
+    features: ["履约监控", "数据追踪", "预警提示", "报表生成"],
+    color: "#D1FAE5",
+    colorDark: "#10B981",
+    flowOrder: 8
   }
 ];
+
+// Opportunity 投资者看板（副流程，不是独立的"通"）
+export const opportunityBoard = {
+  id: "opportunity",
+  name: "Opportunity",
+  chineseName: "投资者看板",
+  description: "实时查看Application项目、Assess评估报告、Risk风控结论",
+  icon: "fa-eye",
+  // Opportunity看板关联的三个上游通
+  sources: ["application", "assess", "risk"]
+};
+
+// 主流程的8个通（按流程顺序排列）
+export const mainFlowProducts = products.filter(p => p.flowOrder > 0).sort((a, b) => a.flowOrder - b.flowOrder);
 
 export const foundations: Foundation[] = [
   {
@@ -184,13 +190,7 @@ export const statusLabels: Record<string, { text: string; class: string }> = {
   coming: { text: "即将上线", class: "bg-gray-100 text-gray-500 border-gray-200" }
 };
 
-export const roleLabels: Record<string, string> = {
-  all: "全部",
-  fundraiser: "融资者",
-  investor: "投资者"
-};
-
-// 架构分组：按投资阶段
+// 架构分组：按投资阶段（8个通）
 export const architectureGroups = [
   {
     title: "融资前端",
@@ -204,7 +204,7 @@ export const architectureGroups = [
     titleEn: "Project Assessment",
     color: "#6366F1",
     bgColor: "#E0E7FF",
-    ids: ["opportunity", "assess", "risk"]
+    ids: ["assess", "risk"]
   },
   {
     title: "投资决策",
@@ -218,7 +218,7 @@ export const architectureGroups = [
     titleEn: "Post-Investment",
     color: "#10B981",
     bgColor: "#D1FAE5",
-    ids: ["performance", "settlement"]
+    ids: ["settlement", "performance"]
   }
 ];
 
@@ -235,11 +235,11 @@ export const designSections = [
       },
       {
         subtitle: "从按赛道造轮子到Super Agent",
-        text: "我们提出「Super Agent矩阵」理念——不按赛道建系统，而是按投资流程的关键环节抽象出9个通用Agent。每个Agent专注于一个核心能力，通过灵活组合覆盖所有赛道。"
+        text: "我们提出「Super Agent矩阵」理念——不按赛道建系统，而是按投资流程的关键环节抽象出8个通用Agent。每个Agent专注于一个核心能力，通过灵活组合覆盖所有赛道。"
       },
       {
         subtitle: "核心价值主张",
-        text: "提纲挈领、以不变应万变。9个Agent + 统一底座，即可覆盖RBF投资全流程，同时保留针对不同赛道的定制能力。"
+        text: "提纲挈领、以不变应万变。8个Agent + 统一底座，即可覆盖RBF投资全流程，同时保留针对不同赛道的定制能力。"
       }
     ]
   },
@@ -249,12 +249,12 @@ export const designSections = [
     icon: "fa-code-branch",
     content: [
       {
-        subtitle: "初始10个通 → 最终9个通",
-        text: "最初设计包含10个「通」，经过多轮讨论和优化，将Data Connect归入统一底座层，因为数据服务是所有Agent共享的基础设施，不应作为独立的业务Agent。"
+        subtitle: "初始10个通 → 最终8个通",
+        text: "最初设计包含10个「通」，经过多轮讨论和优化，将Data Connect归入统一底座层，Opportunity从独立的通调整为投资者看板（副流程），最终精简为8个核心业务Agent。"
       },
       {
-        subtitle: "Investment拆分为Opportunity + Assess",
-        text: "原有的Investment Connect职责过重，既要展示项目机会又要做评估分析。拆分后Opportunity专注项目发现和展示，Assess专注AI量化分析，职责更清晰。"
+        subtitle: "Opportunity从独立通到投资者看板",
+        text: "Opportunity不是一个独立的业务处理环节，而是投资者视角的信息聚合入口。它实时查看Application项目、Assess评估报告、Risk风控结论，是一个跨环节的观察窗口，因此设计为副流程看板而非主流程中的独立通。"
       },
       {
         subtitle: "合并Evaluation Connect",
@@ -264,20 +264,20 @@ export const designSections = [
   },
   {
     id: "workflow",
-    title: "业务流程逻辑",
+    title: "Y型业务流程逻辑",
     icon: "fa-project-diagram",
     content: [
       {
-        subtitle: "Y型分叉流程",
-        text: "系统以Identity Connect为统一入口，用户登录后根据角色分为两条路径：融资者路径（Application → Assess）和投资者路径（Opportunity → Assess → Risk）。两条路径在Terms Connect汇合，进入投资决策和投后管理阶段。"
+        subtitle: "主流程：8个通串联",
+        text: "Identity（身份通）→ Application（申请通）→ Assess（评估通）→ Risk（风控通）→ Terms（条款通，协同）→ Contract（合约通，协同）→ Settlement（结算通）→ Performance（履约通）\n\n这是融资者路径，也是整个业务的主干线，8个通按顺序串联形成完整的RBF投资生命周期。"
       },
       {
-        subtitle: "融资者路径",
-        text: "融资者通过Application Connect整理材料、生成Pitch Deck，可选择性触发Assess进行自我评估预判，提前了解自身项目的竞争力。"
+        subtitle: "副流程：Opportunity投资者看板",
+        text: "Opportunity（投资者看板）从Application/Assess/Risk三个节点分叉而出，形成Y型结构。投资者通过Opportunity看板实时查看：\n· Application提交的项目信息\n· Assess的量化评估报告\n· Risk的风控审查结论\n\n这使得投资者无需参与主流程的每个环节，即可全面掌握项目状态。"
       },
       {
-        subtitle: "投资者路径",
-        text: "投资者通过Opportunity Connect发现项目，系统自动触发Assess进行量化评估，评估通过后进入Risk Connect进行风控审查。Risk是投资者的最终决策关卡。"
+        subtitle: "协同节点：Terms与Contract",
+        text: "Terms和Contract是投融资双方的协同节点，标记为「协同」。到了条款协商和合约签署阶段，融资者和投资者需要共同参与、双向确认，是整个流程中唯一需要双方实时互动的环节。"
       }
     ]
   },
@@ -287,8 +287,8 @@ export const designSections = [
     icon: "fa-exchange-alt",
     content: [
       {
-        subtitle: "触发机制",
-        text: "Application → Assess：手动触发，可选。融资者可以选择是否进行自我评估。\nOpportunity → Assess：自动触发，必选。投资者查看项目时自动启动评估。"
+        subtitle: "事件驱动的串联机制",
+        text: "8个通之间通过事件总线串联，前一个通的输出自动成为下一个通的输入。核心机制：事件驱动 · 灵活调用 · 按需组合。"
       },
       {
         subtitle: "审批流程",
