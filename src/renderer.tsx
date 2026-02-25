@@ -6,27 +6,23 @@ export const renderer = jsxRenderer(({ children, title }) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        <meta name="description" content="Micro Connect 滴灌通 — 收入分成投资的操作系统。9个AI超级Agent，覆盖RBF投资全生命周期。" />
-        <meta name="theme-color" content="#0a2e2a" />
+        <meta name="description" content="Micro Connect 滴灌通 — 收入分成投资的基础设施级平台。9个AI超级Agent，覆盖RBF投资全生命周期。" />
+        <meta name="theme-color" content="#061d1a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         
         {/* Open Graph */}
-        <meta property="og:title" content={title || 'Micro Connect 滴灌通'} />
-        <meta property="og:description" content="收入分成投资的操作系统 — 9个AI超级Agent覆盖投融资全生命周期" />
+        <meta property="og:title" content={title || 'Micro Connect 滴灌通 | 收入分成投资的操作系统'} />
+        <meta property="og:description" content="全球首个收入分成投资的统一操作系统。9个AI超级Agent，覆盖投融资全生命周期。" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Micro Connect 滴灌通" />
         
         <title>{title || 'Micro Connect 滴灌通 | 收入分成投资的操作系统'}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235DC4B3'/></svg>" />
         
-        {/* Preconnect — speed up font loading */}
+        {/* Fonts — preconnect for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-        <link rel="preconnect" href="https://cdn.tailwindcss.com" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-        
-        {/* Fonts — Inter + Noto Sans SC, optimized loading */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         
         {/* Tailwind + Icons */}
@@ -54,8 +50,13 @@ export const renderer = jsxRenderer(({ children, title }) => {
                   }
                 },
                 borderRadius: {
-                  'xs': '4px', 'sm': '8px', 'md': '12px', 'lg': '16px',
-                  'xl': '20px', '2xl': '24px', '3xl': '32px',
+                  'xs': '4px',
+                  'sm': '8px',
+                  'md': '12px',
+                  'lg': '16px',
+                  'xl': '20px',
+                  '2xl': '24px',
+                  '3xl': '32px',
                 }
               }
             }
