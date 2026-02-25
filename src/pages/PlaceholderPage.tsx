@@ -1,7 +1,8 @@
 import type { FC } from 'hono/jsx'
-import { products, statusLabels, foundations } from '../data'
+import { products, statusLabels } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import { ProductLogo } from '../components/Logos'
 
 export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
   const product = products.find(p => p.id === productId)
@@ -11,7 +12,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
         <div class="text-center">
           <h1 class="text-4xl font-bold text-gray-300 mb-4">404</h1>
           <p class="text-gray-500 mb-6">产品模块未找到</p>
-          <a href="/portal" class="text-primary hover:underline">返回产品入口</a>
+          <a href="/portal" class="text-[#4ECDC4] hover:underline">返回产品入口</a>
         </div>
       </div>
     )
@@ -26,10 +27,8 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
         <div class="absolute inset-0 dot-pattern opacity-20"></div>
         <div class="max-w-4xl mx-auto px-4 relative text-center">
           {/* Logo */}
-          <div class="mb-6">
-            <div class="w-24 h-24 mx-auto rounded-3xl flex items-center justify-center shadow-lg" style={`background: ${product.color}`}>
-              <img src={product.logo} alt={product.name} class="w-20 h-20 rounded-2xl object-cover" />
-            </div>
+          <div class="mb-6 flex justify-center">
+            <ProductLogo name={product.name} englishShort={product.englishShort} category={product.category} size={96} />
           </div>
 
           {/* Status */}
@@ -71,8 +70,8 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
       {/* Coming Soon Notice */}
       <section class="py-16 bg-gray-50">
         <div class="max-w-md mx-auto px-4 text-center">
-          <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-primary/10 flex items-center justify-center">
-            <i class="fas fa-tools text-3xl text-primary"></i>
+          <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-[#4ECDC4]/10 flex items-center justify-center">
+            <i class="fas fa-tools text-3xl text-[#4ECDC4]"></i>
           </div>
           <h3 class="text-lg font-bold text-gray-900 mb-2">功能开发中</h3>
           <p class="text-sm text-gray-500 mb-8 leading-relaxed">
@@ -80,7 +79,7 @@ export const PlaceholderPage: FC<{ productId: string }> = ({ productId }) => {
           </p>
           <a
             href="/portal"
-            class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-xl shadow-lg shadow-primary/25 transition-all no-underline"
+            class="inline-flex items-center px-6 py-3 bg-[#4ECDC4] hover:bg-[#3DBDB5] text-white font-medium rounded-xl shadow-lg shadow-[#4ECDC4]/25 transition-all no-underline"
           >
             <i class="fas fa-arrow-left mr-2"></i>返回产品入口
           </a>

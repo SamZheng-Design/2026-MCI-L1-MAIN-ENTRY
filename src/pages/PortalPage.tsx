@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { products, foundations, statusLabels, roleLabels } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
+import { ProductLogo } from '../components/Logos'
 
 export const PortalPage: FC = () => {
   return (
@@ -9,16 +10,16 @@ export const PortalPage: FC = () => {
       <Navbar active="portal" />
 
       {/* Hero Section */}
-      <section class="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-primary/5 pt-12 pb-10">
+      <section class="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-[#4ECDC4]/5 pt-12 pb-10">
         <div class="absolute inset-0 dot-pattern opacity-30"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div class="text-center fade-in">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full mb-4">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#4ECDC4]/10 text-[#4ECDC4] text-xs font-medium rounded-full mb-4">
               <i class="fas fa-th-large"></i>
               Unified Product Portal
             </div>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-              滴灌通超级Agent<span class="text-primary">产品入口</span>
+              滴灌通超级Agent<span class="text-[#4ECDC4]">产品入口</span>
             </h1>
             <p class="text-base text-gray-500 max-w-xl mx-auto mb-8">
               选择任意「通」开始您的RBF投资旅程
@@ -28,21 +29,21 @@ export const PortalPage: FC = () => {
             <div class="flex justify-center">
               <div class="inline-flex bg-white rounded-xl border border-gray-200 p-1 shadow-sm" id="role-filter">
                 <button
-                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all bg-primary text-white"
+                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all bg-[#4ECDC4] text-white"
                   data-role="all"
                   onclick="filterByRole('all')"
                 >
                   全部
                 </button>
                 <button
-                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-primary"
+                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-[#4ECDC4]"
                   data-role="fundraiser"
                   onclick="filterByRole('fundraiser')"
                 >
                   <i class="fas fa-building mr-1"></i>融资者视角
                 </button>
                 <button
-                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-primary"
+                  class="role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-[#4ECDC4]"
                   data-role="investor"
                   onclick="filterByRole('investor')"
                 >
@@ -61,15 +62,13 @@ export const PortalPage: FC = () => {
             {products.map((p) => (
               <a
                 href={`/${p.id}`}
-                class={`portal-card block bg-white rounded-2xl p-6 no-underline product-card`}
+                class="portal-card block bg-white rounded-2xl p-6 no-underline product-card"
                 data-role={p.role}
                 style={`border: 2px solid ${p.color}; box-shadow: 0 4px 20px rgba(0,0,0,0.04);`}
               >
-                {/* Status badge */}
+                {/* Status badge + Logo */}
                 <div class="flex justify-between items-start mb-4">
-                  <div class="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden" style={`background: ${p.color}`}>
-                    <img src={p.logo} alt={p.name} class="w-14 h-14 object-cover rounded-xl logo-hover" loading="lazy" />
-                  </div>
+                  <ProductLogo name={p.name} englishShort={p.englishShort} category={p.category} size={72} />
                   <span class={`text-[10px] px-2.5 py-1 rounded-full border font-medium ${statusLabels[p.status].class}`}>
                     {statusLabels[p.status].text}
                   </span>
@@ -104,7 +103,7 @@ export const PortalPage: FC = () => {
                 {/* Action hint */}
                 <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
                   <span class="text-xs text-gray-400">点击进入</span>
-                  <i class="fas fa-arrow-right text-xs text-primary"></i>
+                  <i class="fas fa-arrow-right text-xs text-[#4ECDC4]"></i>
                 </div>
               </a>
             ))}
@@ -122,8 +121,8 @@ export const PortalPage: FC = () => {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             {foundations.map((f) => (
               <div class="card-hover bg-white rounded-xl p-5 border border-gray-200 flex items-center gap-4 cursor-pointer">
-                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <i class={`fas ${f.icon} text-xl text-primary`}></i>
+                <div class="w-12 h-12 rounded-xl bg-[#4ECDC4]/10 flex items-center justify-center flex-shrink-0">
+                  <i class={`fas ${f.icon} text-xl text-[#4ECDC4]`}></i>
                 </div>
                 <div>
                   <h3 class="text-sm font-bold text-gray-900">{f.name}</h3>
@@ -140,15 +139,13 @@ export const PortalPage: FC = () => {
       {/* Filter Script */}
       <script dangerouslySetInnerHTML={{ __html: `
         function filterByRole(role) {
-          // Update buttons
           document.querySelectorAll('.role-btn').forEach(btn => {
             if (btn.dataset.role === role) {
-              btn.className = 'role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all bg-primary text-white';
+              btn.className = 'role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all bg-[#4ECDC4] text-white';
             } else {
-              btn.className = 'role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-primary';
+              btn.className = 'role-btn px-5 py-2 text-sm font-medium rounded-lg transition-all text-gray-500 hover:text-[#4ECDC4]';
             }
           });
-          // Filter cards
           document.querySelectorAll('.product-card').forEach(card => {
             const cardRole = card.dataset.role;
             if (role === 'all' || cardRole === 'all' || cardRole === role) {
