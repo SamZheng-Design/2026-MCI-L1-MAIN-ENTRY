@@ -15,7 +15,12 @@ export const AboutPage: FC = () => {
       {/* Hero */}
       <section class="relative overflow-hidden bg-gradient-to-br from-[#0a1f1c] via-[#0d2b26] to-[#0f3530] pt-20 pb-16">
         <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-        <div class="max-w-4xl mx-auto px-4 relative text-center fade-in">
+        {/* 浮动粒子 */}
+        <div class="floating-element top-[15%] right-[10%] w-6 h-6 rounded-full opacity-[0.10]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+        <div class="floating-element bottom-[20%] left-[8%] w-5 h-5 rounded-full opacity-[0.07]" style="background: #6366F1; animation-delay: 2s;"></div>
+        <div class="floating-element top-[40%] left-[12%] w-4 h-4 rounded-full opacity-[0.06]" style="background: #F59E0B; animation-delay: 4s;"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center fade-in">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] text-white/50 text-xs font-semibold rounded-full mb-5 border border-white/[0.06]">
             About Us
           </div>

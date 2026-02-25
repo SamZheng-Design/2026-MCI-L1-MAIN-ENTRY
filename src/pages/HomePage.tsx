@@ -338,12 +338,60 @@ export const HomePage: FC = () => {
           深色、沉浸感、金融级专业质感
       ═══════════════════════════════════════════ */}
       <section class="relative overflow-hidden bg-[#0B1A18] min-h-[100vh] flex items-center justify-center pt-16 pb-20">
-        {/* 多层背景效果 */}
+        {/* 多层背景效果 + 渐变流动 */}
         <div class="absolute inset-0">
           <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-          <div class="absolute top-[-20%] left-[50%] translate-x-[-50%] w-[900px] h-[900px] rounded-full" style="background: radial-gradient(circle, rgba(93,196,179,0.08) 0%, transparent 55%);"></div>
-          <div class="absolute bottom-[-15%] right-[5%] w-[500px] h-[500px] rounded-full" style="background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 60%);"></div>
-          <div class="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full" style="background: radial-gradient(circle, rgba(245,158,11,0.04) 0%, transparent 60%);"></div>
+          <div class="absolute top-[-20%] left-[50%] translate-x-[-50%] w-[900px] h-[900px] rounded-full pulse-glow" style="background: radial-gradient(circle, rgba(93,196,179,0.08) 0%, transparent 55%);"></div>
+          <div class="absolute bottom-[-15%] right-[5%] w-[500px] h-[500px] rounded-full breathe" style="background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 60%);"></div>
+          <div class="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full breathe" style="background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 60%); animation-delay: 2s;"></div>
+          
+          {/* 旋转轨道装饰环 */}
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orbit-ring opacity-[0.04]">
+            <svg viewBox="0 0 700 700" fill="none" class="w-full h-full">
+              <circle cx="350" cy="350" r="340" stroke="#5DC4B3" stroke-width="0.5" stroke-dasharray="8 12" />
+              <circle cx="350" cy="350" r="280" stroke="#5DC4B3" stroke-width="0.3" stroke-dasharray="4 16" />
+            </svg>
+          </div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] orbit-ring opacity-[0.03]" style="animation-direction: reverse; animation-duration: 55s;">
+            <svg viewBox="0 0 500 500" fill="none" class="w-full h-full">
+              <circle cx="250" cy="250" r="240" stroke="#6366F1" stroke-width="0.4" stroke-dasharray="6 14" />
+            </svg>
+          </div>
+
+          {/* ★ 浮动产品Logo / Teal圆点粒子 — 灵动感核心元素 */}
+          {/* 大圆点 */}
+          <div class="floating-element top-[15%] left-[8%] w-10 h-10 rounded-full opacity-[0.12]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+          <div class="floating-element top-[25%] right-[10%] w-8 h-8 rounded-full opacity-[0.08]" style="background: #6366F1; animation-delay: 1.5s;"></div>
+          <div class="floating-element bottom-[20%] left-[12%] w-6 h-6 rounded-full opacity-[0.10]" style="background: #F59E0B; animation-delay: 3s;"></div>
+          <div class="floating-element bottom-[30%] right-[8%] w-7 h-7 rounded-full opacity-[0.09]" style="background: #10B981; animation-delay: 4.5s;"></div>
+          <div class="floating-element top-[55%] left-[5%] w-5 h-5 rounded-full opacity-[0.07]" style="background: #8B5CF6; animation-delay: 2s;"></div>
+
+          {/* 小产品Logo方块（代表9个通） */}
+          <div class="floating-element top-[18%] right-[18%] opacity-[0.06]" style="animation-delay: 0.8s;">
+            <div class="w-14 h-14 rounded-xl border border-white/10 flex items-center justify-center backdrop-blur-sm bg-white/[0.02]">
+              <i class="fas fa-fingerprint text-[#5DC4B3] text-lg"></i>
+            </div>
+          </div>
+          <div class="floating-element top-[40%] right-[5%] opacity-[0.05]" style="animation-delay: 2.5s;">
+            <div class="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center backdrop-blur-sm bg-white/[0.02]">
+              <i class="fas fa-chart-pie text-[#6366F1] text-sm"></i>
+            </div>
+          </div>
+          <div class="floating-element bottom-[25%] left-[6%] opacity-[0.05]" style="animation-delay: 4s;">
+            <div class="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center backdrop-blur-sm bg-white/[0.02]">
+              <i class="fas fa-chart-line text-[#10B981] text-sm"></i>
+            </div>
+          </div>
+          <div class="floating-element top-[65%] right-[15%] opacity-[0.04]" style="animation-delay: 5.5s;">
+            <div class="w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center backdrop-blur-sm bg-white/[0.02]">
+              <i class="fas fa-handshake text-[#8B5CF6] text-sm"></i>
+            </div>
+          </div>
+          <div class="floating-element bottom-[40%] left-[18%] opacity-[0.05]" style="animation-delay: 1s;">
+            <div class="w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center backdrop-blur-sm bg-white/[0.02]">
+              <i class="fas fa-store text-[#F59E0B] text-sm"></i>
+            </div>
+          </div>
         </div>
 
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -405,15 +453,15 @@ export const HomePage: FC = () => {
 
             {/* Hero数据条 */}
             <div class="max-w-4xl mx-auto">
-              <div class="grid grid-cols-2 lg:grid-cols-4 gap-[1px] bg-white/[0.04] rounded-2xl overflow-hidden border border-white/[0.06]">
+              <div class="relative grid grid-cols-2 lg:grid-cols-4 gap-[1px] bg-white/[0.04] rounded-2xl overflow-hidden border border-white/[0.06] shimmer-sweep">
                 {[
                   { val: '9', sub: 'Super Agents' },
                   { val: '5', sub: 'Workflow Phases' },
                   { val: 'AI', sub: 'Filtering Engine', gradient: true },
                   { val: '\u221E', sub: 'Industry Coverage' },
-                ].map((d) => (
-                  <div class="bg-[#0B1A18]/80 backdrop-blur-sm px-6 py-6 text-center hover:bg-white/[0.02] transition-colors">
-                    <div class={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 ${d.gradient ? 'bg-gradient-to-r from-[#5DC4B3] to-[#7DD4C7] bg-clip-text text-transparent' : 'text-white'}`}>{d.val}</div>
+                ].map((d, idx) => (
+                  <div class="bg-[#0B1A18]/80 backdrop-blur-sm px-6 py-6 text-center hover:bg-white/[0.03] transition-colors" style={`transition-delay: ${idx * 0.1}s;`}>
+                    <div class={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 count-animate ${d.gradient ? 'bg-gradient-to-r from-[#5DC4B3] to-[#7DD4C7] bg-clip-text text-transparent' : 'text-white'}`} style={`animation-delay: ${0.3 + idx * 0.15}s;`}>{d.val}</div>
                     <div class="text-[10px] text-white/25 font-medium tracking-wider uppercase">{d.sub}</div>
                   </div>
                 ))}
@@ -568,7 +616,7 @@ export const HomePage: FC = () => {
 
           <div class="grid md:grid-cols-2 gap-8">
             {/* Investor */}
-            <div class="relative rounded-2xl border-2 border-indigo-100 bg-white p-8 lg:p-10 hover:border-indigo-300 hover:shadow-xl transition-all group overflow-hidden">
+            <div class="relative rounded-2xl border-2 border-indigo-100 bg-white p-8 lg:p-10 hover:border-indigo-300 hover:shadow-xl transition-all group overflow-hidden card-glow">
               <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" style="background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%); transform: translate(30%, -30%);"></div>
               <div class="relative">
                 <div class="flex items-center gap-3 mb-6">
@@ -607,7 +655,7 @@ export const HomePage: FC = () => {
             </div>
 
             {/* Business */}
-            <div class="relative rounded-2xl border-2 border-amber-100 bg-white p-8 lg:p-10 hover:border-amber-300 hover:shadow-xl transition-all group overflow-hidden">
+            <div class="relative rounded-2xl border-2 border-amber-100 bg-white p-8 lg:p-10 hover:border-amber-300 hover:shadow-xl transition-all group overflow-hidden card-glow">
               <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" style="background: radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 70%); transform: translate(30%, -30%);"></div>
               <div class="relative">
                 <div class="flex items-center gap-3 mb-6">
@@ -675,7 +723,7 @@ export const HomePage: FC = () => {
               { icon: 'fa-chart-line', color: '#EF4444', title: '全生命周期管理', desc: '结算通自动执行收入分成，履约通实时监控经营数据。投后不再是黑箱。', tag: 'Lifecycle' },
               { icon: 'fa-database', color: '#10B981', title: '统一数据底座', desc: 'Account身份体系、Data数据底座、AI智能引擎。三层基础设施确保9个Agent共享数据。', tag: 'Foundation' },
             ].map((item) => (
-              <div class="group bg-[#FAFAFA] rounded-2xl p-7 border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all hover:bg-white">
+              <div class="group bg-[#FAFAFA] rounded-2xl p-7 border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all hover:bg-white card-glow">
                 <div class="flex items-center gap-3 mb-5">
                   <div class="w-11 h-11 rounded-xl flex items-center justify-center" style={`background: ${item.color}12;`}>
                     <i class={`fas ${item.icon}`} style={`color: ${item.color}; font-size: 16px;`}></i>
@@ -697,7 +745,14 @@ export const HomePage: FC = () => {
       <section class="relative py-24 overflow-hidden bg-[#0B1A18]">
         <div class="absolute inset-0">
           <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(93,196,179,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(93,196,179,0.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
-          <div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[600px] h-[600px] rounded-full" style="background: radial-gradient(circle, rgba(93,196,179,0.06) 0%, transparent 60%);"></div>
+          <div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[600px] h-[600px] rounded-full pulse-glow" style="background: radial-gradient(circle, rgba(93,196,179,0.06) 0%, transparent 60%);"></div>
+          
+          {/* 浮动粒子 */}
+          <div class="floating-element top-[10%] left-[10%] w-5 h-5 rounded-full opacity-[0.10]" style="background: #5DC4B3; animation-delay: 0.5s;"></div>
+          <div class="floating-element top-[20%] right-[15%] w-4 h-4 rounded-full opacity-[0.07]" style="background: #6366F1; animation-delay: 2s;"></div>
+          <div class="floating-element bottom-[15%] left-[20%] w-6 h-6 rounded-full opacity-[0.08]" style="background: #10B981; animation-delay: 3.5s;"></div>
+          <div class="floating-element bottom-[25%] right-[10%] w-3 h-3 rounded-full opacity-[0.12]" style="background: #F59E0B; animation-delay: 1s;"></div>
+          <div class="floating-element top-[60%] left-[5%] w-4 h-4 rounded-full opacity-[0.06]" style="background: #8B5CF6; animation-delay: 4s;"></div>
         </div>
         <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
           <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#5DC4B3]/10 rounded-full mb-6 border border-[#5DC4B3]/15">
@@ -766,6 +821,34 @@ export const HomePage: FC = () => {
             card.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's, transform 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's';
             cardObserver.observe(card);
           });
+
+          // Card glow — mouse tracking light effect
+          document.querySelectorAll('.card-glow').forEach(function(card) {
+            card.addEventListener('mousemove', function(e) {
+              var rect = card.getBoundingClientRect();
+              var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+              var y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+              card.style.setProperty('--mouse-x', x);
+              card.style.setProperty('--mouse-y', y);
+            });
+          });
+
+          // Parallax-lite: floating elements shift slightly on scroll
+          var floatingEls = document.querySelectorAll('.floating-element');
+          var ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              window.requestAnimationFrame(function() {
+                var scrollY = window.scrollY;
+                floatingEls.forEach(function(el, i) {
+                  var speed = (i % 3 + 1) * 0.02;
+                  el.style.transform = 'translateY(' + (scrollY * speed * -1) + 'px)';
+                });
+                ticking = false;
+              });
+              ticking = true;
+            }
+          }, { passive: true });
         });
       `}} />
 

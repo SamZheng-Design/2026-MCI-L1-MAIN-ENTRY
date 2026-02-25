@@ -18,7 +18,23 @@ export const DesignPage: FC = () => {
       {/* Hero Section */}
       <section class="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-[#5DC4B3]/5 pt-16 pb-20">
         <div class="absolute inset-0 dot-pattern opacity-30"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* 浮动装饰元素 */}
+        <div class="floating-element top-[12%] right-[8%] w-8 h-8 rounded-full opacity-[0.10]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+        <div class="floating-element top-[50%] left-[5%] w-6 h-6 rounded-full opacity-[0.07]" style="background: #6366F1; animation-delay: 1.5s;"></div>
+        <div class="floating-element bottom-[20%] right-[12%] w-5 h-5 rounded-full opacity-[0.06]" style="background: #F59E0B; animation-delay: 3s;"></div>
+        <div class="floating-element top-[25%] left-[15%] w-4 h-4 rounded-full opacity-[0.08]" style="background: #10B981; animation-delay: 4.5s;"></div>
+        <div class="floating-element bottom-[30%] left-[8%] opacity-[0.04]" style="animation-delay: 2s;">
+          <div class="w-12 h-12 rounded-xl border border-gray-200 flex items-center justify-center bg-white/80 shadow-sm">
+            <i class="fas fa-code-branch text-[#5DC4B3]"></i>
+          </div>
+        </div>
+        <div class="floating-element top-[20%] right-[20%] opacity-[0.04]" style="animation-delay: 5s;">
+          <div class="w-11 h-11 rounded-xl border border-gray-200 flex items-center justify-center bg-white/80 shadow-sm">
+            <i class="fas fa-filter text-[#6366F1] text-sm"></i>
+          </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div class="text-center fade-in">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#5DC4B3]/10 text-[#5DC4B3] text-xs font-semibold rounded-full mb-6 border border-[#5DC4B3]/20">
               <svg viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="5" fill="#5DC4B3"/></svg>

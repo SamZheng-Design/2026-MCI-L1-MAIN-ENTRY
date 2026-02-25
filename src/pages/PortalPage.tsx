@@ -148,8 +148,14 @@ export const PortalPage: FC = () => {
       <Navbar active="portal" />
 
       {/* Compact Hero */}
-      <section class="bg-white border-b border-gray-100 pt-10 pb-8">
-        <div class="max-w-2xl mx-auto px-4 text-center fade-in">
+      <section class="relative bg-white border-b border-gray-100 pt-10 pb-8 overflow-hidden">
+        {/* 背景装饰 */}
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #5DC4B3 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <div class="floating-element top-[10%] right-[8%] w-6 h-6 rounded-full opacity-[0.08]" style="background: #5DC4B3; animation-delay: 0s;"></div>
+        <div class="floating-element bottom-[15%] left-[10%] w-5 h-5 rounded-full opacity-[0.06]" style="background: #6366F1; animation-delay: 2s;"></div>
+        <div class="floating-element top-[30%] left-[5%] w-4 h-4 rounded-full opacity-[0.05]" style="background: #F59E0B; animation-delay: 4s;"></div>
+        
+        <div class="max-w-2xl mx-auto px-4 text-center fade-in relative z-10">
           <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#5DC4B3]/10 text-[#5DC4B3] text-[11px] font-semibold rounded-full mb-3 border border-[#5DC4B3]/20">
             <i class="fas fa-th-large text-[10px]"></i>
             选择你需要的产品
