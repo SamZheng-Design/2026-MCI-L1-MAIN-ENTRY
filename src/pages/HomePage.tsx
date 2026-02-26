@@ -1,3 +1,40 @@
+/**
+ * ===================================================================
+ * HomePage.tsx -- 首页主组件 (V20)
+ * ===================================================================
+ *
+ * 叙事式产品展示首页。用讲故事的方式引导用户理解Y型业务流程。
+ * 这是整个平台最核心的页面，承担品牌展示和用户引导双重职责。
+ *
+ * --- 页面结构(从上到下) ---
+ *
+ * 1. Splash Screen    — 全屏Logo动画(首次访问显示，sessionStorage记录)
+ * 2. Welcome Modal    — 4页滑动介绍弹窗(阐述产品理念)
+ * 3. Hero Section     — 主Banner(品牌Logo + 标语 + CTA)
+ * 4. Flow Overview    — 5阶段流程导航(锚点跳转)
+ * 5. Narrative Sections — 5个叙事区块(每个阶段配插图+产品卡片)
+ * 6. Dual Channel     — 双通道价值主张(投资者 vs 融资者)
+ * 7. Foundation        — 三层统一底座展示
+ * 8. Final CTA         — 底部号召行动区
+ *
+ * --- 数据驱动设计 ---
+ *
+ * 页面内容由4个配置数组驱动，而非硬编码：
+ * - STEPS      — 5个流程阶段的产品ID、颜色、图标、布局
+ * - SLIDE_META — 4张欢迎幻灯片的视觉配置
+ * - stepKeys   — 5个步骤的i18n翻译键映射
+ * - slideKeys  — 4张幻灯片的i18n翻译键映射
+ *
+ * --- 客户端交互(内联脚本) ---
+ * - Splash动画: 进度条 + 3秒自动关闭 + sessionStorage防重
+ * - Welcome Modal: 轮播控制 + 键盘导航(ESC/左右箭头) + 触摸滑动
+ * - Reveal动画: IntersectionObserver监听，滚动到视口时触发淡入
+ *
+ * --- 关键组件 ---
+ * - FlowIllustration: 根据step类型渲染不同的SVG风格插图
+ * - IdLink: 智能链接组件，自动处理身份通的内外部跳转
+ * - SectionBadge: 流程阶段标签组件
+ */
 import type { FC } from 'hono/jsx'
 import { products, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
@@ -6,9 +43,14 @@ import { BrandLogo, ProductLogoSmall } from '../components/Logos'
 import type { Lang } from '../i18n'
 import { tt, t, langLink, getStatusLabel as i18nStatusLabel } from '../i18n'
 
+/** i18n快捷引用 — 指向t.home，避免全文反复写t.home.xxx */
 const h = t.home
 
-// ─── Data-driven configs ───
+// ===================================================================
+// 数据驱动配置 — 页面内容由这些数组驱动，而非硬编码
+// ===================================================================
+
+/** STEPS: 5个流程阶段配置，每个阶段包含对应的产品ID、主题色、图标、布局方向 */
 const STEPS = [
   { id: 'entry', products: ['identity'], color: '#5DC4B3', icons: ['fa-fingerprint','fa-code-branch','fa-shield-alt'], align: 'left', bg: 'bg-white' },
   { id: 'borrower', products: ['application'], color: '#F59E0B', icons: ['fa-upload','fa-magic','fa-bullseye'], align: 'right', bg: 'bg-[#FAFAFA]' },
@@ -17,6 +59,7 @@ const STEPS = [
   { id: 'post', products: ['settlement','performance'], color: '#10B981', icons: ['fa-coins','fa-chart-line','fa-bell'], align: 'left', bg: 'bg-white' },
 ] as const
 
+/** SLIDE_META: 4张欢迎幻灯片的视觉配置(图标、主颜色、视觉类型) */
 const SLIDE_META = [
   { icon: 'fa-rocket', color: '#5DC4B3', visual: 'hero' },
   { icon: 'fa-code-branch', color: '#6366F1', visual: 'yflow' },
@@ -24,6 +67,7 @@ const SLIDE_META = [
   { icon: 'fa-chart-line', color: '#10B981', visual: 'lifecycle' },
 ] as const
 
+/** stepKeys: 5个步骤的i18n翻译键映射(eyebrow/title/subtitle/features) */
 const stepKeys = [
   { e: h.step01Eyebrow, t: h.step01Title, s: h.step01Subtitle, f: [h.step01f1, h.step01f2, h.step01f3] },
   { e: h.step02Eyebrow, t: h.step02Title, s: h.step02Subtitle, f: [h.step02f1, h.step02f2, h.step02f3] },
@@ -32,6 +76,7 @@ const stepKeys = [
   { e: h.step05Eyebrow, t: h.step05Title, s: h.step05Subtitle, f: [h.step05f1, h.step05f2, h.step05f3] },
 ]
 
+/** slideKeys: 4张幻灯片的i18n翻译键映射(title/subtitle/content) */
 const slideKeys = [
   { t: h.slide1Title, sub: h.slide1Subtitle, c: h.slide1Content },
   { t: h.slide2Title, sub: h.slide2Subtitle, c: h.slide2Content },
@@ -39,7 +84,14 @@ const slideKeys = [
   { t: h.slide4Title, sub: h.slide4Subtitle, c: h.slide4Content },
 ]
 
-// ─── Illustration Component (data-driven) ───
+// ===================================================================
+// FlowIllustration — 根据步骤类型渲染不同风格的SVG插图
+// entry:    身份认证 + Y型分流(投资者/融资者)
+// borrower: 数据上传流程(财务流水/POS/门店) + AI Pitch Deck
+// investor: 三步筛选流程(评估通→风控通→参与通) + 统计数据
+// deal:     条款通+合约通 协同完成
+// post:     投后管理面板(柱状图+增长指标)
+// ===================================================================
 const FlowIllustration: FC<{ type: string; lang: Lang }> = ({ type, lang: l }) => {
   if (type === 'entry') return (
     <div class="relative w-full max-w-[320px] mx-auto">
@@ -185,18 +237,27 @@ const FlowIllustration: FC<{ type: string; lang: Lang }> = ({ type, lang: l }) =
   return null
 }
 
-// ─── Helpers ───
+// ===================================================================
+// 辅助组件
+// ===================================================================
+
+/** 获取身份通产品对象(用于CTA链接) */
 const idProduct = () => products.find(p => p.id === 'identity')!
+
+/** 智能链接组件 — 自动处理身份通的内/外部跳转逻辑 */
 const IdLink: FC<{ lang: Lang; class: string; children: any }> = ({ lang, class: cls, children }) => {
   const p = idProduct()
   return <a href={langLink(getProductUrl(p), lang)} target={isExternalProduct(p) ? "_blank" : undefined} rel={isExternalProduct(p) ? "noopener noreferrer" : undefined} class={`${cls} no-underline`}>{children}</a>
 }
 
+/** 流程阶段标签组件 — 带颜色的圆角微章 */
 const SectionBadge: FC<{ color: string; text: string }> = ({ color, text }) => (
   <div class={`inline-flex items-center gap-2 px-4 py-1.5 bg-${color}/6 text-${color} text-[11px] font-semibold rounded-full mb-5 border border-${color}/10 tracking-[0.15em] uppercase`}>{text}</div>
 )
 
-// ─── Main Component ───
+// ===================================================================
+// HomePage 主组件
+// ===================================================================
 export const HomePage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
   const l = lang, ll = (href: string) => langLink(href, l)
   const sections = STEPS.map((s, i) => ({ ...s, ...stepKeys[i], phase: i + 1 }))

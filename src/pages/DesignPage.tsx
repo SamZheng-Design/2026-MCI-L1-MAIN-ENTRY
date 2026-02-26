@@ -1,3 +1,37 @@
+/**
+ * ===================================================================
+ * DesignPage.tsx -- 产品设计思路页面 (V20)
+ * ===================================================================
+ *
+ * 系统展示Y型业务流程的设计理念和产品架构。
+ * 面向有技术/产品背景的用户，深入讲解整个Agent矩阵的设计逻辑。
+ *
+ * --- 页面结构(从上到下) ---
+ *
+ * 1. Hero Section      — 标题"9个通如何串联成Super Agent"
+ * 2. Y-Flow Diagram    — 完整Y型业务流程图(5个Phase)
+ *    Phase 1: 统一入口(身份通)
+ *    Phase 2a: 融资者路径(发起通)
+ *    Phase 2b: 投资者搭建筛子(配置面板)
+ *    Phase 3: 数据筛选管道(发起通→评估通→风控通→参与通)
+ *    Y型汇合: 合并标识
+ *    Phase 4: 交易达成(条款通+合约通)
+ *    Phase 5: 投后管理(结算通+履约通)
+ * 3. Architecture Grid  — 按5组展示9个产品的架构总览
+ * 4. Foundation Layer   — 三大统一底座
+ * 5. Design Accordion   — 核心设计思路手风琴(5章节详细文档)
+ * 6. CTA Section        — 引导进入产品入口
+ *
+ * --- 关键组件 ---
+ * - ProductCard: 产品卡片(Logo+名称+状态+描述+功能标签)
+ *   支持showFilter/showCollab标签、自定义边框色
+ * - getStatusLabel/getProductDesc/getProductFeatures: 本地化数据获取
+ *
+ * --- 数据来源 ---
+ * 产品数据从 data.ts 导入(products, foundations, architectureGroups等)
+ * 设计文档从 data.ts 的 designSections 导入(中文，尚未国际化)
+ * UI文案从 i18n.ts 的 t.design 获取
+ */
 import type { FC } from 'hono/jsx'
 import { products, foundations, architectureGroups, designSections, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'

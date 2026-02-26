@@ -1,3 +1,18 @@
+/**
+ * ===================================================================
+ * TeamPage.tsx -- 核心团队页面 (V20)
+ * ===================================================================
+ *
+ * 展示管理团队和顾问团队成员。
+ *
+ * --- 页面结构 ---
+ * 1. Hero — Aurora深色背景 + 标题
+ * 2. Management Team — 4人网格(CEO/CTO/CIO/CPO)
+ * 3. Advisory Board — 2人网格(战略顾问/技术顾问)
+ * 4. Join Us — 招聘CTA + 联系链接
+ *
+ * 注意: 当前为Demo数据，成员信息使用FontAwesome图标代替头像
+ */
 import type { FC } from 'hono/jsx'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'

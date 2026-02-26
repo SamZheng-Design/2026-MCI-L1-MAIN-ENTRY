@@ -1,3 +1,40 @@
+/**
+ * ===================================================================
+ * PortalPage.tsx -- 产品入口(统一门户)页面 (V20)
+ * ===================================================================
+ *
+ * Tab式产品浏览页面。用户可按5个业务阶段切换Tab，查看每个阶段的产品。
+ * 每个产品卡片展示：Logo、名称、描述、状态徽章、角色标签、功能标签。
+ *
+ * --- 页面结构(从上到下) ---
+ *
+ * 1. Hero Section    — 标题"九大「通」"
+ * 2. Tab Navigation  — 5个阶段Tab(入口/融资者/投资者/交易/投后)
+ *                      粘性定位在Navbar下方，滚动时保持可见
+ * 3. Tab Content     — 每个Tab显示对应阶段的产品列表
+ *                      包含"下一阶段"导航按钮
+ * 4. Foundation      — 三大底座简要展示
+ *
+ * --- 5个阶段Tab ---
+ *
+ * entry:    入口     → identity
+ * borrower: 融资者   → application
+ * investor: 投资者   → assess, risk, opportunity
+ * deal:     交易     → terms, contract
+ * post:     投后     → settlement, performance
+ *
+ * --- 客户端交互(内联脚本) ---
+ * switchTab(key): Tab切换动画 + 颜色变更 + 滚动定位
+ *
+ * --- 产品卡片信息 ---
+ * - ProductLogoSmall: 小尺寸Logo
+ * - 产品名称(中/英)
+ * - 简述(from getShortDesc)
+ * - 状态徽章(live/beta/coming)
+ * - 角色徽章(shared/borrower/investor/collaborative)
+ * - AI筛子/协同 标签(条件显示)
+ * - 功能标签(最多4个)
+ */
 import type { FC } from 'hono/jsx'
 import { products, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'

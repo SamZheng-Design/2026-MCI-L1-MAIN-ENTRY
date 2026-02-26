@@ -1,3 +1,17 @@
+/**
+ * ===================================================================
+ * AboutPage.tsx -- 关于我们页面 (V20)
+ * ===================================================================
+ *
+ * 展示公司使命、愿景、关键数据、发展历程和核心价值观。
+ *
+ * --- 页面结构 ---
+ * 1. Hero — Aurora深色背景 + 标题
+ * 2. Mission/Vision — 两栏卡片(使命 + 愿景)
+ * 3. Key Numbers — 4项核心数据(9个Agent / 5阶段 / 100%在线 / 无限行业)
+ * 4. Milestones — 时间线(2024创立 / 2025 Beta / 2026商用化)
+ * 5. Values — 4项核心价值观(技术驱动/合规透明/双向赋能/无限扩展)
+ */
 import type { FC } from 'hono/jsx'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'

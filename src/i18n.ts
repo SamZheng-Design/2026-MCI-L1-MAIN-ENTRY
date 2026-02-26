@@ -1,8 +1,65 @@
+/**
+ * ===================================================================
+ * i18n.ts -- 滴灌通超级Agent平台国际化数据层 (V20)
+ * ===================================================================
+ *
+ * 本文件是整个平台的多语言翻译中枢。所有页面的UI文案、产品名称、描述、
+ * 标签等文字内容均从此处获取，实现中英双语切换。
+ *
+ * --- 架构设计 ---
+ *
+ * 1. 类型系统:
+ *    - Bi = { zh: string; en: string }       -- 双语字符串
+ *    - BiArr = { zh: string[]; en: string[] } -- 双语字符串数组
+ *    - Lang = 'zh' | 'en'                     -- 语言类型
+ *
+ * 2. 翻译数据结构 (t 常量):
+ *    - t.nav:         导航栏翻译
+ *    - t.footer:      页脚翻译
+ *    - t.home:        首页(HomePage)翻译 — 最大的翻译块
+ *    - t.portal:      产品入口(PortalPage)翻译
+ *    - t.design:      设计思路(DesignPage)翻译
+ *    - t.about:       关于页翻译
+ *    - t.team:        团队页翻译
+ *    - t.news:        动态页翻译
+ *    - t.contact:     联系页翻译
+ *    - t.placeholder: 产品占位页翻译
+ *    - t.data:        通用数据翻译(产品名/描述/功能/底座等)
+ *    - t.titles:      页面标题(SEO <title> 标签)
+ *    - t.meta:        页面元数据(SEO meta/OG标签)
+ *
+ * 3. 工具函数:
+ *    - tt(obj, lang)       -- 从Bi对象取对应语言文本
+ *    - ta(obj, lang)       -- 从BiArr对象取对应语言数组
+ *    - getLangFromQuery()   -- 从URL查询参数解析语言
+ *    - langLink()          -- 生成带语言参数的链接
+ *    - getProductName/Desc/Features/Short() -- 按产品ID获取翻译
+ *    - getCategoryName()   -- 分类名翻译
+ *    - getStatusLabel()    -- 状态标签翻译
+ *    - getRoleBadge/Label() -- 角色标签翻译
+ *
+ * --- 语言切换机制 ---
+ *
+ * 默认语言: zh (中文)
+ * 切换方式: URL参数 ?lang=en 切换为英文
+ * 示例: /design?lang=en → 英文版设计思路页
+ *
+ * --- 命名规范 ---
+ *
+ * 产品相关翻译键遵循统一格式:
+ *   {productId}Name     -- 产品名称
+ *   {productId}Desc     -- 完整描述
+ *   {productId}Short    -- 一句话简述
+ *   {productId}Features -- 功能标签数组
+ */
+
 // Micro Connect i18n Data Layer
 // Bloomberg / LSEG Refinitiv / MSCI / Stripe grade translations
 
+/** 支持的语言类型: zh=中文(default), en=英文 */
 export type Lang = 'zh' | 'en'
 
+/** 从 URL 查询参数解析语言，?lang=en 返回 'en'，其他情况返回 'zh' */
 export function getLangFromQuery(url: string): Lang {
   try {
     const u = new URL(url, 'http://localhost')
@@ -11,6 +68,12 @@ export function getLangFromQuery(url: string): Lang {
   return 'zh'
 }
 
+/**
+ * 生成带语言参数的链接
+ * - zh时不加参数: /design
+ * - en时追加参数: /design?lang=en
+ * - 锡点链接(#)/http链接不处理
+ */
 export function langLink(href: string, lang: Lang): string {
   if (lang === 'zh') return href
   if (!href || href === '#' || href.startsWith('#') || href.startsWith('http')) return href
@@ -18,12 +81,23 @@ export function langLink(href: string, lang: Lang): string {
   return `${href}${sep}lang=en`
 }
 
+/** langLink 的别名，保持向后兼容 */
 export const langUrl = langLink
 
+/** 双语字符串类型，包含中文(zh)和英文(en)两个字段 */
 type Bi = { zh: string; en: string }
+/** 双语字符串数组类型，用于产品功能标签等列表数据 */
 type BiArr = { zh: string[]; en: string[] }
 
+/**
+ * ===================================================================
+ * 全局翻译数据常量 (t)
+ * ===================================================================
+ * 所有页面的UI文案都存储在这个常量中，按页面/功能分组。
+ * 使用方式: tt(t.nav.home, lang) => "首页" 或 "Home"
+ */
 export const t = {
+  // --- 导航栏翻译 (Navbar组件使用) ---
   nav: {
     home: { zh: '首页', en: 'Home' } as Bi,
     product: { zh: '产品', en: 'Products' } as Bi,
@@ -43,6 +117,7 @@ export const t = {
     productOverviewDesc: { zh: '5阶段产品矩阵总览', en: '5-Phase Product Matrix' } as Bi,
     products: { zh: '产品', en: 'Products' } as Bi,
   },
+  // --- 页脚翻译 (Footer组件使用) ---
   footer: {
     brandDesc: { zh: '全球领先的收入分成融资(RBF)基础设施平台。通过9个AI超级Agent矩阵，为投资者和中小企业提供高效、透明、全生命周期的投融资解决方案。', en: 'The world\'s leading Revenue-Based Financing (RBF) infrastructure platform. Through a matrix of 9 AI Super Agents, we deliver efficient, transparent, full-lifecycle investment and financing solutions for investors and SMEs.' } as Bi,
     sectionProducts: { zh: '产品', en: 'Products' } as Bi,
@@ -64,6 +139,8 @@ export const t = {
     cookieSettings: { zh: 'Cookie设置', en: 'Cookie Settings' } as Bi,
     compliance: { zh: '合规声明', en: 'Compliance' } as Bi,
   },
+  // --- 首页翻译 (HomePage组件使用) ---
+  // 最大的翻译块: 闪屏、欢迎弹窗、Hero区、流程叙事、插图、双通道、底座、CTA
   home: {
     splashLine1: { zh: 'One Pipeline', en: 'One Pipeline' } as Bi,
     splashLine2: { zh: 'Nine Agents', en: 'Nine Agents' } as Bi,
@@ -192,6 +269,7 @@ export const t = {
     ctaRegister: { zh: '立即注册身份通', en: 'Register with Identity Connect' } as Bi,
     ctaContact: { zh: '联系我们', en: 'Contact Us' } as Bi,
   },
+  // --- 产品入口页翻译 (PortalPage组件使用) ---
   portal: {
     badge: { zh: 'Product Suite', en: 'Product Suite' } as Bi,
     title: { zh: '九大', en: 'Nine' } as Bi,
@@ -210,6 +288,7 @@ export const t = {
     phaseDealDesc: { zh: '条款协商 · 合约签署', en: 'Term negotiation · Contract execution' } as Bi,
     phasePostDesc: { zh: '自动结算 · 履约监控', en: 'Automated settlement · Performance monitoring' } as Bi,
   },
+  // --- 设计思路页翻译 (DesignPage组件使用) ---
   design: {
     badge: { zh: 'Super Agent Architecture', en: 'Super Agent Architecture' } as Bi,
     heroTitle1: { zh: '9个通如何串联成', en: 'How 9 Connects Form a' } as Bi,
@@ -264,6 +343,7 @@ export const t = {
     filterLabel: { zh: '筛子', en: 'Filter' } as Bi,
     collaborative: { zh: '协同', en: 'Collaborative' } as Bi,
   },
+  // --- 关于页翻译 (AboutPage组件使用) ---
   about: {
     badge: { zh: 'About Us', en: 'About Us' } as Bi,
     title: { zh: '关于我们', en: 'About Us' } as Bi,
@@ -286,6 +366,7 @@ export const t = {
     v3Title: { zh: '双向赋能', en: 'Bilateral Empowerment' } as Bi, v3Desc: { zh: '投资者和融资者各取所需', en: 'Investors and borrowers each get what they need' } as Bi,
     v4Title: { zh: '无限扩展', en: 'Infinite Scalability' } as Bi, v4Desc: { zh: '通用架构，行业覆盖无上限', en: 'Universal architecture, unlimited industry coverage' } as Bi,
   },
+  // --- 团队页翻译 (TeamPage组件使用) ---
   team: {
     badge: { zh: 'Our Team', en: 'Our Team' } as Bi,
     title: { zh: '核心团队', en: 'Leadership' } as Bi,
@@ -308,6 +389,7 @@ export const t = {
     a2Name: { zh: '技术顾问', en: 'Technical Advisor' } as Bi,
     a2Desc: { zh: '知名AI科学家，曾任大型科技公司AI实验室负责人。', en: 'Renowned AI scientist, formerly head of an AI research lab at a major technology company.' } as Bi,
   },
+  // --- 动态页翻译 (NewsPage组件使用) ---
   news: {
     badge: { zh: 'News & Insights', en: 'News & Insights' } as Bi,
     title: { zh: '新闻动态', en: 'News & Insights' } as Bi,
@@ -329,6 +411,7 @@ export const t = {
     n4Title: { zh: '收入分成融资(RBF)：2026行业趋势展望', en: 'Revenue-Based Financing (RBF): 2026 Industry Outlook' } as Bi,
     n4Summary: { zh: '深入分析RBF在全球及中国市场的发展趋势、监管动向与技术创新方向，展望AI驱动的下一代投融资基础设施。', en: 'In-depth analysis of RBF development trends, regulatory shifts, and technological innovation across global and China markets, looking ahead to AI-driven next-generation investment infrastructure.' } as Bi,
   },
+  // --- 联系页翻译 (ContactPage组件使用) ---
   contact: {
     badge: { zh: 'Contact Us', en: 'Contact Us' } as Bi,
     title: { zh: '联系我们', en: 'Contact Us' } as Bi,
@@ -346,6 +429,7 @@ export const t = {
     hours: { zh: '周一至周五 9:00 - 18:00\n(HKT / GMT+8)', en: 'Monday – Friday 9:00 – 18:00\n(HKT / GMT+8)' } as Bi,
     socialTitle: { zh: '关注我们', en: 'Follow Us' } as Bi,
   },
+  // --- 产品占位页翻译 (PlaceholderPage组件使用) ---
   placeholder: {
     breadHome: { zh: '首页', en: 'Home' } as Bi,
     breadPortal: { zh: '产品入口', en: 'Product Suite' } as Bi,
@@ -357,6 +441,8 @@ export const t = {
     nextStep: { zh: '下一步', en: 'Next' } as Bi,
     notFound: { zh: '产品模块未找到', en: 'Product module not found' } as Bi,
   },
+  // --- 通用数据翻译 ---
+  // 包含: 状态标签、角色徽章、分类名称、底座信息、各产品的名称/描述/简述/功能标签
   data: {
     statusLive: { zh: '已上线', en: 'Live' } as Bi,
     statusBeta: { zh: 'Beta测试中', en: 'Beta' } as Bi,
@@ -418,6 +504,7 @@ export const t = {
     settlementFeatures: { zh: ['自动结算', '资金流转', '账单管理', '对账核销'], en: ['Automated Settlement', 'Fund Flow', 'Billing Management', 'Reconciliation'] } as BiArr,
     performanceFeatures: { zh: ['履约监控', '数据追踪', '预警提示', '报表生成'], en: ['Performance Monitoring', 'Data Tracking', 'Alert Notifications', 'Report Generation'] } as BiArr,
   },
+  // --- 页面标题(SEO <title>标签) ---
   titles: {
     home: { zh: 'Micro Connect 滴灌通 | 收入分成投资的操作系统', en: 'Micro Connect | The Operating System for Revenue-Based Financing' } as Bi,
     design: { zh: '产品设计思路 - Micro Connect 滴灌通', en: 'Design Philosophy - Micro Connect' } as Bi,
@@ -427,6 +514,7 @@ export const t = {
     news: { zh: '新闻动态 - Micro Connect 滴灌通', en: 'News & Insights - Micro Connect' } as Bi,
     contact: { zh: '联系我们 - Micro Connect 滴灌通', en: 'Contact Us - Micro Connect' } as Bi,
   },
+  // --- 页面元数据(SEO meta/OG标签) ---
   meta: {
     description: { zh: 'Micro Connect 滴灌通 — 收入分成投资的基础设施级平台。9个AI超级Agent，覆盖RBF投资全生命周期。', en: 'Micro Connect — Infrastructure-grade platform for revenue-based financing. 9 AI Super Agents covering the full RBF investment lifecycle.' } as Bi,
     ogTitle: { zh: 'Micro Connect 滴灌通 | 收入分成投资的操作系统', en: 'Micro Connect | The Operating System for Revenue-Based Financing' } as Bi,
@@ -434,12 +522,20 @@ export const t = {
   },
 } as const
 
-// ═══════ Helpers ═══════
+// ===================================================================
+// 翻译工具函数
+// ===================================================================
 
+/** 从双语对象中取对应语言的文本: tt({zh:'首页', en:'Home'}, 'zh') => '首页' */
 export function tt(obj: Bi, lang: Lang): string { return obj[lang] }
+/** 从双语数组对象中取对应语言的数组: ta({zh:['A','B'], en:['C','D']}, 'en') => ['C','D'] */
 export function ta(obj: BiArr, lang: Lang): string[] { return obj[lang] }
 
-// Deep-flatten all Bi/BiArr for a given lang
+/**
+ * 深度展平整个翻译树为单一语言版本
+ * 递归遍历 t 对象，将所有 Bi/BiArr 节点替换为对应语言的值
+ * 用于需要一次性获取全部翻译的场景
+ */
 function resolveForLang(obj: any, lang: Lang): any {
   if (obj === null || obj === undefined || typeof obj !== 'object') return obj
   if ('zh' in obj && 'en' in obj && (typeof obj.zh === 'string' || Array.isArray(obj.zh))) return obj[lang]
@@ -448,23 +544,44 @@ function resolveForLang(obj: any, lang: Lang): any {
   return r
 }
 
+/** 获取完整的单语言翻译树 */
 export function getI18n(lang: Lang) { return resolveForLang(t, lang) }
 
-// Product helpers
+// ===================================================================
+// 产品信息查询工具 -- 按产品ID获取对应的多语言信息
+// 在PlaceholderPage、PortalPage等需要按ID动态查询产品信息的页面中使用
+// ===================================================================
+
+/** 产品名称映射: ID -> Bi对象 */
 const nameMap: Record<string, Bi> = { identity: t.data.identityName, application: t.data.applicationName, assess: t.data.assessName, risk: t.data.riskName, opportunity: t.data.opportunityName, terms: t.data.termsName, contract: t.data.contractName, settlement: t.data.settlementName, performance: t.data.performanceName }
+/** 按产品ID获取产品名称(中/英) */
 export function getProductName(id: string, lang: Lang): string { return nameMap[id]?.[lang] || id }
 
+/** 产品描述映射: ID -> Bi对象 */
+
 const descMap: Record<string, Bi> = { identity: t.data.identityDesc, application: t.data.applicationDesc, assess: t.data.assessDesc, risk: t.data.riskDesc, opportunity: t.data.opportunityDesc, terms: t.data.termsDesc, contract: t.data.contractDesc, settlement: t.data.settlementDesc, performance: t.data.performanceDesc }
+/** 按产品ID获取产品描述(中/英) */
 export function getProductDesc(id: string, lang: Lang): string { return descMap[id]?.[lang] || '' }
 
+/** 产品功能标签映射: ID -> BiArr对象 */
+
 const featMap: Record<string, BiArr> = { identity: t.data.identityFeatures, application: t.data.applicationFeatures, assess: t.data.assessFeatures, risk: t.data.riskFeatures, opportunity: t.data.opportunityFeatures, terms: t.data.termsFeatures, contract: t.data.contractFeatures, settlement: t.data.settlementFeatures, performance: t.data.performanceFeatures }
+/** 按产品ID获取功能标签数组(中/英) */
 export function getProductFeatures(id: string, lang: Lang): string[] { return featMap[id]?.[lang] || [] }
 
+/** 产品简述映射: ID -> Bi对象 */
+
 const shortMap: Record<string, Bi> = { identity: t.data.identityShort, application: t.data.applicationShort, assess: t.data.assessShort, risk: t.data.riskShort, opportunity: t.data.opportunityShort, terms: t.data.termsShort, contract: t.data.contractShort, settlement: t.data.settlementShort, performance: t.data.performanceShort }
+/** 按产品ID获取一句话简述(中/英) */
 export function getProductShort(id: string, lang: Lang): string { return shortMap[id]?.[lang] || '' }
 
+/** 分类名称映射: 中文分类名 -> Bi对象，用于将中文分类名转换为对应语言 */
+
 const catMap: Record<string, Bi> = { '统一入口': t.data.catEntry, '融资者路径': t.data.catBorrower, '投资者路径': t.data.catInvestor, '交易达成': t.data.catDeal, '投后管理': t.data.catPost }
+/** 分类名翻译: 传入中文分类名，返回对应语言的分类名 */
 export function getCategoryName(zhName: string, lang: Lang): string { return catMap[zhName]?.[lang] || zhName }
+
+/** 产品状态标签: 返回对应语言的文本和CSS类名(用于徽章渲染) */
 
 export function getStatusLabel(status: string, lang: Lang): { text: string; class: string } {
   const m: Record<string, { text: Bi; class: string }> = {
@@ -475,6 +592,7 @@ export function getStatusLabel(status: string, lang: Lang): { text: string; clas
   const e = m[status]; return e ? { text: e.text[lang], class: e.class } : { text: status, class: '' }
 }
 
+/** 角色徽章: 返回对应语言的角色名称和CSS类名(shared/borrower/investor/collaborative) */
 export function getRoleBadge(role: string, lang: Lang): { text: string; class: string } {
   const m: Record<string, { text: Bi; class: string }> = {
     shared: { text: t.data.roleBadgeShared, class: 'bg-blue-100 text-blue-600' },
@@ -485,6 +603,7 @@ export function getRoleBadge(role: string, lang: Lang): { text: string; class: s
   const e = m[role]; return e ? { text: e.text[lang], class: e.class } : { text: role, class: '' }
 }
 
+/** 角色详细标签: 返回对应语言的角色名称、图标和CSS类名(用于PlaceholderPage的角色展示) */
 export function getRoleLabel(role: string, lang: Lang): { text: string; icon: string; class: string } {
   const m: Record<string, { text: Bi; icon: string; class: string }> = {
     shared: { text: t.data.roleUnifiedEntry, icon: 'fa-sign-in-alt', class: 'bg-blue-50 text-blue-600 border-blue-200' },

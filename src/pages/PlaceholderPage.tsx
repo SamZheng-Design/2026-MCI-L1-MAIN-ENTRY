@@ -1,3 +1,35 @@
+/**
+ * ===================================================================
+ * PlaceholderPage.tsx -- 产品占位页面 (V20)
+ * ===================================================================
+ *
+ * 每个"通"产品的独立详情页面(目前为占位状态，尚未开发完整功能)。
+ * 根据路由参数productId动态查找产品数据并渲染。
+ *
+ * --- 页面结构(从上到下) ---
+ *
+ * 1. 面包屑导航   — 首页 > 产品入口 > 当前产品
+ * 2. Hero Section — 产品大Logo + 状态徽章 + 名称 + 描述
+ *                   分类标签 + 角色标签 + AI筛子标签(条件)
+ * 3. Features Grid — 核心功能列表(编号展示)
+ * 4. Coming Soon   — "功能开发中"提示 + 返回产品入口按钮
+ * 5. Prev/Next Nav — 前后产品导航(按flowOrder排序)
+ *
+ * --- Props ---
+ * @param productId - 产品ID(如 'identity', 'application')
+ * @param lang      - 当前语言
+ *
+ * --- 404处理 ---
+ * 如果productId在products中找不到，渲染404提示页
+ *
+ * --- 外部跳转 ---
+ * 如果产品有externalUrl(如合约通)，卡片点击会跳转外部应用
+ * 但占位页本身仍可通过直接URL访问
+ *
+ * --- 数据来源 ---
+ * 产品数据从 data.ts 导入
+ * 翻译文案从 i18n.ts 的多个helper函数获取(getProductName等)
+ */
 import type { FC } from 'hono/jsx'
 import { products, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'

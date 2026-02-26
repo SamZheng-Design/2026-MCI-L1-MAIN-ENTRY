@@ -1,3 +1,21 @@
+/**
+ * ===================================================================
+ * ContactPage.tsx -- 联系我们页面 (V20)
+ * ===================================================================
+ *
+ * 提供投资者和融资企业两个独立的联系入口。
+ *
+ * --- 页面结构 ---
+ * 1. Hero — Aurora深色背景 + 标题
+ * 2. Contact Cards — 两栏卡片
+ *    - 投资者咨询: investor@microconnect.com / 预约演示
+ *    - 融资企业咨询: business@microconnect.com / 提交申请
+ * 3. Info Grid — 三栏信息
+ *    - 一般查询: info@microconnect.com
+ *    - 办公地址: 香港中环交易广场
+ *    - 工作时间: 周一至周五 9:00-18:00 HKT
+ * 4. Social Links — LinkedIn / Twitter / WeChat
+ */
 import type { FC } from 'hono/jsx'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'

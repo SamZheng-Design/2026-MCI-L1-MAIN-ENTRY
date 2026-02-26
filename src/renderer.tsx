@@ -1,3 +1,45 @@
+/**
+ * ===================================================================
+ * renderer.tsx -- Hono JSX渲染器 & HTML外壳 (V20)
+ * ===================================================================
+ *
+ * 本文件定义全局HTML外壳模板，所有页面共享此渲染器。
+ * 由Hono的jsxRenderer中间件加载，为每个页面提供统一的：
+ *
+ * 1. HTML <head> 配置:
+ *    - SEO meta标签(description, OG)
+ *    - 移动端适配(viewport, apple-mobile-web-app)
+ *    - 主题色(#0a2e2a 深墨绿)
+ *
+ * 2. 字体加载:
+ *    - Inter (英文主字体)
+ *    - Montserrat (品牌/Logo字体)
+ *    - Noto Sans SC (中文字体)
+ *
+ * 3. 外部依赖:
+ *    - Tailwind CSS (CDN实时编译)
+ *    - FontAwesome 6.4 (图标库)
+ *    - /static/style.css (自定义设计系统CSS)
+ *
+ * 4. Tailwind运行时配置:
+ *    - 自定义字体族(sans/display/mono)
+ *    - 品牌色系(brand: #5DC4B3 墨绿色系)
+ *    - Logo色系(logo: bright/bright2/deep)
+ *    - 语义色(info/success/warning/error)
+ *    - 文字层次色(primary/title/secondary/tertiary/placeholder)
+ *    - 容器色(page/card/divider)
+ *    - 圆角预设(xs~3xl)
+ *
+ * 5. 全局JS状态:
+ *    - window.__LANG__ = 当前语言('zh'或'en')
+ *    - 供客户端脚本读取语言状态
+ *
+ * --- 多语言支持 ---
+ * 渲染器根据lang参数动态设置:
+ * - html[lang] 属性: 'zh-CN' 或 'en'
+ * - meta description / OG标签: 对应语言文案
+ * - page title: 对应语言标题
+ */
 import { jsxRenderer } from 'hono/jsx-renderer'
 import type { Lang } from './i18n'
 import { tt, t } from './i18n'
