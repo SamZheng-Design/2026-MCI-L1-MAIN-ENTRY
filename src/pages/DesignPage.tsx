@@ -1,5 +1,5 @@
 import type { FC } from 'hono/jsx'
-import { products, foundations, architectureGroups, designSections, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts } from '../data'
+import { products, foundations, architectureGroups, designSections, mainFlowProducts, investorFilterProducts, investorViewProduct, entryProduct, borrowerProducts, dealProducts, postInvestmentProducts, getProductUrl, isExternalProduct } from '../data'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { ProductLogoSmall, ProductLogo } from '../components/Logos'
@@ -41,11 +41,12 @@ const ProductCard: FC<{ p: typeof products[0]; lang: Lang; showFilter?: boolean;
   const status = getStatusLabel(p.status, l)
   const desc = getProductDesc(p.id, l)
   const features = getProductFeatures(p.id, l)
-  const href = langLink(`/${p.id}`, l)
+  const href = langLink(getProductUrl(p), l)
+  const isExt = isExternalProduct(p)
   const bc = borderClass || 'border-gray-200 hover:border-[#5DC4B3]/30 hover:shadow-md'
 
   return (
-    <a href={href} class="block no-underline group">
+    <a href={href} target={isExt ? "_blank" : undefined} rel={isExt ? "noopener noreferrer" : undefined} class="block no-underline group">
       <div class={`portal-card bg-white rounded-2xl p-5 transition-all border ${bc}`}>
         <div class="flex items-start gap-4">
           <ProductLogo name={p.name} englishShort={p.englishShort} size={60} />
@@ -297,7 +298,7 @@ export const DesignPage: FC<{ lang?: Lang }> = ({ lang = 'zh' }) => {
                   const p = products.find(pr => pr.id === id)!
                   const status = getStatusLabel(p.status, l)
                   return (
-                    <div class="card-hover bg-white border border-gray-200 rounded-xl p-3 cursor-pointer" onclick={`window.location.href='${ll(`/${p.id}`)}'`}>
+                    <div class="card-hover bg-white border border-gray-200 rounded-xl p-3 cursor-pointer" onclick={isExternalProduct(p) ? `window.open('${getProductUrl(p)}','_blank')` : `window.location.href='${ll(`/${p.id}`)}'`}>
                       <div class="flex items-start gap-2">
                         <ProductLogoSmall name={p.name} englishShort={p.englishShort} size={40} />
                         <div class="flex-1 min-w-0">
