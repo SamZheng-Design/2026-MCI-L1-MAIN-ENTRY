@@ -1,6 +1,6 @@
 # Micro Connect 滴灌通 — AI 可读产品手册 (Product Bible)
 
-> **版本**: V2.3 | **日期**: 2026-02-27
+> **版本**: V3.0 | **日期**: 2026-02-27
 > **来源**: 整合自 L1 主站代码库 (V20)、MC-Revolution 合约通代码库、白皮书 V1.2、产品负责人确认
 > **用途**: 每次在 Genspark 全栈模式开发新的"xx通"独立应用时，先把本手册丢给 AI 学习。AI 读完后即可理解整个产品体系、设计系统、技术规范，然后精准地开发单个模块。
 > **原则**: 本文档所有内容均来自现有代码库或白皮书，无任何幻想成分。
@@ -1308,6 +1308,1113 @@ npx wrangler pages dev dist --ip 0.0.0.0 --port 3000
 
 ---
 
+## 第十二章补充：各"通"搭建速查卡
+
+> **用途**: 当 AI 收到"我要做 xx 通"时，除了第三章的业务逻辑 + 第六/七章的设计系统 + 第十二章的开发流程外，还需要以下三样东西才能**直接写代码**：Mock 数据结构、页面布局、API 路由。以下为每个通逐一提供。
+
+---
+
+### SC-1 身份通 (Identity Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface User {
+  id: string                    // 用户唯一ID
+  phone?: string                // 手机号（注册方式之一）
+  email?: string                // 邮箱（注册方式之一）
+  name: string                  // 用户姓名
+  avatar?: string               // 头像URL
+  identities: Identity[]        // 已解锁的功能身份
+  entities: EntityAuth[]        // 已认证的主体
+  createdAt: string             // 注册时间
+}
+
+type IdentityRole = 'initiator' | 'participant' | 'organization'
+
+interface Identity {
+  role: IdentityRole            // 身份类型
+  unlockedAt: string            // 解锁时间
+  status: 'active' | 'pending' | 'suspended'
+}
+
+interface EntityAuth {
+  entityId: string              // 主体ID（公司/项目）
+  entityName: string            // 主体名称
+  role: string                  // 在主体中的角色（如：法人、财务、管理员）
+  verifiedAt: string            // 认证时间
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockUsers: User[] = [
+  {
+    id: 'u-001', phone: '138****1234', name: '张三',
+    identities: [
+      { role: 'initiator', unlockedAt: '2026-01-15', status: 'active' },
+      { role: 'participant', unlockedAt: '2026-02-01', status: 'active' }
+    ],
+    entities: [
+      { entityId: 'e-001', entityName: 'ABC 餐饮连锁', role: '法人代表', verifiedAt: '2026-01-20' }
+    ],
+    createdAt: '2026-01-10'
+  },
+  {
+    id: 'u-002', email: 'investor@fund.com', name: '李四',
+    identities: [
+      { role: 'participant', unlockedAt: '2026-01-08', status: 'active' },
+      { role: 'organization', unlockedAt: '2026-01-10', status: 'active' }
+    ],
+    entities: [
+      { entityId: 'e-010', entityName: '新锐资本', role: '投资总监', verifiedAt: '2026-01-12' }
+    ],
+    createdAt: '2026-01-05'
+  },
+  {
+    id: 'u-003', phone: '139****5678', name: '王五',
+    identities: [
+      { role: 'initiator', unlockedAt: '2026-02-20', status: 'active' }
+    ],
+    entities: [],
+    createdAt: '2026-02-18'
+  }
+]
+```
+
+**页面布局**:
+```
+页面 1: 登录/注册页
+├── Hero: 品牌 Logo + "欢迎来到滴灌通" + 副标题
+├── 登录/注册表单卡片（Tab 切换：手机号 / 邮箱）
+│   ├── 手机号 + 验证码输入
+│   ├── 邮箱 + 密码输入
+│   └── 登录 / 注册按钮
+└── Footer（简化版）
+
+页面 2: 个人工作台（登录后主页）
+├── Navbar（简化版）
+├── 欢迎区: 头像 + 姓名 + 注册时间
+├── 身份卡片区 (3 列网格)
+│   ├── 发起身份卡片 — 已解锁: 绿色 ✓ + "进入发起通" CTA; 未解锁: 灰色 + "解锁" CTA
+│   ├── 参与身份卡片 — 同上逻辑
+│   └── 机构身份卡片 — 同上逻辑
+├── 主体认证区
+│   ├── 已认证主体列表（公司名 + 角色 + 认证时间 + "进入协作空间"按钮）
+│   └── "+ 认证新主体" 入口按钮
+├── 快捷导航: 9 个通的图标网格（根据已解锁身份高亮可用的通）
+└── Footer（简化版）
+
+页面 3: 主体认证页（占位，后续细化）
+├── Navbar
+├── 认证表单（公司名 + 统一社会信用代码 + 角色 + 上传证明材料）
+├── 提交按钮
+└── Footer
+```
+
+**API 路由**:
+```
+POST /api/auth/register     — 注册（phone/email + verifyCode/password）
+POST /api/auth/login        — 登录（返回 JWT Token）
+POST /api/auth/verify-code  — 发送验证码（Demo: 固定返回成功）
+GET  /api/user/profile      — 获取当前用户信息（含身份列表）
+POST /api/user/unlock       — 解锁功能身份（body: { role: IdentityRole }）
+POST /api/entity/verify     — 提交主体认证（body: { entityName, creditCode, role }）
+GET  /api/entity/list       — 获取已认证主体列表
+```
+
+**Demo 简化说明**: 注册/登录不接真实 SMS/邮箱服务，验证码固定为 `123456`；JWT 使用硬编码 secret；身份解锁点击即生效，无需审核流程。
+
+---
+
+### SC-2 发起通 (Originate Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface OriginateProject {
+  id: string                          // 项目ID
+  userId: string                      // 发起人ID
+  companyName: string                 // 公司名称
+  industry: Industry                  // 行业
+  status: 'draft' | 'processing' | 'ready' | 'published'
+  rawMaterials: UploadedFile[]        // 原始上传文件
+  structuredPackage?: StructuredPackage  // AI 整理后的材料包
+  pitchDeck?: PitchDeck               // AI 生成的 Pitch Deck
+  shareLink?: string                  // 分享链接
+  createdAt: string
+  updatedAt: string
+}
+
+type Industry = 'concert' | 'catering' | 'retail' | 'healthcare' | 'education' | 'saas' | 'ecommerce' | 'service'
+
+interface UploadedFile {
+  id: string
+  name: string
+  type: 'pdf' | 'word' | 'excel' | 'ppt' | 'image' | 'other'
+  size: number                        // bytes
+  url: string
+  uploadedAt: string
+}
+
+interface StructuredPackage {
+  companyOverview: {
+    name: string
+    legalPerson: string
+    foundedDate: string
+    registeredCapital: string
+    address: string
+    employees: number
+  }
+  financials: {
+    monthlyRevenue: number            // 万元
+    monthlyGrowthRate: number         // 百分比
+    costStructure: string
+    profitMargin: number
+  }
+  financingNeed: {
+    amount: number                    // 万元
+    expectedShareRatio: number        // 百分比
+    purpose: string
+    urgency: 'high' | 'medium' | 'low'
+  }
+  industryInfo: {
+    category: Industry
+    marketSize: string
+    competitors: string
+    moat: string
+  }
+  teamInfo: {
+    founderBackground: string
+    teamSize: number
+    keyMembers: string[]
+  }
+}
+
+interface PitchDeck {
+  pages: number                       // 5-10 页
+  pdfUrl: string
+  generatedAt: string
+  templateUsed: string                // 行业模板名
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockProjects: OriginateProject[] = [
+  {
+    id: 'proj-001', userId: 'u-001', companyName: '星火餐饮连锁',
+    industry: 'catering', status: 'ready',
+    rawMaterials: [
+      { id: 'f-1', name: '商业计划书.pptx', type: 'ppt', size: 5242880, url: '/mock/bp.pptx', uploadedAt: '2026-02-10' },
+      { id: 'f-2', name: '2025年财务报表.xlsx', type: 'excel', size: 1048576, url: '/mock/fin.xlsx', uploadedAt: '2026-02-10' },
+      { id: 'f-3', name: '营业执照.pdf', type: 'pdf', size: 524288, url: '/mock/license.pdf', uploadedAt: '2026-02-10' }
+    ],
+    structuredPackage: {
+      companyOverview: { name: '星火餐饮连锁', legalPerson: '张三', foundedDate: '2020-06-15', registeredCapital: '500万', address: '深圳市南山区', employees: 120 },
+      financials: { monthlyRevenue: 85, monthlyGrowthRate: 12, costStructure: '食材40%、人工25%、租金20%、其他15%', profitMargin: 18 },
+      financingNeed: { amount: 500, expectedShareRatio: 15, purpose: '开设新店 + 供应链升级', urgency: 'medium' },
+      industryInfo: { category: 'catering', marketSize: '4.7万亿', competitors: '海底捞、西贝等', moat: '独家供应链+标准化出品' },
+      teamInfo: { founderBackground: '10年餐饮连锁管理经验', teamSize: 120, keyMembers: ['张三-创始人/CEO', '李四-CFO', '王五-COO'] }
+    },
+    pitchDeck: { pages: 8, pdfUrl: '/mock/pitchdeck.pdf', generatedAt: '2026-02-11', templateUsed: '餐饮行业模板' },
+    shareLink: 'https://mc.link/p/proj-001',
+    createdAt: '2026-02-10', updatedAt: '2026-02-11'
+  },
+  {
+    id: 'proj-002', userId: 'u-003', companyName: '悦声文化传媒',
+    industry: 'concert', status: 'processing',
+    rawMaterials: [
+      { id: 'f-4', name: '演出计划.pdf', type: 'pdf', size: 3145728, url: '/mock/plan.pdf', uploadedAt: '2026-02-20' }
+    ],
+    createdAt: '2026-02-20', updatedAt: '2026-02-20'
+  },
+  {
+    id: 'proj-003', userId: 'u-001', companyName: '优学教育科技',
+    industry: 'education', status: 'published',
+    rawMaterials: [
+      { id: 'f-5', name: 'BP.pptx', type: 'ppt', size: 4194304, url: '/mock/edu-bp.pptx', uploadedAt: '2026-01-25' },
+      { id: 'f-6', name: '财务预测.xlsx', type: 'excel', size: 819200, url: '/mock/edu-fin.xlsx', uploadedAt: '2026-01-25' }
+    ],
+    structuredPackage: {
+      companyOverview: { name: '优学教育科技', legalPerson: '王五', foundedDate: '2021-03-01', registeredCapital: '200万', address: '北京市海淀区', employees: 45 },
+      financials: { monthlyRevenue: 38, monthlyGrowthRate: 22, costStructure: '师资50%、场地20%、营销15%、其他15%', profitMargin: 15 },
+      financingNeed: { amount: 200, expectedShareRatio: 12, purpose: '扩大在线课程产能', urgency: 'high' },
+      industryInfo: { category: 'education', marketSize: '3.2万亿', competitors: '新东方、好未来', moat: 'AI个性化教学+线上线下融合' },
+      teamInfo: { founderBackground: '前新东方区域总监', teamSize: 45, keyMembers: ['王五-创始人', '赵六-CTO'] }
+    },
+    pitchDeck: { pages: 6, pdfUrl: '/mock/edu-deck.pdf', generatedAt: '2026-01-26', templateUsed: '教育行业模板' },
+    shareLink: 'https://mc.link/p/proj-003',
+    createdAt: '2026-01-25', updatedAt: '2026-01-26'
+  }
+]
+```
+
+**页面布局**:
+```
+页面 1: 项目列表页（发起通主页）
+├── Navbar（简化版 + "发起通 Originate Connect"）
+├── Hero: 标题 "发起融资" + 副标题 + "新建项目" CTA
+├── 项目卡片网格
+│   └── 每张卡片: 公司名 + 行业标签 + 状态徽章 + 融资金额 + 更新时间
+├── 空状态: 无项目时显示引导插图 + "开始你的第一个项目"
+└── Footer
+
+页面 2: 项目工作区（创建/编辑项目）
+├── Navbar
+├── 面包屑: 发起通 > 项目名称
+├── 步骤指示器 (Step 1/2/3):
+│   Step 1 — 上传材料
+│   Step 2 — AI 处理中
+│   Step 3 — 查看成果
+├── Step 1: 材料上传区
+│   ├── 拖拽上传大区域（虚线边框，支持多文件）
+│   ├── 已上传文件列表（文件名 + 类型图标 + 大小 + 删除按钮）
+│   └── "开始 AI 整理" 按钮
+├── Step 2: AI 处理中
+│   └── 处理进度动画（提取基础信息 → 分析财务数据 → 整理行业信息 → 生成 Pitch Deck）
+├── Step 3: 成果展示（三栏 Tab）
+│   ├── Tab 1 原始底稿: 按类别归档的文件列表
+│   ├── Tab 2 材料包: 结构化信息展示（公司概况/财务/融资需求/行业/团队 分区卡片）
+│   └── Tab 3 Pitch Deck: PDF 内嵌预览 + 下载按钮 + 生成分享链接按钮
+├── 底部操作栏: "保存草稿" + "发布到投资者筛选池"（串联模式）/ "导出 PDF"（独立模式）
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/projects              — 获取当前用户的项目列表
+POST   /api/projects              — 新建项目（body: { companyName, industry }）
+GET    /api/projects/:id          — 获取项目详情
+PUT    /api/projects/:id          — 更新项目
+DELETE /api/projects/:id          — 删除项目
+POST   /api/projects/:id/upload   — 上传文件到项目（multipart/form-data）
+DELETE /api/projects/:id/files/:fileId — 删除已上传文件
+POST   /api/projects/:id/process  — 触发 AI 结构化处理（调用 GPT-4o）
+GET    /api/projects/:id/package  — 获取结构化材料包
+GET    /api/projects/:id/deck     — 获取 Pitch Deck
+POST   /api/projects/:id/publish  — 发布到投资者筛选池
+POST   /api/projects/:id/share    — 生成分享链接
+```
+
+**AI 调用说明**: `POST /api/projects/:id/process` 将所有上传文件的文本内容拼接为 prompt，调用 GPT-4o，system prompt 要求按 `StructuredPackage` 的 JSON schema 输出。Pitch Deck 生成为 HTML 模板填充后返回（Demo 不生成真 PDF，用 HTML 页面模拟）。
+
+---
+
+### SC-3 评估通 (Assess Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface Sieve {
+  id: string                     // 筛子ID
+  userId: string                 // 创建者（投资者）
+  name: string                   // 筛子名称
+  description: string
+  dimensions: SieveDimension[]   // 评估维度
+  createdAt: string
+  updatedAt: string
+}
+
+interface SieveDimension {
+  id: string
+  name: string                   // 维度名称
+  nameEn: string
+  enabled: boolean               // 是否启用
+  weight: number                 // 权重 0-100
+  type: 'range' | 'select' | 'boolean'
+  config: RangeConfig | SelectConfig | BooleanConfig
+}
+
+interface RangeConfig {
+  min: number
+  max: number
+  unit: string                   // 万元 / % / 个月 / 人
+  threshold: number              // 通过阈值
+  direction: 'gte' | 'lte'      // ≥ 或 ≤
+}
+
+interface SelectConfig {
+  options: string[]              // 可选项
+  selected: string[]             // 已选（通过条件）
+}
+
+interface BooleanConfig {
+  requiredValue: boolean         // 需要为 true 或 false 才通过
+}
+
+interface AssessReport {
+  id: string
+  projectId: string
+  sieveId: string
+  overallScore: number           // 0-100 综合评分
+  passed: boolean
+  dimensionScores: {
+    dimensionId: string
+    dimensionName: string
+    score: number                // 0-100
+    passed: boolean
+    detail: string               // AI 生成的评语
+  }[]
+  summary: string                // AI 综合评语
+  generatedAt: string
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const presetDimensions: SieveDimension[] = [
+  { id: 'd-1', name: '行业', nameEn: 'Industry', enabled: true, weight: 15,
+    type: 'select', config: { options: ['餐饮','零售','教育','医美','演出','SaaS','电商','服务'], selected: ['餐饮','零售','教育'] } },
+  { id: 'd-2', name: '月收入', nameEn: 'Monthly Revenue', enabled: true, weight: 20,
+    type: 'range', config: { min: 0, max: 1000, unit: '万元', threshold: 30, direction: 'gte' } },
+  { id: 'd-3', name: '月增长率', nameEn: 'Monthly Growth', enabled: true, weight: 15,
+    type: 'range', config: { min: -50, max: 100, unit: '%', threshold: 5, direction: 'gte' } },
+  { id: 'd-4', name: '融资金额', nameEn: 'Financing Amount', enabled: true, weight: 10,
+    type: 'range', config: { min: 0, max: 5000, unit: '万元', threshold: 2000, direction: 'lte' } },
+  { id: 'd-5', name: '团队规模', nameEn: 'Team Size', enabled: false, weight: 10,
+    type: 'range', config: { min: 0, max: 500, unit: '人', threshold: 10, direction: 'gte' } },
+  { id: 'd-6', name: '盈利能力', nameEn: 'Profitability', enabled: true, weight: 15,
+    type: 'range', config: { min: -100, max: 100, unit: '%', threshold: 5, direction: 'gte' } },
+  { id: 'd-7', name: '经营年限', nameEn: 'Years in Business', enabled: true, weight: 10,
+    type: 'range', config: { min: 0, max: 30, unit: '年', threshold: 2, direction: 'gte' } },
+  { id: 'd-8', name: '有营业执照', nameEn: 'Business License', enabled: true, weight: 5,
+    type: 'boolean', config: { requiredValue: true } }
+]
+
+const mockSieves: Sieve[] = [
+  {
+    id: 'sieve-001', userId: 'u-002', name: '稳健型餐饮筛选',
+    description: '偏好稳定收入的餐饮类项目',
+    dimensions: presetDimensions,
+    createdAt: '2026-02-01', updatedAt: '2026-02-15'
+  }
+]
+
+const mockAssessReports: AssessReport[] = [
+  {
+    id: 'ar-001', projectId: 'proj-001', sieveId: 'sieve-001',
+    overallScore: 82, passed: true,
+    dimensionScores: [
+      { dimensionId: 'd-1', dimensionName: '行业', score: 100, passed: true, detail: '餐饮行业，符合筛选条件' },
+      { dimensionId: 'd-2', dimensionName: '月收入', score: 85, passed: true, detail: '月收入85万元，高于阈值30万' },
+      { dimensionId: 'd-3', dimensionName: '月增长率', score: 90, passed: true, detail: '月增长率12%，表现优秀' },
+      { dimensionId: 'd-6', dimensionName: '盈利能力', score: 75, passed: true, detail: '利润率18%，行业中上水平' }
+    ],
+    summary: '星火餐饮连锁综合评分82分，各项指标均通过筛选标准。月收入稳定增长，盈利能力良好，团队经验丰富。建议重点关注供应链扩张计划的执行风险。',
+    generatedAt: '2026-02-15'
+  }
+]
+```
+
+**页面布局**:
+```
+页面 1: 筛子管理页（评估通主页）
+├── Navbar（简化版 + "评估通 Assess Connect"）
+├── Hero: 标题 "构建你的 AI 筛子" + 副标题 "定义投资标准，让 AI 帮你筛选"
+├── 筛子列表
+│   ├── 每张卡片: 筛子名 + 描述 + 已启用维度数 + 上次使用时间 + "编辑" / "运行" 按钮
+│   └── "+ 新建筛子" 按钮（从预设维度模板创建）
+├── 最近评估报告列表（项目名 + 评分 + 通过/未通过 + 查看详情）
+└── Footer
+
+页面 2: 筛子编辑器
+├── Navbar
+├── 面包屑: 评估通 > 筛子名称
+├── 筛子基本信息（名称、描述编辑）
+├── 维度配置区（可折叠列表）
+│   └── 每个维度:
+│       ├── 启用开关 (toggle)
+│       ├── 维度名称 + 说明
+│       ├── 权重滑块 (0-100)
+│       └── 条件配置（range: 最小值/最大值/阈值滑块; select: 多选框; boolean: 开关）
+├── "+ 自定义维度" 按钮（输入维度名 + 类型 + 配置）
+├── 预览区: 按权重排列的维度可视化（柱状图或气泡图）
+├── 底部: "保存筛子" + "立即运行（筛选全部项目）"
+└── Footer
+
+页面 3: 评估报告页
+├── Navbar
+├── 面包屑: 评估通 > 报告
+├── 项目基本信息（公司名、行业、融资金额）
+├── 综合评分大字 + 通过/未通过徽章
+├── 雷达图（各维度得分可视化）
+├── 维度明细（逐项: 维度名 + 得分条 + 通过标记 + AI 评语）
+├── AI 综合评语区
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/sieves              — 获取当前用户的筛子列表
+POST   /api/sieves              — 新建筛子（可从预设模板创建）
+GET    /api/sieves/:id          — 获取筛子详情（含维度配置）
+PUT    /api/sieves/:id          — 更新筛子配置
+DELETE /api/sieves/:id          — 删除筛子
+POST   /api/assess/run          — 运行筛子评估（body: { sieveId, projectIds[] }，调用 GPT-4o 逐项评分）
+GET    /api/assess/reports       — 获取评估报告列表
+GET    /api/assess/report/:id   — 获取单份评估报告
+POST   /api/assess/sieve        — [通间 API] 供参与通调用的筛选接口
+```
+
+**AI 调用说明**: `POST /api/assess/run` 将项目的 StructuredPackage + 筛子的维度配置作为 prompt 发给 GPT-4o，system prompt 要求按 `AssessReport` 的 JSON schema 输出各维度评分和综合评语。
+
+---
+
+### SC-4 风控通 (Risk Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface RiskReport {
+  id: string
+  projectId: string
+  status: 'pending' | 'reviewing' | 'passed' | 'flagged' | 'rejected'
+  overallRiskLevel: 'low' | 'medium' | 'high' | 'critical'
+  overallScore: number             // 0-100 (越高越安全)
+  checks: RiskCheck[]
+  summary: string                  // AI 综合风控意见
+  reviewedAt: string
+}
+
+interface RiskCheck {
+  id: string
+  category: 'license' | 'equity' | 'financial' | 'legal' | 'operation'
+  name: string                     // 检查项名称
+  nameEn: string
+  status: 'passed' | 'warning' | 'failed' | 'pending'
+  source: 'api' | 'manual' | 'ai' // 验真来源
+  detail: string                   // 检查详情
+  evidence?: string                // 证据/截图URL
+}
+
+// Demo 阶段模拟的外部 API 响应
+interface MockQichechaResult {
+  companyName: string
+  creditCode: string
+  legalPerson: string
+  registeredCapital: string
+  status: '存续' | '注销' | '吊销'
+  foundedDate: string
+  riskCount: number                // 风险条目数
+  lawsuitCount: number             // 涉诉条目数
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockRiskReports: RiskReport[] = [
+  {
+    id: 'rr-001', projectId: 'proj-001', status: 'passed',
+    overallRiskLevel: 'low', overallScore: 88,
+    checks: [
+      { id: 'rc-1', category: 'license', name: '营业执照验真', nameEn: 'Business License Verification',
+        status: 'passed', source: 'api', detail: '营业执照真实有效，统一社会信用代码与企查查记录匹配' },
+      { id: 'rc-2', category: 'equity', name: '股权结构核实', nameEn: 'Equity Structure Check',
+        status: 'passed', source: 'api', detail: '股权结构清晰，无代持风险，法人占股65%' },
+      { id: 'rc-3', category: 'financial', name: '财务数据交叉验证', nameEn: 'Financial Cross-check',
+        status: 'passed', source: 'ai', detail: '上传财报与银行流水交叉验证一致，偏差率<3%' },
+      { id: 'rc-4', category: 'legal', name: '涉诉检查', nameEn: 'Litigation Check',
+        status: 'passed', source: 'api', detail: '无重大涉诉记录，历史结案2起（均为劳动纠纷，金额<5万）' },
+      { id: 'rc-5', category: 'operation', name: '经营异常检查', nameEn: 'Operation Anomaly Check',
+        status: 'passed', source: 'api', detail: '无经营异常记录，无行政处罚' }
+    ],
+    summary: '星火餐饮连锁风控评分88分，整体风险较低。营业执照、股权、财务均验证通过，无涉诉和经营异常。建议正常推进。',
+    reviewedAt: '2026-02-16'
+  },
+  {
+    id: 'rr-002', projectId: 'proj-002', status: 'flagged',
+    overallRiskLevel: 'medium', overallScore: 62,
+    checks: [
+      { id: 'rc-6', category: 'license', name: '营业执照验真', nameEn: 'Business License Verification',
+        status: 'passed', source: 'api', detail: '营业执照有效' },
+      { id: 'rc-7', category: 'financial', name: '财务数据交叉验证', nameEn: 'Financial Cross-check',
+        status: 'warning', source: 'ai', detail: '上传收入数据与流水偏差18%，需补充说明' },
+      { id: 'rc-8', category: 'legal', name: '涉诉检查', nameEn: 'Litigation Check',
+        status: 'warning', source: 'api', detail: '存在1起未结合同纠纷（标的额30万）' }
+    ],
+    summary: '悦声文化传媒存在中等风险：财务数据偏差较大，且有未结合同纠纷。建议要求补充材料后复审。',
+    reviewedAt: '2026-02-22'
+  }
+]
+```
+
+**页面布局**:
+```
+页面 1: 风控看板（风控通主页）
+├── Navbar（简化版 + "风控通 Risk Connect"）
+├── Hero: 标题 "AI 风控验真" + 副标题
+├── KPI 卡片行: 待审项目数 / 已通过 / 已标记 / 已拒绝
+├── 项目风控列表（表格或卡片）
+│   └── 每行: 公司名 + 行业 + 风险等级(颜色标签) + 评分 + 状态 + "查看报告"按钮
+├── 筛选栏: 按风险等级 / 状态过滤
+└── Footer
+
+页面 2: 风控报告详情页
+├── Navbar
+├── 面包屑: 风控通 > 公司名
+├── 项目基本信息卡片（公司名、行业、发起人）
+├── 整体评分 + 风险等级大字徽章
+├── 检查项逐条展示（5 大类卡片）
+│   └── 每项: 类别图标 + 检查项名 + 状态徽章(passed/warning/failed) + 来源标签(API/AI/手动) + 详情文字
+├── AI 综合风控意见
+├── 操作按钮: "通过" / "标记需补充材料" / "拒绝"
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/risk/reports          — 获取风控报告列表
+GET    /api/risk/report/:id      — 获取风控报告详情
+POST   /api/risk/review          — 触发风控审核（body: { projectId }，调用 Mock 企查查 + GPT-4o）
+PUT    /api/risk/report/:id      — 更新风控状态（通过/标记/拒绝）
+GET    /api/risk/status/:id      — [通间 API] 供参与通调用，获取项目风控状态
+GET    /api/risk/mock/qichacha   — Demo 模拟企查查 API 返回
+```
+
+**AI 调用说明**: `POST /api/risk/review` 先调用 Mock 企查查接口获取公司信息，再将企查查结果 + 项目上传材料发送给 GPT-4o，system prompt 要求按 `RiskReport` 的 JSON schema 输出各检查项状态和综合意见。
+
+---
+
+### SC-5 参与通 (Deal Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface DealProject {
+  id: string
+  companyName: string
+  industry: Industry
+  monthlyRevenue: number          // 万元
+  monthlyGrowth: number           // %
+  financingAmount: number         // 万元
+  financingProgress: number       // 0-100%
+  assessScore?: number            // 评估通评分
+  riskLevel?: 'low' | 'medium' | 'high'
+  status: 'open' | 'in-progress' | 'closed'
+  tags: string[]
+  publishedAt: string
+}
+
+interface DealFilter {
+  industries: Industry[]
+  revenueMin?: number
+  revenueMax?: number
+  amountMin?: number
+  amountMax?: number
+  scoreMin?: number
+  riskLevels?: ('low' | 'medium' | 'high')[]
+}
+
+interface Favorite {
+  projectId: string
+  userId: string
+  createdAt: string
+}
+```
+
+**Mock 示例数据**: 参考已有的 `DealConnect_Standalone_Prompt.md` 中的 8 条 mock 数据，覆盖餐饮、零售、教育、医美、演出、SaaS 等 6 个行业。
+
+**页面布局**:
+```
+页面 1: 项目看板（参与通主页，唯一页面）
+├── Navbar（简化版 + "参与通 Deal Connect"）
+├── Hero: 标题 "发现投资机会" + 副标题 + KPI统计（在投项目数/总融资金额/平均评分）
+├── 筛选栏（内置简化版筛子）
+│   ├── 行业多选下拉
+│   ├── 融资金额范围滑块
+│   ├── 月收入范围滑块
+│   ├── 评分区间（最低分滑块）
+│   ├── 风险等级多选
+│   └── 排序: 评分最高 / 金额最大 / 最新发布
+├── 视图切换: 卡片视图 / 列表视图
+├── 项目卡片网格
+│   └── 每张卡片: 公司名 + 行业标签 + 月收入 + 融资金额 + 融资进度条 + 评分 + 风险等级 + 收藏按钮
+├── 项目快速预览浮层（点击卡片弹出）
+│   ├── 评分雷达图（来自评估通）
+│   ├── 关键财务指标
+│   ├── 风险提示
+│   └── "查看完整报告" + "发起条款协商" 按钮
+├── 收藏/对比浮层（底部固定栏，已收藏项目缩略图）
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/deals                — 获取项目列表（支持 query: industry, revenueMin, revenueMax, amountMin, amountMax, scoreMin, riskLevel, sort）
+GET    /api/deals/:id            — 获取项目详情
+GET    /api/deals/:id/preview    — 获取项目快速预览（评分+财务+风险摘要）
+POST   /api/deals/favorites      — 收藏项目（body: { projectId }）
+DELETE /api/deals/favorites/:id  — 取消收藏
+GET    /api/deals/favorites      — 获取收藏列表
+POST   /api/deals/:id/initiate-terms — 发起条款协商（跳转条款通）
+```
+
+**参考**: 详细的完整 Prompt 已存在于 `prompts/DealConnect_Standalone_Prompt.md`（451 行），该速查卡为精简版，搭建时优先使用 Standalone Prompt。
+
+---
+
+### SC-6 条款通 (Terms Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface TermsNegotiation {
+  id: string
+  projectId: string
+  investorId: string
+  borrowerId: string
+  status: 'negotiating' | 'agreed' | 'rejected' | 'expired'
+  currentProposal: TermsProposal
+  proposals: TermsProposal[]      // 历史协商记录
+  createdAt: string
+  updatedAt: string
+}
+
+interface TermsProposal {
+  id: string
+  proposedBy: 'investor' | 'borrower'
+  financingAmount: number          // 万元
+  revenueShareRatio: number        // %
+  cooperationTerm: number          // 月
+  pcf: number                      // 预估现金流（万元/月）
+  yito: number                     // 投资者收益率
+  calculatedMetrics: {
+    totalRepayment: number         // 累计回款总额（万元）
+    monthlyRepayment: number       // 月均回款（万元）
+    irr: number                    // 内部收益率 %
+    paybackMonths: number          // 回收期（月）
+    recoveryMultiple: number       // 回收倍数
+  }
+  note?: string                    // 协商备注
+  createdAt: string
+}
+
+// 三联动滑块配置（由评估通+风控通确定上限）
+interface SliderConfig {
+  maxFinancingAmount: number       // RBF 最大融资金额（万元）
+  maxRevenueShareRatio: number     // 最大金额对应的分成比例上限 %
+  maxCooperationTerm: number       // 最大金额对应的联营期限上限（月）
+  pcf: number                      // 预估现金流（来自评估通）
+  yito: number                     // 投资者目标收益率
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockSliderConfig: SliderConfig = {
+  maxFinancingAmount: 500,
+  maxRevenueShareRatio: 20,
+  maxCooperationTerm: 48,
+  pcf: 85,
+  yito: 0.15
+}
+
+const mockNegotiations: TermsNegotiation[] = [
+  {
+    id: 'tn-001', projectId: 'proj-001', investorId: 'u-002', borrowerId: 'u-001',
+    status: 'negotiating',
+    currentProposal: {
+      id: 'tp-003', proposedBy: 'investor',
+      financingAmount: 400, revenueShareRatio: 15, cooperationTerm: 36,
+      pcf: 85, yito: 0.15,
+      calculatedMetrics: { totalRepayment: 459, monthlyRepayment: 12.75, irr: 18.2, paybackMonths: 32, recoveryMultiple: 1.15 },
+      note: '建议分成比例从18%降至15%，期限可延长至36个月', createdAt: '2026-02-18T14:30:00'
+    },
+    proposals: [
+      { id: 'tp-001', proposedBy: 'borrower',
+        financingAmount: 500, revenueShareRatio: 10, cooperationTerm: 24,
+        pcf: 85, yito: 0.15,
+        calculatedMetrics: { totalRepayment: 204, monthlyRepayment: 8.5, irr: 8.5, paybackMonths: 24, recoveryMultiple: 0.41 },
+        note: '希望融资500万，分成比例控制在10%以内', createdAt: '2026-02-17T10:00:00' },
+      { id: 'tp-002', proposedBy: 'investor',
+        financingAmount: 350, revenueShareRatio: 18, cooperationTerm: 30,
+        pcf: 85, yito: 0.15,
+        calculatedMetrics: { totalRepayment: 459, monthlyRepayment: 15.3, irr: 22.1, paybackMonths: 23, recoveryMultiple: 1.31 },
+        note: '融资金额可到350万，但分成比例至少18%', createdAt: '2026-02-17T15:00:00' }
+    ],
+    createdAt: '2026-02-17', updatedAt: '2026-02-18'
+  }
+]
+
+const mockHistoryCases = [
+  { industry: '餐饮', amount: 300, ratio: 12, term: 24, irr: 15.5, outcome: '成功回收' },
+  { industry: '餐饮', amount: 500, ratio: 16, term: 36, irr: 19.2, outcome: '成功回收' },
+  { industry: '零售', amount: 200, ratio: 10, term: 18, irr: 12.8, outcome: '成功回收' }
+]
+```
+
+**页面布局**:
+```
+页面 1: 协商列表页（条款通主页）
+├── Navbar（简化版 + "条款通 Terms Connect"）
+├── Hero: 标题 "条款协商" + 副标题 "三联动滑块 · 投融资双方实时磋商"
+├── 协商列表
+│   └── 每张卡片: 项目名 + 对手方 + 状态徽章 + 当前方案摘要(金额/比例/期限) + 上次更新时间
+├── 独立模式入口: "快速计算器 — 手动输入参数测算" 按钮
+└── Footer
+
+页面 2: 协商工作区（核心页面）
+├── Navbar
+├── 面包屑: 条款通 > 项目名
+├── 项目信息卡片（公司名、行业、月收入、评估评分、风险等级）
+├── 三联动滑块区（核心交互）
+│   ├── 左侧标签 "投资方" + 右侧标签 "融资方"
+│   ├── 滑块 1: 融资金额 (0 — maxFinancingAmount 万元)
+│   ├── 滑块 2: 分成比例 (0% — maxRevenueShareRatio%)
+│   ├── 滑块 3: 联营期限 (0 — maxCooperationTerm 个月)
+│   └── 实时计算面板: 公式展示 + 累计回款 / 月均回款 / IRR / 回收期 / 回收倍数
+├── RBF 公式展示: 融资金额 = (PCF × 分成比例 × 联营期限) / (1 + YITO)
+├── 协商记录时间线（按时间倒序：谁在什么时候提了什么方案）
+├── 多方案对比区（保存的方案列表 + 对比表格：金额/比例/期限/IRR/回收期 并排对比）
+├── 历史参考区: 同行业同规模的历史成功案例卡片
+├── 操作按钮: "提交新方案" + "保存当前配置" + "接受条款" / "拒绝"
+└── Footer
+
+页面 3: 独立计算器（独立模式）
+├── Navbar
+├── 参数输入表单（PCF、YITO、融资金额上限、分成比例上限、联营期限上限）
+├── 三联动滑块（同页面2，但参数手动输入）
+├── 实时计算面板
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/terms/negotiations        — 获取协商列表
+POST   /api/terms/negotiations        — 新建协商（body: { projectId, investorId, borrowerId }）
+GET    /api/terms/negotiations/:id    — 获取协商详情
+POST   /api/terms/negotiations/:id/propose — 提交新方案（body: TermsProposal）
+PUT    /api/terms/negotiations/:id/accept  — 接受当前条款
+PUT    /api/terms/negotiations/:id/reject  — 拒绝
+POST   /api/terms/calculate           — 纯计算接口（body: { financingAmount, revenueShareRatio, cooperationTerm, pcf, yito } → 返回 calculatedMetrics）
+GET    /api/terms/history             — 获取历史参考案例
+POST   /api/terms/initiate           — [通间 API] 供参与通调用，发起条款协商
+```
+
+**AI 调用说明**: 条款通的核心是公式计算（纯数学，不需要 AI）。但可选 AI 功能：`POST /api/terms/ai-suggest`（给定当前参数 + 历史案例，AI 推荐合理的方案区间）。
+
+---
+
+### SC-7 合约通 (Contract Connect) 速查卡
+
+**已在 MC-Revolution 仓库实现（第一个独立应用）**，无需重新定义。
+
+**参考资源**:
+- **仓库**: `SamZheng-Design/MC-Revolution`
+- **关键文件**:
+  - `src/index.tsx` — Hono 应用入口 + API 路由 + 主页面 HTML
+  - `src/renderer.tsx` — JSX 渲染器
+  - `src/knowledge.ts` — 合同领域知识库（量化参数：投资 1800 万、分成 70%、终止回报 33%、违约金 20% 等）
+  - `src/templates.ts` — 5 大行业模板（演唱会、餐饮、零售、医美、教育），每个模板含预设参数、条款结构、完整合同文本
+- **核心路由**: `/` 主页, `/api/templates` 模板列表, `/api/templates/:id` 模板详情, `/api/parse-change` AI 解析自然语言条款变动
+- **搭建新"通"时的参考价值**: 项目结构、AI 集成模式（`c.env.OPENAI_API_KEY` + API route）、行业模板数据结构、Navbar/Footer 实现、设计系统实际应用方式
+
+**如需搭建合约通，直接 clone MC-Revolution 仓库即可。**
+
+---
+
+### SC-8 结算通 (Settlement Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface SettlementContract {
+  id: string
+  projectId: string
+  projectName: string
+  investorId: string
+  borrowerId: string
+  investorName: string
+  borrowerName: string
+  terms: {
+    financingAmount: number        // 万元
+    revenueShareRatio: number      // %
+    cooperationTerm: number        // 月
+    startDate: string
+    endDate: string
+  }
+  totalRepaid: number              // 累计已回款（万元）
+  targetRepayment: number          // 目标回款总额（万元）
+  status: 'active' | 'completed' | 'overdue' | 'terminated'
+}
+
+interface SettlementRecord {
+  id: string
+  contractId: string
+  date: string                     // 记录日期
+  dailyRevenue: number             // 当日收入（万元）
+  shareAmount: number              // 当日分成金额（万元）= dailyRevenue × revenueShareRatio
+  cumulativeRevenue: number        // 累计收入
+  cumulativeShare: number          // 累计分成
+  recoveryProgress: number         // 回收进度 %（累计分成 / 目标回款）
+  verificationStatus: 'auto-verified' | 'manual-verified' | 'disputed' | 'pending'
+}
+
+interface MonthlyBill {
+  id: string
+  contractId: string
+  month: string                    // YYYY-MM
+  totalRevenue: number             // 月度收入总额
+  totalShare: number               // 月度分成总额
+  dailyRecords: number             // 包含的每日记录数
+  cumulativeShare: number          // 截至本月底累计分成
+  remainingAmount: number          // 剩余未回收金额
+  status: 'generated' | 'confirmed-both' | 'disputed'
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockContracts: SettlementContract[] = [
+  {
+    id: 'sc-001', projectId: 'proj-001', projectName: '星火餐饮连锁',
+    investorId: 'u-002', borrowerId: 'u-001',
+    investorName: '李四（新锐资本）', borrowerName: '张三',
+    terms: { financingAmount: 400, revenueShareRatio: 15, cooperationTerm: 36, startDate: '2026-03-01', endDate: '2029-02-28' },
+    totalRepaid: 45.9, targetRepayment: 460, status: 'active'
+  },
+  {
+    id: 'sc-002', projectId: 'proj-003', projectName: '优学教育科技',
+    investorId: 'u-002', borrowerId: 'u-003',
+    investorName: '李四（新锐资本）', borrowerName: '王五',
+    terms: { financingAmount: 200, revenueShareRatio: 12, cooperationTerm: 24, startDate: '2026-02-01', endDate: '2028-01-31' },
+    totalRepaid: 12.6, targetRepayment: 240, status: 'active'
+  }
+]
+
+const mockRecords: SettlementRecord[] = [
+  { id: 'sr-001', contractId: 'sc-001', date: '2026-03-01', dailyRevenue: 2.8, shareAmount: 0.42,
+    cumulativeRevenue: 2.8, cumulativeShare: 0.42, recoveryProgress: 0.09, verificationStatus: 'auto-verified' },
+  { id: 'sr-002', contractId: 'sc-001', date: '2026-03-02', dailyRevenue: 3.1, shareAmount: 0.465,
+    cumulativeRevenue: 5.9, cumulativeShare: 0.885, recoveryProgress: 0.19, verificationStatus: 'auto-verified' },
+  { id: 'sr-003', contractId: 'sc-001', date: '2026-03-03', dailyRevenue: 2.5, shareAmount: 0.375,
+    cumulativeRevenue: 8.4, cumulativeShare: 1.26, recoveryProgress: 0.27, verificationStatus: 'pending' }
+  // ... 每日一条记录
+]
+
+const mockBills: MonthlyBill[] = [
+  { id: 'mb-001', contractId: 'sc-001', month: '2026-03', totalRevenue: 85,
+    totalShare: 12.75, dailyRecords: 31, cumulativeShare: 12.75, remainingAmount: 447.25, status: 'confirmed-both' },
+  { id: 'mb-002', contractId: 'sc-001', month: '2026-04', totalRevenue: 92,
+    totalShare: 13.8, dailyRecords: 30, cumulativeShare: 26.55, remainingAmount: 433.45, status: 'generated' }
+]
+```
+
+**页面布局**:
+```
+页面 1: 大账本看板（结算通主页）
+├── Navbar（简化版 + "结算通 Settlement Connect"）
+├── Hero: 标题 "结算大账本" + 副标题 "每一笔，清清楚楚"
+├── KPI 卡片行: 在管合约总数 / 本月累计分成总额(¥) / 平均回收进度(%) / 待核对数
+├── 合约列表（卡片或表格）
+│   └── 每行: 项目名 + 投资方/融资方 + 融资金额 + 分成比例 + 已回款/目标 + 进度条 + 状态徽章
+├── 筛选: 状态(active/completed/overdue) + 排序(回收进度/金额)
+└── Footer
+
+页面 2: 合约账本详情页
+├── Navbar
+├── 面包屑: 结算通 > 项目名
+├── 合约信息卡片（双方姓名、融资金额、分成比例、期限、起止日期）
+├── 回收进度大组件: 环形进度图 + 已回款/目标金额 + 预计完成时间
+├── 趋势图区
+│   ├── 每日收入折线图
+│   ├── 累计分成曲线 vs 目标线
+│   └── 切换: 日/周/月视图
+├── 每日记录表格（日期 + 当日收入 + 分成金额 + 累计 + 核对状态）
+│   ├── 自动核对: 绿色 ✓
+│   ├── 人工核对: 蓝色按钮 "确认"
+│   └── 争议: 红色标记 + "发起争议"按钮
+├── 月度账单区
+│   └── 每月一张卡片: 月份 + 收入合计 + 分成合计 + 状态 + "导出 PDF"
+├── 操作: "手动录入今日数据"（独立模式）
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/settlement/contracts          — 获取合约列表
+GET    /api/settlement/contracts/:id      — 获取合约详情
+GET    /api/settlement/contracts/:id/records — 获取每日记录（支持 query: startDate, endDate）
+POST   /api/settlement/contracts/:id/records — 手动录入记录（独立模式，body: { date, dailyRevenue }）
+PUT    /api/settlement/records/:id/verify — 人工核对确认
+PUT    /api/settlement/records/:id/dispute — 标记争议
+GET    /api/settlement/contracts/:id/bills — 获取月度账单列表
+GET    /api/settlement/bills/:id/pdf      — 导出月度账单 PDF（Demo: 返回 HTML 页面模拟）
+GET    /api/settlement/dashboard          — 获取 KPI 统计数据
+```
+
+**AI 调用说明**: 结算通核心是数据记录和计算，不需要 AI。可选 AI 功能：异常检测（收入突变时 AI 分析原因建议）。
+
+---
+
+### SC-9 履约通 (Performance Connect) 速查卡
+
+**Mock 数据类型**:
+```typescript
+interface PerformanceMonitor {
+  id: string
+  contractId: string
+  projectName: string
+  borrowerName: string
+  healthScore: number               // 0-100 履约健康度
+  status: 'healthy' | 'watch' | 'warning' | 'critical'
+  latestDailyRevenue: number        // 最近一日收入（万元）
+  avgDailyRevenue30d: number        // 近30日日均收入（万元）
+  expectedDailyRevenue: number      // 合同预期日均收入（万元）
+  deviationRate: number             // 偏差率 %（实际 vs 预期）
+  alerts: Alert[]
+  lastUpdated: string
+}
+
+type AlertLevel = 'yellow' | 'orange' | 'red'
+
+interface Alert {
+  id: string
+  contractId: string
+  level: AlertLevel
+  type: 'revenue_drop' | 'data_missing' | 'data_mismatch' | 'overdue' | 'breach_risk'
+  title: string
+  detail: string
+  triggeredAt: string
+  resolved: boolean
+}
+
+interface DailyPerformance {
+  date: string
+  revenue: number                    // 万元
+  expectedRevenue: number            // 万元
+  shareAmount: number                // 万元
+  dataSource: 'auto' | 'manual'     // 数据来源
+  anomaly: boolean                   // 是否异常
+  anomalyDetail?: string
+}
+```
+
+**Mock 示例数据**:
+```typescript
+const mockMonitors: PerformanceMonitor[] = [
+  {
+    id: 'pm-001', contractId: 'sc-001', projectName: '星火餐饮连锁', borrowerName: '张三',
+    healthScore: 92, status: 'healthy',
+    latestDailyRevenue: 3.1, avgDailyRevenue30d: 2.85, expectedDailyRevenue: 2.83,
+    deviationRate: 0.7,
+    alerts: [],
+    lastUpdated: '2026-03-15T23:59:00'
+  },
+  {
+    id: 'pm-002', contractId: 'sc-002', projectName: '优学教育科技', borrowerName: '王五',
+    healthScore: 58, status: 'warning',
+    latestDailyRevenue: 0.8, avgDailyRevenue30d: 1.1, expectedDailyRevenue: 1.58,
+    deviationRate: -30.4,
+    alerts: [
+      { id: 'alt-1', contractId: 'sc-002', level: 'orange', type: 'revenue_drop',
+        title: '收入连续下滑', detail: '近7日日均收入0.95万，较前期下降30%，低于预期值1.58万',
+        triggeredAt: '2026-03-14', resolved: false },
+      { id: 'alt-2', contractId: 'sc-002', level: 'yellow', type: 'data_missing',
+        title: '数据上传缺失', detail: '2026-03-12 未上传当日收入数据',
+        triggeredAt: '2026-03-13', resolved: true }
+    ],
+    lastUpdated: '2026-03-15T23:59:00'
+  }
+]
+
+const mockDailyData: DailyPerformance[] = [
+  { date: '2026-03-13', revenue: 2.9, expectedRevenue: 2.83, shareAmount: 0.435, dataSource: 'auto', anomaly: false },
+  { date: '2026-03-14', revenue: 3.2, expectedRevenue: 2.83, shareAmount: 0.48, dataSource: 'auto', anomaly: false },
+  { date: '2026-03-15', revenue: 3.1, expectedRevenue: 2.83, shareAmount: 0.465, dataSource: 'manual', anomaly: false }
+]
+```
+
+**页面布局**:
+```
+页面 1: 履约监控看板（履约通主页）
+├── Navbar（简化版 + "履约通 Performance Connect"）
+├── Hero: 标题 "每日履约监控" + 副标题 "实时追踪 · 智能预警"
+├── KPI 卡片行: 监控中合约数 / 健康(绿) / 关注(黄) / 预警(橙) / 严重(红)
+├── 预警通知区（最新未处理的预警，按严重程度排序）
+│   └── 每条: 预警等级色条 + 项目名 + 标题 + 时间 + "查看详情"按钮
+├── 合约监控列表
+│   └── 每行: 项目名 + 健康度评分(颜色数字) + 最新日收入 + 日均收入 + 偏差率(正/负) + 状态徽章 + 预警数
+├── 筛选: 状态过滤 + 搜索
+└── Footer
+
+页面 2: 合约履约详情页
+├── Navbar
+├── 面包屑: 履约通 > 项目名
+├── 合约基本信息 + 健康度评分大字（颜色根据等级变化）
+├── 核心指标卡片行: 最新日收入 / 30日均 / 预期日均 / 偏差率
+├── 趋势图区
+│   ├── 每日收入折线图 + 预期线（虚线）+ 偏差阴影
+│   ├── 同比/环比增长率柱状图
+│   └── 切换: 7日 / 30日 / 90日
+├── 预警历史列表（时间线：等级 + 类型 + 标题 + 详情 + 已解决/未解决）
+├── 每日数据明细表格（日期 + 实际收入 + 预期 + 分成 + 来源 + 异常标记）
+├── 操作区
+│   ├── "手动上传今日数据"（独立模式入口）
+│   └── "导出履约报告"
+└── Footer
+```
+
+**API 路由**:
+```
+GET    /api/performance/monitors          — 获取监控列表
+GET    /api/performance/monitors/:id      — 获取监控详情
+GET    /api/performance/monitors/:id/daily — 获取每日数据（支持 query: days=7/30/90）
+GET    /api/performance/alerts            — 获取预警列表（支持 query: level, resolved）
+PUT    /api/performance/alerts/:id/resolve — 标记预警已处理
+POST   /api/performance/monitors/:id/upload — 手动上传每日数据（独立模式，body: { date, revenue }）
+GET    /api/performance/dashboard         — 获取 KPI 统计数据
+POST   /api/performance/monitors/:id/analyze — AI 分析履约趋势（调用 GPT-4o，可选）
+```
+
+**AI 调用说明**: 履约通核心是数据展示和预警规则（纯数学判断）。可选 AI 功能：`POST /api/performance/monitors/:id/analyze` 将近 30 日数据 + 合同信息发给 GPT-4o，生成趋势分析和建议。
+
+---
+
+### SC-通用 Prompt 生成模板
+
+当 AI 收到"我要做 xx 通"时，按以下模板组装搭建 Prompt：
+
+```markdown
+# {产品中文名} ({产品英文名}) — 独立全栈应用
+# 版本: V{version} | 日期: {date}
+
+## 你要做什么
+从零搭建一个独立的 {产品中文名} 全栈 Web 应用。
+[从第三章对应小节提取：一句话定义 + 业务定位 + 上下游关系]
+
+## 技术栈
+[固定内容：从第九章 9.1 复制]
+
+## 业务逻辑与核心机制
+[从第三章对应小节完整复制：业务逻辑、核心机制、串联/独立模式、关键输出]
+
+## Mock 数据
+[从本补充章节对应速查卡复制：数据类型 + 示例数据]
+
+## 页面布局
+[从本补充章节对应速查卡复制]
+
+## API 路由
+[从本补充章节对应速查卡复制]
+
+## AI 调用说明
+[从本补充章节对应速查卡复制]
+
+## 完整设计系统
+[从第六章完整复制：品牌色、语义色、文字、背景、边框、圆角、阴影、动效、渐变、字体、Tailwind config]
+[从第七章复制：Navbar简化版、Footer简化版、Logo SVG、卡片、动画、徽章]
+将品牌色 #5DC4B3 用于全局元素，该通专属色（浅色 {light}、深色 {dark}）用于内容区
+
+## i18n
+[从第八章复制关键规范]
+
+## 双模式行为
+[从第五章 5.3 表格中提取该通的串联和独立行为]
+
+## 项目初始化
+npm create hono@latest . -- --template cloudflare-pages --install --pm npm
+[从第十二章步骤 1-10 复制开发流程]
+```
+
+**使用方法**: 告诉 AI"我要做 xx 通"，AI 从 Bible 各章节按模板自动组装一份完整的搭建 Prompt，然后直接开始写代码。
+
+---
+
 ## 第十三章：已完成的独立应用参考
 
 ### 13.1 合约通 (Contract Connect) — 第一个独立应用
@@ -1433,3 +2540,4 @@ npx wrangler pages dev dist --ip 0.0.0.0 --port 3000
 > - V2.0 (2026-02-26): 整合白皮书 V1.2，新增 RBF 基础知识、双模式设计、详细核心机制、事件驱动数据流、技术栈（Demo + 生产双版本）、产品路线图、术语表、合约通已实现功能详解
 > - V2.2 (2026-02-27): 产品负责人确认 12 项问题后的重大更新。身份通重写为以人为单位的万能工作台（三大功能身份+主体认证）；发起通补充 AI 三层输出机制（底稿+材料包+Pitch Deck）；评估通重写为多Agent筛子工作流（投资者自建，pre-set可编辑）；风控通明确为材料复审+验真（企查查等API）；条款通重写为三联动滑块UI（融资金额/分成比例/联营期限）+RBF核心公式；结算通定位为大账本（唯一币种人民币，暂不行使清结算交收）；履约通更新为每日监控频率+回款预警导向；参与通补充Demo阶段内置简化版筛子+通间联通API设计；AI引擎补充Demo阶段统一GPT-4o策略；数据模型补充核心实体关系；路线图改为四阶段渐进式（统一入口→独立搭建→连接各通→打通基座）；Demo阶段各通不通信明确标注
 > - V2.3 (2026-02-27): 加入"收入分成图书馆"比喻体系。在产品定义、Y型架构、数据流、9个通的业务逻辑、数据底座和AI引擎中融入统一的图书馆叙事，帮助读者（人类和AI）秒懂整个系统
+> - V3.0 (2026-02-27): **重大补充 — 各"通"搭建速查卡**。新增第十二章补充（约1100行），为全部9个通逐一定义 Mock 数据类型（TypeScript interface）、Mock 示例数据、页面布局（从上到下的 Section 结构）、API 路由定义、AI 调用说明。新增通用 Prompt 生成模板，使 AI 收到"我要做 xx 通"后可直接从 Bible 各章节自动组装完整搭建 Prompt 并开始写代码。文件从1435行增至2542行（+77%），从70KB增至119KB（+70%）
