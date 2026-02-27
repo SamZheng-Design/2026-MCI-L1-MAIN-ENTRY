@@ -414,11 +414,18 @@ Logo深色:     #28A696
 ### 身份通专属色
 
 ```
-浅色:   #DBEAFE  (背景、身份卡片底色、表单区域)
-深色:   #3B82F6  (标题、图标、CTA按钮、进度指示)
+浅色:   #DBEAFE  (功能卡片浅色底纹、功能区背景)
+深色:   #3B82F6  (CTA按钮、功能标题/图标、进度条/标签/徽章)
 ```
 
-**关键规则**: 品牌色 `#5DC4B3` 用于全局元素（导航栏链接、品牌 Logo、返回按钮等），身份通专属色 `#3B82F6` 仅用于身份通的内容区域。
+**⚠️ 关键规则 — 颜色使用铁律**:
+- 品牌色 `#5DC4B3` 用于**全部全局元素**：导航栏链接、品牌 Logo、返回按钮、hover 边框、focus 边框、卡片 hover 阴影、渐变等
+- 身份通专属色 `#3B82F6` **仅限以下 4 种场景**：
+  1. CTA 按钮背景色
+  2. 功能区标题和图标色
+  3. 身份卡片的浅色背景底纹（用 `#DBEAFE`）
+  4. 进度条/标签/徽章等功能性色块
+- **绝不用 `#3B82F6` 替换任何全局 Design Token**（边框、阴影、渐变等全部保持品牌色 `#5DC4B3`）
 
 ### 语义色
 
@@ -458,8 +465,8 @@ Logo深色:     #28A696
 ```
 默认边框:       rgba(0, 0, 0, 0.06)
 输入框边框:     rgba(0, 0, 0, 0.12)
-hover边框:     rgba(59, 130, 246, 0.2)   — 身份通专属色半透明
-focus边框:     #3B82F6                    — 身份通专属色实色
+hover边框:     rgba(93, 196, 179, 0.2)   — 品牌色半透明（全局统一，不因专属色改变）
+focus边框:     #5DC4B3                     — 品牌色实色（全局统一，不因专属色改变）
 ```
 
 ### 圆角
@@ -479,7 +486,7 @@ lg:   16px    xl:   20px    2xl:  24px
 --shadow-lg:         0 4px 8px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.08);
 --shadow-xl:         0 8px 16px rgba(0,0,0,0.06), 0 24px 64px rgba(0,0,0,0.1);
 --shadow-card:       0 1px 1px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.05);
---shadow-card-hover: 0 4px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(59,130,246,0.1);
+--shadow-card-hover: 0 4px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(93,196,179,0.1);
 ```
 
 ### 动效
@@ -502,7 +509,7 @@ lg:   16px    xl:   20px    2xl:  24px
 --gradient-primary:  linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%);
 --gradient-cyber:    linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);
 --gradient-aurora:   radial-gradient(ellipse 120% 80% at 50% 45%, #13524a 0%, #0f3d36 30%, #0b312c 55%, #082420 80%, #061b18 100%);
---gradient-identity: linear-gradient(135deg, #DBEAFE 0%, #3B82F6 100%);  /* 身份通专属 */
+
 ```
 
 ### 字体
@@ -532,7 +539,7 @@ tailwind.config = {
       colors: {
         brand: { DEFAULT:'#5DC4B3', light:'#7DD4C7', dark:'#3D8F83', accent:'#49A89A' },
         logo: { bright:'#2EC4B6', bright2:'#3DD8CA', deep:'#28A696' },
-        identity: { light:'#DBEAFE', DEFAULT:'#3B82F6', dark:'#2563EB' },
+
         semantic: { info:'#32ade6', success:'#34c759', warning:'#ff9f0a', error:'#ff375f' },
         text: { primary:'#1d1d1f', title:'#1a1a1a', secondary:'#6e6e73', tertiary:'#86868b', placeholder:'#aeaeb2' },
         surface: { page:'#f5f5f7', card:'rgba(255,255,255,0.88)', divider:'#f1f5f9' }
@@ -601,8 +608,8 @@ tailwind.config = {
 }
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(59,130,246,0.1);
-  border-color: rgba(59,130,246,0.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(93,196,179,0.1);
+  border-color: rgba(93,196,179,0.2);
 }
 ```
 
@@ -826,7 +833,7 @@ npx wrangler pages dev dist --ip 0.0.0.0 --port 3000
 
 1. **Apple 风格** — 大量留白、文字层次分明、动效克制优雅
 2. **品牌色 #5DC4B3 用于全局** — 导航栏、返回按钮、品牌相关元素
-3. **身份通专属色 #3B82F6 仅用于内容区** — CTA 按钮、身份卡片高亮、标题
+3. **身份通专属色 #3B82F6 仅用于 4 种场景** — CTA 按钮、功能标题/图标、卡片浅色底纹(#DBEAFE)、进度条/标签/徽章。**所有 Design Token（边框、阴影、渐变）保持品牌色 #5DC4B3 不变**
 4. **禁止纯黑 #000000** — 最深颜色为 #1d1d1f
 5. **所有交互元素有 hover/active 状态** — 使用 transition 280ms cubic-bezier
 6. **响应式** — mobile / tablet / desktop 全适配
