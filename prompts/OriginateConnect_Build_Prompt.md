@@ -828,6 +828,7 @@ lg:   16px    xl:   20px    2xl:  24px
 --shadow-xl:         0 8px 16px rgba(0,0,0,0.06), 0 24px 64px rgba(0,0,0,0.1);
 --shadow-card:       0 1px 1px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.05);
 --shadow-card-hover: 0 4px 8px rgba(0,0,0,0.04), 0 16px 48px rgba(93,196,179,0.1);
+--shadow-2xl:        0 12px 24px rgba(0,0,0,0.06), 0 40px 80px rgba(0,0,0,0.12);
 ```
 
 ### 动效
@@ -851,12 +852,19 @@ lg:   16px    xl:   20px    2xl:  24px
 --gradient-primary:  linear-gradient(135deg, #5DC4B3 0%, #49A89A 100%);
 --gradient-cyber:    linear-gradient(135deg, #0a2e2a 0%, #0f3d36 50%, #164e47 100%);
 --gradient-aurora:   radial-gradient(ellipse 120% 80% at 50% 45%, #13524a 0%, #0f3d36 30%, #0b312c 55%, #082420 80%, #061b18 100%);
-
+--gradient-neon:     linear-gradient(135deg, #32ade6 0%, #5DC4B3 40%, #49A89A 70%, #3D8F83 100%);
+--gradient-glass:    linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
+--gradient-surface:  linear-gradient(180deg, #ffffff 0%, #f8f9fe 100%);
 ```
 
 ### 字体
 
 ```
+Google Fonts 加载:
+  Inter:        wght@300;400;500;600;700;800;900
+  Montserrat:   wght@700;800;900
+  Noto Sans SC: wght@300;400;500;600;700
+
 正文字体栈:
   -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display',
   'Segoe UI', Roboto, 'Noto Sans SC', sans-serif
@@ -865,9 +873,22 @@ lg:   16px    xl:   20px    2xl:  24px
   'Montserrat', 'Inter', 'Futura', 'Helvetica Neue', sans-serif
 ```
 
+### CDN 依赖（放在每个页面的 `<head>` 中）
+
+```html
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FontAwesome 6.4 -->
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+```
+
 ### Tailwind CSS 运行时配置
 
-所有页面的 `<head>` 中必须包含：
+所有页面的 `<head>` 中必须包含（紧跟在 Tailwind CDN `<script>` 之后）：
 
 ```javascript
 tailwind.config = {
@@ -1037,6 +1058,9 @@ tailwind.config = {
 .stagger-1 { transition-delay: 0.05s; }
 .stagger-2 { transition-delay: 0.10s; }
 .stagger-3 { transition-delay: 0.15s; }
+.stagger-4 { transition-delay: 0.20s; }
+.stagger-5 { transition-delay: 0.25s; }
+.stagger-6 { transition-delay: 0.30s; }
 ```
 
 配合 IntersectionObserver 触发：
@@ -1229,6 +1253,72 @@ originate-connect/
 ├── vite.config.ts         # Vite构建配置
 ├── tsconfig.json
 └── package.json
+```
+
+### wrangler.jsonc 配置模板
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "originate-connect",
+  "compatibility_date": "2024-01-01",
+  "pages_build_output_dir": "./dist",
+  "compatibility_flags": ["nodejs_compat"]
+}
+```
+
+### .dev.vars 本地环境变量
+
+```
+OPENAI_API_KEY=sk-xxx
+```
+
+### vite.config.ts
+
+```typescript
+import { defineConfig } from 'vite'
+import pages from '@hono/vite-cloudflare-pages'
+
+export default defineConfig({
+  plugins: [pages()],
+  build: {
+    outDir: 'dist'
+  }
+})
+```
+
+### ecosystem.config.cjs (PM2 配置)
+
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: 'originate-connect',
+      script: 'npx',
+      args: 'wrangler pages dev dist --ip 0.0.0.0 --port 3000',
+      env: {
+        NODE_ENV: 'development',
+        PORT: 3000
+      },
+      watch: false,
+      instances: 1,
+      exec_mode: 'fork'
+    }
+  ]
+}
+```
+
+### package.json scripts
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "wrangler pages dev dist",
+    "deploy": "npm run build && wrangler pages deploy dist"
+  }
+}
 ```
 
 ### 步骤 3: 实现顺序
