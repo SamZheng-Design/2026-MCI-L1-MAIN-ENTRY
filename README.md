@@ -1,21 +1,66 @@
-# 滴灌通超级Agent产品Demo
+# 滴灌通超级 Agent 产品 Demo — L1 主入口
 
 ## 项目概述
-- **项目名称**: 滴灌通超级Agent产品Demo
-- **目标**: 展示滴灌通RBF超级Agent产品架构的Y型业务流程设计思路，提供统一入口访问所有9个"通"的产品模块
+- **项目名称**: Micro Connect 滴灌通超级 Agent 产品 Demo（L1 主入口）
+- **目标**: 展示滴灌通 RBF 超级 Agent 产品架构的 Y 型业务流程设计思路，提供统一入口访问所有 9 个"通"产品模块
 - **技术栈**: Hono + TypeScript + Tailwind CSS (CDN) + Cloudflare Pages
-- **GitHub**: https://github.com/SamZheng-Design/L1 (branch: v20)
+- **GitHub**: https://github.com/SamZheng-Design/2026-MCI-L1-MAIN-ENTRY
 
-## 在线访问
-- **预览URL**: https://3000-ixims42i7je8tv9mypq1h-b32ec7bb.sandbox.novita.ai
+## 本地部署指南
+
+### 前置条件
+- Node.js >= 18
+- npm >= 9
+
+### 快速启动
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/SamZheng-Design/2026-MCI-L1-MAIN-ENTRY.git
+cd 2026-MCI-L1-MAIN-ENTRY
+
+# 2. 安装依赖
+npm install
+
+# 3. 构建项目
+npm run build
+
+# 4. 本地预览（方式一：使用 wrangler）
+npx wrangler pages dev dist --port 3000
+
+# 4. 本地预览（方式二：使用 PM2 守护进程）
+pm2 start ecosystem.config.cjs
+
+# 5. 打开浏览器访问
+# http://localhost:3000
+```
+
+### 部署到 Cloudflare Pages（可选）
+
+```bash
+# 首次创建项目
+npx wrangler pages project create my-project-name --production-branch main
+
+# 部署
+npm run build && npx wrangler pages deploy dist --project-name my-project-name
+```
+
+### 可用脚本
+
+| 命令 | 说明 |
+|------|------|
+| `npm run build` | Vite 构建，输出到 dist/ |
+| `npm run dev` | Vite 开发模式（HMR） |
+| `npm run preview` | Wrangler 本地预览 |
+| `npm run deploy` | 构建 + 部署到 Cloudflare Pages |
 
 ## 首页设计
 
 ### 核心设计
 1. **Splash 启屏动画** — 首次进入展示品牌动画 Connect Worldwide Opportunities
-2. **Welcome 滑块弹窗** — 4页产品设计精华介绍（操作系统→Y型架构→AI筛子→全流程闭环）
-3. **全屏 Hero** — 深色科技感背景 + 品牌Logo + 身份通CTA
-4. **叙事式产品旅程** — 5个阶段按故事线展开，每个阶段含产品链接和可视化插图
+2. **Welcome 滑块弹窗** — 4 页产品设计精华介绍（操作系统→Y 型架构→AI 筛子→全流程闭环）
+3. **全屏 Hero** — 深色科技感背景 + 品牌 Logo + 身份通 CTA
+4. **叙事式产品旅程** — 5 个阶段按故事线展开，每个阶段含产品链接和可视化插图
 5. **双通道价值主张** — 投资者 vs 融资企业各自工具链
 6. **统一底座展示** — Account + Data + AI 三层基础设施
 
@@ -49,7 +94,7 @@
 └─────────────────────────────────────┘
 ```
 
-## 核心业务逻辑（Y型流程）
+## 核心业务逻辑（Y 型流程）
 
 ```
                     ┌──────────┐
@@ -76,65 +121,82 @@
                           └──────────────┘
 ```
 
-### 关键设计要点
-1. **身份通是统一入口**：所有用户通过身份通认证后，按角色（投资者/融资者）分流
-2. **发起通**：融资者专属——整理、上传经营数据，生成Pitch Deck，主动发起融资
-3. **评估通+风控通是投资者的AI筛子**：每个投资者可自定义投资标准和核验方式
-4. **参与通是投资者统一看板**：展示筛后项目，不设筛子=看到全部项目，主动参与投资
-5. **条款通是Y型汇合点**：投融资双方开始协同
-
 ## 页面路由
 
 ### 主页面
 | 路径 | 页面 | 说明 |
 |------|------|------|
-| `/` | 官网首页 | Splash + Welcome弹窗 + Hero + 叙事旅程 + 双通道 + CTA |
-| `/design` | 产品设计思路 | Y型业务流程图、架构总览、设计思路手风琴详解 |
-| `/portal` | 产品统一入口 | Tab切换5阶段、阶段化产品卡片 |
+| `/` | 官网首页 | Splash + Welcome 弹窗 + Hero + 叙事旅程 + 双通道 + CTA |
+| `/design` | 产品设计思路 | Y 型业务流程图、架构总览、设计思路手风琴详解 |
+| `/portal` | 产品统一入口 | Tab 切换 5 阶段、阶段化产品卡片 |
 | `/about` | 关于我们 | 公司使命、愿景、里程碑、价值观 |
 | `/team` | 核心团队 | 管理团队 + 顾问团队 |
-| `/news` | 新闻动态 | 新闻列表4篇 |
+| `/news` | 新闻动态 | 新闻列表 |
 | `/contact` | 联系我们 | 投资者/融资企业/一般查询 + 办公地址 |
 
-### 产品占位页面（9个"通"）
+### 产品占位页面（9 个"通"）
 | 路径 | 中文名 | 英文名 | 角色归属 | 阶段 |
 |------|--------|--------|---------|------|
 | `/identity` | 身份通 | Identity Connect | 统一入口 | 入口 |
 | `/application` | 发起通 | Originate Connect | 融资者 | 数据上传 |
-| `/assess` | 评估通 | Assess Connect | 投资者 | AI筛子 |
-| `/risk` | 风控通 | Risk Connect | 投资者 | AI筛子 |
+| `/assess` | 评估通 | Assess Connect | 投资者 | AI 筛子 |
+| `/risk` | 风控通 | Risk Connect | 投资者 | AI 筛子 |
 | `/opportunity` | 参与通 | Deal Connect | 投资者 | 看板展示 |
 | `/terms` | 条款通 | Terms Connect | 双方协同 | 交易达成 |
 | `/contract` | 合约通 | Contract Connect | 双方协同 | 交易达成 |
 | `/settlement` | 结算通 | Settlement Connect | 双方协同 | 投后管理 |
 | `/performance` | 履约通 | Performance Connect | 双方协同 | 投后管理 |
 
-> **注**: 合约通(`/contract`)已对接外部 Genspark 全栈模式独立应用，点击直接跳转外部URL
-
 ## 已完成功能
-- ✅ Splash 启屏动画（sessionStorage控制不重复）
-- ✅ Welcome 滑块弹窗（4页 + 键盘/触摸支持）
-- ✅ 全屏 Hero（aurora 背景 + 品牌Logo + 双CTA）
-- ✅ 叙事式5阶段产品旅程（插图 + 产品链接 + 状态标签）
+- ✅ Splash 启屏动画（sessionStorage 控制不重复）
+- ✅ Welcome 滑块弹窗（4 页 + 键盘/触摸支持）
+- ✅ 全屏 Hero（aurora 背景 + 品牌 Logo + 双 CTA）
+- ✅ 叙事式 5 阶段产品旅程（插图 + 产品链接 + 状态标签）
 - ✅ 双通道价值主张（投资者 vs 融资企业）
 - ✅ 统一底座展示（Account + Data + AI）
-- ✅ /design 页：完整Y型流程图 + 数据管道可视化 + 架构总览 + 设计思路手风琴
-- ✅ /portal 页：Tab切换5阶段 + 产品卡片详情
-- ✅ 9个产品占位页面（上下产品导航 + 状态/角色标签）
+- ✅ /design 页：完整 Y 型流程图 + 数据管道可视化 + 架构总览 + 设计思路手风琴
+- ✅ /portal 页：Tab 切换 5 阶段 + 产品卡片详情
+- ✅ 9 个产品占位页面（上下产品导航 + 状态/角色标签）
 - ✅ 全站中英双语（?lang=en 切换）
-- ✅ 全局导航栏（Products下拉菜单）+ 页脚
-- ✅ 响应式设计 + CSS动画（reveal/fade）
-- ✅ 产品改名：申请通→发起通(Originate)、机会通→参与通(Deal)
+- ✅ 全局导航栏（Products 下拉菜单）+ 页脚
+- ✅ 响应式设计 + CSS 动画（reveal/fade）
 
 ## 数据架构
-- **数据源**: 静态TypeScript数据层 (`src/data.ts`)
+- **数据源**: 静态 TypeScript 数据层 (`src/data.ts`)
 - **i18n**: 全量中英双语 (`src/i18n.ts`)
 - **产品角色**: shared / borrower / investor / collaborative
 - **产品阶段**: entry / borrower-upload / investor-filter / investor-view / deal / post-investment
 - **底座**: Account（角色分流）、Data（数据标准化）、AI（筛子编排）
 
-## 部署
-- **平台**: Cloudflare Pages
-- **状态**: ✅ 开发中
-- **分支**: v20
-- **最后更新**: 2026-02-26
+## 项目结构
+```
+├── src/
+│   ├── index.tsx          # Hono 路由入口
+│   ├── renderer.tsx       # HTML 渲染器
+│   ├── data.ts            # 产品数据定义
+│   ├── i18n.ts            # 中英双语文本
+│   ├── components/
+│   │   ├── Navbar.tsx     # 全局导航栏
+│   │   ├── Footer.tsx     # 全局页脚
+│   │   └── Logos.tsx      # Logo 组件
+│   └── pages/
+│       ├── HomePage.tsx       # 官网首页
+│       ├── DesignPage.tsx     # 产品设计思路
+│       ├── PortalPage.tsx     # 产品统一入口
+│       ├── AboutPage.tsx      # 关于我们
+│       ├── TeamPage.tsx       # 核心团队
+│       ├── NewsPage.tsx       # 新闻动态
+│       ├── ContactPage.tsx    # 联系我们
+│       └── PlaceholderPage.tsx # 产品占位模板
+├── public/
+│   └── static/
+│       └── style.css      # 全局样式
+├── ecosystem.config.cjs   # PM2 配置
+├── wrangler.jsonc         # Cloudflare 配置
+├── vite.config.ts         # Vite 构建配置
+├── tsconfig.json          # TypeScript 配置
+└── package.json           # 项目依赖
+```
+
+## 许可
+Private — Micro Connect Group © 2026
